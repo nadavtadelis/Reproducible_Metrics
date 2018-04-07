@@ -7,7 +7,7 @@ As students, we have often wondered what effect an extra hour of studying will h
 The only installation needed to run this repo is Anaconda. Click [here](https://conda.io/docs/user-guide/install/index.html#regular-installation) to learn about how to install Anaconda. Once installed, you should be good to go!
  
 ## Using Binder
-We've enabled Binder for this project which allows you to view jupyter notebooks in an executable environment. Feel free to click the link at the top of this README to launch the binder.
+We've enabled Binder for this project which allows you to view and edit jupyter notebooks in an executable environment. Feel free to click the link at the top of this README to launch the binder.
 
 ## Getting Started
 Download the repo onto your local machine and open your command prompt. Simply type in the following commands to run the analysis:
