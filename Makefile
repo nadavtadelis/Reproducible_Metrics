@@ -14,3 +14,10 @@ all :
 clean:
 	rm -f fig/*.png
 	rm -f results/*.pickle
+
+#Create second phony clean target to remove saved variables, figures, and environments
+.PHONY : clean_all
+clean:
+	rm -f fig/*.png
+	rm -f results/*.pickle
+	conda remove --name study_env --all

@@ -1,4 +1,4 @@
-name: study
+name: study_env
 dependencies:
   - python=3.6.1
   - pandas=0.20.1
