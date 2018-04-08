@@ -8,7 +8,8 @@
 #              (currently linux = evince, OSX = open)
 #    clean   : removes all figures in the fig/ directory
 #              removes intermediate data from results/ directory
-#              removes the obj/ directory holding temporary files
+#              removes the intermediate_tex/ directory holding temporary files
+#              removes all .pdf's
 
 # Setting up enviroment
 env : environment.yml
@@ -20,20 +21,21 @@ all :
 	jupyter nbconvert --ExecutePreprocessor.timeout=3600 --to notebook --execute model_fitting_2
 	jupyter nbconvert --ExecutePreprocessor.timeout=3600 --to notebook --execute model_fitting_2
 	jupyter nbconvert --ExecutePreprocessor.timeout=3600 --to notebook --execute main.ipynb
-	default
+	make default
 
 # Create a phony clean target to remove saved variables and figures
-# Also cleans all intermediate LaTex outputs from obj folder
+# Also cleans all intermediate LaTex outputs from intermediate_tex folder
 .PHONY : clean
 clean:
 	rm -f fig/*.png
 	rm -f results/*.pickle
-	rm -rf obj/
+	rm -rf intermediate_tex/
+	rm -f *.pdf
 
 #Create second phony clean target to remove saved variables, figures, and environments
 .PHONY : clean_all
 clean_all:
-	clean
+	make clean
 	conda remove --name study_env --all
 
 
@@ -42,31 +44,32 @@ clean_all:
 PROJECT = reproducible_metrics
 
 .PHONY: default1
-default1: obj/$(PROJECT).pdf
+default1: intermediate_tex/$(PROJECT).pdf
 
 
-.PHONY : testing
+.PHONY : default
 default:
 	make default1
-	cp obj/$(PROJECT).pdf ./
+	cp intermediate_tex/$(PROJECT).pdf ./
+	rm -f intermediate_tex/$(PROJECT).pdf
 
 
 display: default
-	(${PDFVIEWER} obj/$(PROJECT).pdf &)
+	(${PDFVIEWER} intermediate_tex/$(PROJECT).pdf &)
 
 
 ### Compilation Flags
-PDFLATEX_FLAGS  = -halt-on-error -output-directory obj/
+PDFLATEX_FLAGS  = -halt-on-error -output-directory intermediate_tex/
 
-TEXINPUTS = .:obj/
-TEXMFOUTPUT = obj/
+TEXINPUTS = .:intermediate_tex/
+TEXMFOUTPUT = intermediate_tex/
 
 
 ### File Types (for dependancies)
 TEX_FILES = $(shell find . -name '*.tex' -or -name '*.sty' -or -name '*.cls')
 BIB_FILES = $(shell find . -name '*.bib')
 BST_FILES = $(shell find . -name '*.bst')
-IMG_FILES = $(shell find . -path '*.jpg' -or -path '*.png' -or \( \! -path './obj/*.pdf' -path '*.pdf' \) )
+IMG_FILES = $(shell find . -path '*.jpg' -or -path '*.png' -or \( \! -path './intermediate_tex/*.pdf' -path '*.pdf' \) )
 
 
 ### Standard PDF Viewers
@@ -101,15 +104,15 @@ endif
 # target; for instance, see how bibliography files (.bbl) are handled as a
 # dependency.
 
-obj/:
-	mkdir -p obj/
+intermediate_tex/:
+	mkdir -p intermediate_tex/
 
-obj/$(PROJECT).aux: $(TEX_FILES) $(IMG_FILES) | obj/
+intermediate_tex/$(PROJECT).aux: $(TEX_FILES) $(IMG_FILES) | intermediate_tex/
 	xelatex $(PDFLATEX_FLAGS) $(PROJECT)
 
-obj/$(PROJECT).bbl: $(BIB_FILES) | obj/$(PROJECT).aux
-	bibtex obj/$(PROJECT)
+intermediate_tex/$(PROJECT).bbl: $(BIB_FILES) | intermediate_tex/$(PROJECT).aux
+	bibtex intermediate_tex/$(PROJECT)
 	xelatex $(PDFLATEX_FLAGS) $(PROJECT)
 	
-obj/$(PROJECT).pdf: obj/$(PROJECT).aux $(if $(BIB_FILES), obj/$(PROJECT).bbl)
+intermediate_tex/$(PROJECT).pdf: intermediate_tex/$(PROJECT).aux $(if $(BIB_FILES), intermediate_tex/$(PROJECT).bbl)
 	xelatex $(PDFLATEX_FLAGS) $(PROJECT)
