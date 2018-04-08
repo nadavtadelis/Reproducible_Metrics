@@ -1,13 +1,13 @@
 name: study_env
 dependencies:
-  - python=3.6.4
-  - pandas=0.22.0
-  - numpy=1.14.2
-  - matplotlib=2.2.2
-  - seaborn=0.8.1
-  - jupyter
-  - ipykernel
+  - python = 3.6.4
+  - pandas = 0.22.0
+  - numpy = 1.14.2
+  - matplotlib = 2.2.2
+  - seaborn = 0.8.1
+  - jupyter = 4.4.0
+  - ipykernel = 4.8.2
   - pip:
-    - pytest==3.4.2
-    - linearmodels==4.1
-    - statsmodels==0.8.0
+    - pytest == 3.4.2
+    - linearmodels == 4.1
+    - statsmodels == 0.8.0
