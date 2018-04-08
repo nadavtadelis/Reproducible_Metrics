@@ -1,5 +1,5 @@
 # Brief Analysis on the Marginal Effects of Studying 
-[![Build Status](https://travis-ci.org/berkeley-stat159-f17/project-3-p2-ka-jo-ta.svg?branch=master)](https://travis-ci.org/berkeley-stat159-f17/project-3-p2-ka-jo-ta) [![Binder](https://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/berkeley-stat159-f17/project-3-p2-ka-jo-ta/master)
+[![Build Status](https://travis-ci.org/nadavtadelis/Reproducible_Metrics.svg?branch=master)](https://travis-ci.org/nadavtadelis/Reproducible_Metrics) [![Binder](https://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/nadavtadelis/Reproducible_Metrics/master)
 
 As students, we have often wondered what effect an extra hour of studying will have on our grades. When trying to determine whether staying up an extra hour to study for that final exam is truly worth it, we usually are limited by imperfect information and our own superstitions. In this project, we attempt to estimate the "true" marginal effect of studying on students' grades. We try to model the effects of studying first using OLS and then various instruments and 2 stage least squares. This repository is also meant to serve as an example of what a reproducible econometric analysis would look like.
 
