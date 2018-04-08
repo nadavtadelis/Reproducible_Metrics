@@ -5,8 +5,8 @@ dependencies:
   - numpy = 1.14.2
   - matplotlib = 2.2.2
   - seaborn = 0.8.1
-  - jupyter = 4.4.0
-  - ipykernel = 4.8.2
+  - jupyter
+  - ipykernel
   - pip:
     - pytest == 3.4.2
     - linearmodels == 4.1
