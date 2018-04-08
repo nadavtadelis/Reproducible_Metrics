@@ -1,0 +1,156 @@
+\documentclass[12pt]{article}
+%search and replace this in notepad++: 	{\\bf(.+?)}
+\usepackage[labelfont=bf,textfont=bf]{caption}
+\usepackage{graphicx}
+\usepackage{epstopdf}
+\usepackage{natbib, microtype, color, amsmath, graphics, dcolumn, booktabs, multicol}
+\usepackage{multirow} 
+\usepackage{amsfonts,dsfont}
+\usepackage{setspace, lscape, longtable, rotating}
+\usepackage{geometry}
+\geometry{margin=1in}
+\usepackage[normalem]{ulem}
+\usepackage{appendix}
+\usepackage{mathtools}
+\usepackage{eurosym}
+\usepackage{verbatim}
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+%\usepackage[nomarkers,nolists]{endfloat} %note, needs endfloat.cfg copied from efxmpl.cfg to work properly
+%\renewcommand{\efloatseparator}{\mbox{}} %for endfloat
+\newcommand{\putat}[3]{\begin{picture}(0,0)(0,0)\put(#1,#2){#3}\end{picture}}
+\newcommand{\possessivecite}[1]{\citeauthor{#1}'s \citeyearpar{#1}}
+%\usepackage{gaggl}
+\widowpenalty=10000 \clubpenalty=10000 %keeps pdf open properties you like
+\usepackage[bookmarks=false]{hyperref} 
+\hypersetup{
+	pdfauthor = {Nadav Tadelis}, 
+    pdftitle = {}, 
+    pdfsubject = {},
+	pdfborder =0 0 0, bookmarksopen=false, colorlinks=false,
+%	pdfkeywords = {Keyword1, Keyword2, ...}, pdfcreator = {LaTeX with hyperref package}, pdfproducer = {dvips + ps2pdf}}
+}
+\usepackage{subcaption}
+\newenvironment{changemargin}[2]{%
+  \begin{list}{}{%
+    \setlength{\topsep}{0pt}%
+    \setlength{\leftmargin}{#1}%
+    \setlength{\rightmargin}{#2}%
+    \setlength{\listparindent}{\parindent}%
+    \setlength{\itemindent}{\parindent}%
+    \setlength{\parsep}{\parskip}%
+  }%
+  \item[]}{\end{list}} 
+\linespread{1.3} 
+%\doublespacing
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+
+\newtheorem{claim}{Claim}
+\newtheorem{definition}{Definition}
+
+%ADDED FOR TABLE ROW HEIGHT
+\usepackage{array}
+\newcolumntype{M}[1]{>{\centering\arraybackslash}m{#1}}
+\newcolumntype{N}{@{}m{0pt}@{}}
+
+
+\begin{document}
+
+\title{ROUGH FRAMEWORK FOR PAPER (using old material as filler for now)}
+
+\date{First draft: FILL\\ Current Draft: FILL}
+
+\author{ \\ Nadav Tadelis}
+
+\pagenumbering{gobble} 
+
+\maketitle
+
+\hskip 80pt 
+
+
+\begin{abstract}
+\footnotesize{
+\noindent ABSTRACT HERE \vfill}
+\end{abstract}
+
+\clearpage
+
+\pagenumbering{arabic} 
+
+%***********************
+
+\section{Introduction}
+\label{sec_intro}
+Intro
+
+%***********************
+
+\section{Defining the Model and Assumptions}
+\label{sec_background}
+
+Let $Z_i$ represent the treatment status of individual $i$ where $Z_i=0$ when an individual is not treated, and $Z_i=1$ when an individual is treated. When using a proxy model, assignment of the treatment is the same for all individuals.
+\begin{definition} \label{D1} (Treatment) Under a proxy, the treatment status of one individual is analogous to the treatment status of the population, i.e.,
+\begin{equation*}
+%\tag{C1} 
+Z_i=Z. 
+\end{equation*}
+\end{definition}
+
+\subsection{Comparison to the Instrumental Variable model}
+\label{sec_background_iv}
+
+\begin{equation*}
+\label{eq_sutva}
+\begin{split}
+\text{The }&\text{SUTVA (Rubin, 1990):}\\
+& a. \text{ If } Z_{i} = Z_{i}^{\prime} \text{ then } R_{i}(\mathbf{Z}) = R_{i}(\mathbf{Z}^{\prime}).\\
+& b. \text{ If } Z_{i} = Z_{i}^{\prime} \text{ and } R_i = R_{i}^{\prime}, \text{ then } S_{i}(\mathbf{Z}, \mathbf{R})=S_{i}(\mathbf{Z}^{\prime}, \mathbf{R}^{\prime}).
+\end{split}
+\end{equation*}
+Part $a$ of the SUTVA states that an individual's value $R_i$ is only dependent on her own treatment status $Z_i$; i.e. the treatment status of other individuals $Z_j, j \neq i$, does not affect $R_i$. Part $b$ requires that the potential outcomes $S_{i}(\mathbf{Z}, \mathbf{R})$ of $i$ are independent of the treatment status's ($Z_j$) and risks ($R_{j}(\mathbf{Z})$) of other individuals. Clearly, from Definition 1, part $a$ will always be satisfied under a proxy model.
+\begin{claim} (Assumptions) When applied to a proxy model, the original SUTVA from Rubin's Causal model simplifies to:
+\begin{equation*}
+%\tag{C1} 
+\text{ If } Z_{i} = Z_{i}^{\prime} \text{ and } R_i = R_{i}^{\prime}, \text{ then } S_{i}(\mathbf{Z}, \mathbf{R})=S_{i}(\mathbf{Z}^{\prime}, \mathbf{R}^{\prime}).
+\end{equation*}
+\end{claim}
+%********************************
+
+%********************************
+
+\newpage
+\section*{References}
+\begin{footnotesize}
+
+\begin{description}
+
+\item Angrist, J.D., Imbens, G.W., and Rubin, D.B. (1996), ``Identification of Causal Effects Using Instrumental Variables,'' \emph{Journal of the American Statistical Association}, 91:444-455. 
+
+\item Angrist, J.D., and Lavy, V. (1999), ``Using Maimonides' Rule to Estimate the Effect of Class Size on Scholastic Achievement,'' \emph{The Quarterly Journal of Economics}, 114(2):533-575.
+
+
+\end{description}
+\end{footnotesize}\newpage
+
+
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
