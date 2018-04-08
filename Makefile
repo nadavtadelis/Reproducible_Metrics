@@ -1,5 +1,6 @@
 # Makefile
 # Credit to Jason Hiebel for the guide to compiling LaTex docs
+## https://github.com/JasonHiebel/latex.makefile
 
 # Targets:
 #    default : compiles the document to a PDF file using the defined
