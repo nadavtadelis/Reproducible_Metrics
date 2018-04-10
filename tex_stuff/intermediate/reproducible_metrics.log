@@ -1,9 +1,9 @@
-This is XeTeX, Version 3.14159265-2.6-0.99992 (TeX Live 2015) (preloaded format=xelatex 2015.5.24)  7 APR 2018 19:40
+This is XeTeX, Version 3.14159265-2.6-0.99992 (TeX Live 2015) (preloaded format=xelatex 2015.5.24)  10 APR 2018 11:43
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**reproducible_metrics
-(./reproducible_metrics.tex
+**tex_stuff/reproducible_metrics
+(./tex_stuff/reproducible_metrics.tex
 LaTeX2e <2015/01/01>
 Babel <3.9l> and hyphenation patterns for 79 languages loaded.
 (/usr/local/texlive/2015/texmf-dist/tex/latex/base/article.cls
@@ -550,7 +550,7 @@ Package: subcaption 2013/02/03 v1.1-62 Sub-captions (AR)
 \c@claim=\count147
 \c@definition=\count148
 
-(intermediate_tex//reproducible_metrics.aux)
+(tex_stuff/intermediate//reproducible_metrics.aux)
 \openout1 = `reproducible_metrics.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 56.
@@ -656,21 +656,23 @@ File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 ]
 [1
 
-] [2]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 136.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 136.
- (intermediate_tex/reproducible_metrics.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 136.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 136.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 136.
+] [2] (tex_stuff/intermediate/reproducible_metrics.bbl)
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 142.
+ [3]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 142.
+
+(tex_stuff/intermediate/reproducible_metrics.aux)
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 142.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 142.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 142.
  ) 
 Here is how much of TeX's memory you used:
- 13206 strings out of 493706
- 196827 string characters out of 6145769
+ 13213 strings out of 493706
+ 197069 string characters out of 6145769
  304239 words of memory out of 5000000
- 16371 multiletter control sequences out of 15000+600000
+ 16374 multiletter control sequences out of 15000+600000
  15800 words of font info for 59 fonts, out of 8000000 for 9000
  1328 hyphenation exceptions out of 8191
- 42i,17n,38p,502b,336s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 42i,17n,38p,512b,336s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on intermediate_tex/reproducible_metrics.pdf (3 pages).
+Output written on tex_stuff/intermediate/reproducible_metrics.pdf (4 pages).

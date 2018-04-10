@@ -9,7 +9,7 @@
 #              (currently linux = evince, OSX = open)
 #    clean   : removes all figures in the fig/ directory
 #              removes intermediate data from results/ directory
-#              removes the intermediate_tex/ directory holding temporary files
+#              removes the intermediate/ directory holding temporary files
 #              removes all .pdf's
 
 # Setting up enviroment
@@ -25,12 +25,12 @@ all :
 	make default
 
 # Create a phony clean target to remove saved variables and figures
-# Also cleans all intermediate LaTex outputs from intermediate_tex folder
+# Also cleans all intermediate LaTex outputs from intermediate folder
 .PHONY : clean
 clean:
 	rm -f fig/*.png
 	rm -f results/*.pickle
-	rm -rf intermediate_tex/
+	rm -rf tex_stuff/intermediate/
 	rm -f *.pdf
 
 #Create second phony clean target to remove saved variables, figures, and environments
@@ -42,35 +42,36 @@ clean_all:
 
 
 # LaTex Compiling
-PROJECT = reproducible_metrics
+PROJECT = tex_stuff/reproducible_metrics
+PROJECT2 = reproducible_metrics
 
 .PHONY: default1
-default1: intermediate_tex/$(PROJECT).pdf
+default1: tex_stuff/intermediate/$(PROJECT).pdf
 
 
 .PHONY : default
 default:
 	make default1
-	cp intermediate_tex/$(PROJECT).pdf ./
-	rm -f intermediate_tex/$(PROJECT).pdf
+	cp tex_stuff/intermediate/$(PROJECT2).pdf ./
+	rm -f tex_stuff/intermediate/$(PROJECT2).pdf
 
 
 display: default
-	(${PDFVIEWER} intermediate_tex/$(PROJECT).pdf &)
+	(${PDFVIEWER} tex_stuff/intermediate/$(PROJECT).pdf &)
 
 
 ### Compilation Flags
-PDFLATEX_FLAGS  = -halt-on-error -output-directory intermediate_tex/
+PDFLATEX_FLAGS  = -halt-on-error -output-directory tex_stuff/intermediate/
 
-TEXINPUTS = .:intermediate_tex/
-TEXMFOUTPUT = intermediate_tex/
+TEXINPUTS = .:tex_stuff/intermediate/
+TEXMFOUTPUT = tex_stuff/intermediate/
 
 
 ### File Types (for dependancies)
 TEX_FILES = $(shell find . -name '*.tex' -or -name '*.sty' -or -name '*.cls')
 BIB_FILES = $(shell find . -name '*.bib')
 BST_FILES = $(shell find . -name '*.bst')
-IMG_FILES = $(shell find . -path '*.jpg' -or -path '*.png' -or \( \! -path './intermediate_tex/*.pdf' -path '*.pdf' \) )
+IMG_FILES = $(shell find . -path '*.jpg' -or -path '*.png' -or \( \! -path './tex_stuff/intermediate/*.pdf' -path '*.pdf' \) )
 
 
 ### Standard PDF Viewers
@@ -105,15 +106,15 @@ endif
 # target; for instance, see how bibliography files (.bbl) are handled as a
 # dependency.
 
-intermediate_tex/:
-	mkdir -p intermediate_tex/
+tex_stuff/intermediate/:
+	mkdir -p tex_stuff/intermediate/
 
-intermediate_tex/$(PROJECT).aux: $(TEX_FILES) $(IMG_FILES) | intermediate_tex/
+tex_stuff/intermediate/$(PROJECT).aux: $(TEX_FILES) $(IMG_FILES) | tex_stuff/intermediate/
 	xelatex $(PDFLATEX_FLAGS) $(PROJECT)
 
-intermediate_tex/$(PROJECT).bbl: $(BIB_FILES) | intermediate_tex/$(PROJECT).aux
-	bibtex intermediate_tex/$(PROJECT)
+tex_stuff/intermediate/$(PROJECT).bbl: $(BIB_FILES) | tex_stuff/intermediate/$(PROJECT2).aux
+	bibtex tex_stuff/intermediate/$(PROJECT2)
 	xelatex $(PDFLATEX_FLAGS) $(PROJECT)
 	
-intermediate_tex/$(PROJECT).pdf: intermediate_tex/$(PROJECT).aux $(if $(BIB_FILES), intermediate_tex/$(PROJECT).bbl)
+tex_stuff/intermediate/$(PROJECT).pdf: tex_stuff/intermediate/$(PROJECT).aux $(if $(BIB_FILES), tex_stuff/intermediate/$(PROJECT).bbl)
 	xelatex $(PDFLATEX_FLAGS) $(PROJECT)
