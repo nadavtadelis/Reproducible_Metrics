@@ -1,20 +1,22 @@
 # Makefile
-# Credit to Jason Hiebel for the guide to compiling LaTex docs
-## https://github.com/JasonHiebel/latex.makefile
+# Thanks to Jason Hiebel for the useful guide to compiling LaTex docs: https://github.com/JasonHiebel/latex.makefile
 
 # Targets:
-#    default : compiles the document to a PDF file using the defined
-#              latex generating engine. (pdflatex, xelatex, etc)
-#    display : displays the compiled document in a common PDF viewer.
-#              (currently linux = evince, OSX = open)
-#    clean   : removes all figures in the fig/ directory
-#              removes intermediate data from results/ directory
-#              removes the intermediate/ directory holding temporary files
-#              removes all .pdf's
+#    default   : compiles the document to a PDF file using the defined
+#                latex generating engine. (pdflatex, xelatex, etc)
+#    display   : displays the compiled document in a common PDF viewer.
+#                (currently linux = evince, OSX = open)
+#    clean     : removes all figures in the fig/ directory
+#                removes intermediate data from results/ directory
+#                removes the intermediate/ directory holding temporary files
+#                removes all .pdf's
+#    clean_all : same as clean, but also removes the environment
+
 
 # Setting up enviroment
 env : environment.yml
 	conda env create -f environment.yml
+
 
 # Running all notebooks
 all :
@@ -24,8 +26,9 @@ all :
 	jupyter nbconvert --ExecutePreprocessor.timeout=3600 --to notebook --execute main.ipynb
 	make default
 
-# Create a phony clean target to remove saved variables and figures
-# Also cleans all intermediate LaTex outputs from intermediate folder
+
+# Remove saved data, models, and figures
+# Also removes all LaTex outputs
 .PHONY : clean
 clean:
 	rm -f fig/*.png
@@ -33,15 +36,17 @@ clean:
 	rm -rf tex_stuff/intermediate/
 	rm -f *.pdf
 
-#Create second phony clean target to remove saved variables, figures, and environments
+
+# Same as clean phony, but also removes the environment
 .PHONY : clean_all
 clean_all:
 	make clean
 	conda remove --name study_env --all
 
 
-
-# LaTex Compiling
+### LaTex Compiling
+# PROJECT is subdirectory/tex_file_name
+# PROJECT2 is only the tex_file_name
 PROJECT = tex_stuff/reproducible_metrics
 PROJECT2 = reproducible_metrics
 
