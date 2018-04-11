@@ -1,7 +1,7 @@
 #### THIS IS UNDER CONSTRUCTION. NOT READY FOR IMPLEMENTATION OR TESTING
 
 
-class Quadratic2SLS(IVLIML):
+class Quadratic2SLS(object):
     r"""
     Estimation of IV models using two-stage least squares
     in the case where the right hand side endogenous variable
@@ -42,9 +42,9 @@ class Quadratic2SLS(IVLIML):
     Specifically from the IV2SLS function.
     """
     
-    def __init__(self, dependent, exog, exog2=None, endog, instruments, instruments2=None):
+    def __init__(self, dependent, exog, endog, instruments, *, exog2=None, instruments2=None):
         self._method = 'Quadratic 2SLS'
-        super(Quadratic2SLS, self).__init__(dependent, exog, exog2=exog2, endog, instruments, instruments2=instruments2)
+        super(Quadratic2SLS, self).__init__(dependent, exog, endog, instruments, exog2=exog2, instruments2=instruments2)
 
 
     def fit(self, cov_type=None):
@@ -73,7 +73,7 @@ class Quadratic2SLS(IVLIML):
 
         ### First Stage ###
         # Part A: Estimating endogenous var
-
+        return print('testing')
 
         # Part B: Estimating (endogenous var)^2
 
@@ -98,7 +98,7 @@ class Quadratic2SLS(IVLIML):
         ### Regression Features ###
         
         def nobs(self):
-            return float(self.model.wexog.shape[0])
+            return float(self.exog.shape[0])
 
 
         ### Summary Output Table ###
@@ -109,6 +109,7 @@ class Quadratic2SLS(IVLIML):
 
             if title is None:
                 title = self._method + ' ' + "Regression Results"
+            return print(title)
 
 
 
