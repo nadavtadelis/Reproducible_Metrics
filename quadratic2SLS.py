@@ -1,9 +1,5 @@
 #### THIS IS UNDER CONSTRUCTION. NOT READY FOR IMPLEMENTATION OR TESTING
 
-from linearmodels.iv import IV2SLS
-IV2SL
-
-
 
 class Quadratic2SLS(IVLIML):
     r"""
@@ -110,6 +106,9 @@ class Quadratic2SLS(IVLIML):
             '''
             MAKES SUMMARY TABLE
             '''
+
+            if title is None:
+                title = self._method + ' ' + "Regression Results"
 
 
 
