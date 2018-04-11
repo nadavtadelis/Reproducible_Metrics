@@ -5,6 +5,7 @@
 # functions.
 # maybe ask around to see if anyone is already familiar with the structure
 # and if they can help organize things.
+# Currently, i need to add an equivalent to IVLIML class in linearmodels script.
 
 
 class Quadratic2SLS(object):
