@@ -1,5 +1,11 @@
 #### THIS IS UNDER CONSTRUCTION. NOT READY FOR IMPLEMENTATION OR TESTING
 
+# trying to use the statsmodels/linearmodels set up, but not sure I have
+# time to build the whole class set up. might need to just write individual
+# functions.
+# maybe ask around to see if anyone is already familiar with the structure
+# and if they can help organize things.
+
 
 class Quadratic2SLS(object):
     r"""
