@@ -47,14 +47,19 @@ class Quadratic2SLS(IVLIML):
     """
     
     def __init__(self, dependent, exog, exog2=None, endog, instruments, instruments2=None):
-        self._method = 'Quad-2SLS'
+        self._method = 'Quadratic 2SLS'
         super(Quadratic2SLS, self).__init__(dependent, exog, exog2=exog2, endog, instruments, instruments2=instruments2)
 
 
-    def fit(self):
+    def fit(self, cov_type=None):
         '''
         Estimate model using 2SLS IV regression with quadratic RHS
         endogenous variables as described in Wooldridge.
+
+        Parameters
+        ----------
+        cov_type : string
+            If "HCR" computes heteroskedasticity robust covariance
 
         Returns
         -------
@@ -68,9 +73,39 @@ class Quadratic2SLS(IVLIML):
 
         '''
 
-        # COMPUTATION GOES HERE
+        y, X, X2, endog, Z, Z2 = self.dependent, self.exog, self.exog2, self.endog, self.instruments, self.instruments2
+
+        ### First Stage ###
+        # Part A: Estimating endogenous var
+
+
+        # Part B: Estimating (endogenous var)^2
+
+
+
+        ### Second Stage ###
+
+
+
+        ### Heteroskedasticity Robust Covariance Matrix ###
+
+
+
+        ### Covariance Matrix under Homoskedasticity Assumption ###
+        if cov_type == None:
+            self.cov_type = 'nonrobust'
+            self.cov_kwds = {'description' : 'Standard Errors assume that the ' +
+                             'covariance matrix of the errors is correctly ' +
+                             'specified. (Homoskedasticity assumed)'}
 
         
+        ### Regression Features ###
+        
+        def nobs(self):
+            return float(self.model.wexog.shape[0])
+
+
+        ### Summary Output Table ###
         def summary(self, title=None):
             '''
             MAKES SUMMARY TABLE
