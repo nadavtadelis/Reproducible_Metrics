@@ -53,11 +53,6 @@ class Quadratic2SLS(object):
                          & =(\hat{X}'\hat{X})^{-1}\hat{X}'Y\\
                  \hat{X} & =Z(Z'Z)^{-1}Z'X
 
-    The 2SLS estimator is a special case of a k-class estimator with
-    :math:`\kappa=1`,
-
-    This class uses the statsmodels/linearmodels documentation and structure.
-    Specifically from the IV2SLS function.
     '''
 
     def __init__(self, dependent, exog, endog, instruments, exog2=None, instruments2=None):
