@@ -1,15 +1,14 @@
 #### THIS IS UNDER CONSTRUCTION. NOT READY FOR IMPLEMENTATION OR TESTING
-
-# trying to use the statsmodels/linearmodels set up, but not sure I have
-# time to build the whole class set up. might need to just write individual
-# functions.
-# maybe ask around to see if anyone is already familiar with the structure
-# and if they can help organize things.
-# Currently, i need to add an equivalent to IVLIML class in linearmodels script.
-
+# Think more about whether we should actually keep `exog2` in... if an exogenous
+# variable is included in either part of the first stage, then i think it should 
+# be included in the second stage... The question is whether one might want to 
+# include exogenous vars in the second part of the first stage that aren't included 
+# in the first part, but will be included in the second stage.
+import statsmodels.api as sm
+import pandas as pd
 
 class Quadratic2SLS(object):
-    r"""
+    r'''   
     Estimation of IV models using two-stage least squares
     in the case where the right hand side endogenous variable
     is quadratic. We use the estimation scheme proposed in 
@@ -42,16 +41,16 @@ class Quadratic2SLS(object):
                          & =(\hat{X}'\hat{X})^{-1}\hat{X}'Y\\
                  \hat{X} & =Z(Z'Z)^{-1}Z'X
 
-    The 2SLS estimator is a special case of a k-class estimator with
-    :math:`\kappa=1`,
+    '''
 
-    This class uses the statsmodels/linearmodels documentation and structure.
-    Specifically from the IV2SLS function.
-    """
-    
-    def __init__(self, dependent, exog, endog, instruments, *, exog2=None, instruments2=None):
-        self._method = 'Quadratic 2SLS'
-        super(Quadratic2SLS, self).__init__(dependent, exog, endog, instruments, exog2=exog2, instruments2=instruments2)
+    def __init__(self, dependent, exog, endog, instruments, exog2=None, instruments2=None):
+        self.dependent = dependent
+        self.exog = exog
+        self.endog = endog
+        self.instruments = instruments
+        self.exog2 = exog2
+        self.instruments2 = instruments2
+
 
 
     def fit(self, cov_type=None):
@@ -73,25 +72,33 @@ class Quadratic2SLS(object):
         -----
         This returns a custom output which is a less complete version of 
         the RegressionResults output in statsmodels.
-
         '''
 
         y, X, X2, endog, Z, Z2 = self.dependent, self.exog, self.exog2, self.endog, self.instruments, self.instruments2
-
+        
         ### First Stage ###
         # Part A: Estimating endogenous var
-        return print('testing')
+        self.model1A = sm.OLS(endog, pd.concat([X, Z], axis=1))
+        self.result1A = self.model1A.fit()
+        endog_hat = self.result1A.fittedvalues
 
         # Part B: Estimating (endogenous var)^2
-
-
+        if X2 == None: X2 = X
+        if Z2 == None: Z2 = Z
+        self.model1B = sm.OLS(endog**2, pd.concat([endog_hat**2, X2, Z2], axis=1))
+        self.result1B = self.model1B.fit()
+        endog_sq_hat = self.result1B.fittedvalues
 
         ### Second Stage ###
-
-
+        self.model2 = sm.OLS(y, pd.concat([endog_hat, endog_sq_hat, X, Z], axis=1))
+        self.result2 = self.model2.fit()
 
         ### Heteroskedasticity Robust Covariance Matrix ###
-
+        if cov_type == 'HCR':
+            self.cov_type = 'HCR'
+            self.cov_kwds = {'description' : 'Standard Errors are robust ' +
+                             'to heteroskedasticity.'}
+            print('testing_in_robust')
 
 
         ### Covariance Matrix under Homoskedasticity Assumption ###
@@ -103,21 +110,46 @@ class Quadratic2SLS(object):
 
         
         ### Regression Features ###
+        self.nobs = float(self.exog.shape[0])
+
+        # TESTING #
+        return Results_wrap(model = 'testmodel', 
+        coefficients = y, 
+        VarCovMatrix = X, 
+        cov_type = self.cov_type)
+
         
-        def nobs(self):
-            return float(self.exog.shape[0])
 
 
-        ### Summary Output Table ###
-        def summary(self, title=None):
-            '''
-            MAKES SUMMARY TABLE
-            '''
+class Results_wrap(object):
+    '''
+    Summarize the Regression Results (based of statsmodels)
 
-            if title is None:
-                title = self._method + ' ' + "Regression Results"
-            return print(title)
+    Parameters
+    -----------
+    yname : string, optional
+        Default is `y`
+    xname : list of strings, optional
+        Default is `var_##` for ## in p the number of regressors
+    title : string, optional
+        Title for the top table. If not None, then this replaces the
+        default title
+    alpha : float
+        significance level for the confidence intervals
 
+    Returns
+    -------
+    smry : Summary instance
+        this holds the summary tables and text, which can be printed or
+        converted to various output formats.
+    '''
+    def __init__(self, model, coefficients, VarCovMatrix, cov_type='nonrobust'):
+        self.model = model
+        self.coefficients = coefficients
+        self.VarCovMatrix = VarCovMatrix
 
-
+    def summary(self, title=None):
+        if title is None:
+            title = self.model + ' ' + "Regression Results"
+        return print(title)
 
