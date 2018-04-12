@@ -4,7 +4,8 @@
 # be included in the second stage... The question is whether one might want to 
 # include exogenous vars in the second part of the first stage that aren't included 
 # in the first part, but will be included in the second stage.
-
+import statsmodels.api as sm
+import pandas as pd
 
 class Quadratic2SLS(object):
     r'''   
@@ -77,15 +78,19 @@ class Quadratic2SLS(object):
         
         ### First Stage ###
         # Part A: Estimating endogenous var
-
+        self.model1A = sm.OLS(endog, pd.concat([X, Z], axis=1))
+        self.result1A = self.model1A.fit()
+        endog_hat = self.result1A.fittedvalues
 
         # Part B: Estimating (endogenous var)^2
-
-
+        if X2 == None: X2 = X
+        if Z2 == None: Z2 = Z
+        self.model1B = sm.OLS(endog**2, pd.concat([endog_hat**2, X2, Z2], axis=1))
+        self.result1B = self.model1B.fit()
+        endog_sq_hat = self.result1B.fittedvalues
 
         ### Second Stage ###
-
-
+        self.model2 = sm.OLS(y, pd.concat([endog_hat, endog_sq_hat, X, Z], axis=1))
 
         ### Heteroskedasticity Robust Covariance Matrix ###
         if cov_type == 'HCR':
