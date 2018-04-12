@@ -91,6 +91,7 @@ class Quadratic2SLS(object):
 
         ### Second Stage ###
         self.model2 = sm.OLS(y, pd.concat([endog_hat, endog_sq_hat, X, Z], axis=1))
+        self.result2 = self.model2.fit()
 
         ### Heteroskedasticity Robust Covariance Matrix ###
         if cov_type == 'HCR':
