@@ -1,4 +1,9 @@
 #### THIS IS UNDER CONSTRUCTION. NOT READY FOR IMPLEMENTATION OR TESTING
+# Think more about whether we should actually keep `exog2` in... if an exogenous
+# variable is included in either part of the first stage, then i think it should 
+# be included in the second stage... The question is whether one might want to 
+# include exogenous vars in the second part of the first stage that aren't included 
+# in the first part, but will be included in the second stage.
 
 class Results_wrap(object):
     def __init__(self, model, coefficients, VarCovMatrix, cov_type='nonrobust'):
