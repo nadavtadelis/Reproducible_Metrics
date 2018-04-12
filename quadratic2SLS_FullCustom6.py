@@ -1,5 +1,16 @@
 #### THIS IS UNDER CONSTRUCTION. NOT READY FOR IMPLEMENTATION OR TESTING
 
+class Results_wrap(object):
+    def __init__(self, model, params, normalized_cov_params=None):#, cov_type='nonrobust', cov_kwds=None):
+        self.model = model
+        self.params = params
+
+    def summary(self, title=None):
+        if title is None:
+            title = self.model + ' ' + "Regression Results"
+        return print(title)
+
+
 
 
 class Quadratic2SLS(object):
@@ -56,18 +67,20 @@ class Quadratic2SLS(object):
     def fit(self):
         y, X, X2, endog, Z, Z2 = self.dependent, self.exog, self.exog2, self.endog, self.instruments, self.instruments2
         #print('test straight from within fx nobs: ', y.shape[0], sep = '')
+        return Results_wrap('testmodel', y)
+
         
-        def nobs(self):
-            return float(self.exog.shape[0])
-        nobs = nobs(self)
+#        def nobs(self):
+#            return float(self.exog.shape[0])
+#        nobs = nobs(self)
 
-        def summary(self, title=None):
-            '''
-            MAKES SUMMARY TABLE
-            '''
-
-            if title is None:
-                title = self._method + ' ' + "Regression Results"
-            return print(title)
+        #def summary(self, title=None):
+        #    '''
+        #    MAKES SUMMARY TABLE
+        #    '''
+#
+#            if title is None:
+#                title = self._method + ' ' + "Regression Results"
+#            return print(title)
 
 
