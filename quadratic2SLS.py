@@ -10,7 +10,7 @@
 # I think we may be able to use `IVRegressionResults` and `RegressionResultsWrapper`
 # to output a nice summary table. We can specify the coeff. estimates and the standard errors,
 # but im not sure if the other features will be correct. Need to check this.
-# See `linearmodels` summary function for an example of implementation.
+# See `IV2SLS` summary function for an example of implementation.
 
 import statsmodels.api as sm
 import pandas as pd
