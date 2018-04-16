@@ -1,9 +1,17 @@
 #### THIS IS UNDER CONSTRUCTION. NOT READY FOR IMPLEMENTATION OR TESTING
+
 # Think more about whether we should actually keep `exog2` in... if an exogenous
 # variable is included in either part of the first stage, then i think it should 
 # be included in the second stage... The question is whether one might want to 
 # include exogenous vars in the second part of the first stage that aren't included 
-# in the first part, but will be included in the second stage.
+# in the first part, but will be included in the second stage. Could also include 
+# those to possibilites as a True/False parameter.
+
+# I think we may be able to use `IVRegressionResults` and `RegressionResultsWrapper`
+# to output a nice summary table. We can specify the coeff. estimates and the standard errors,
+# but im not sure if the other features will be correct. Need to check this.
+# See `linearmodels` summary function for an example of implementation.
+
 import statsmodels.api as sm
 import pandas as pd
 
@@ -92,6 +100,15 @@ class Quadratic2SLS(object):
         ### Second Stage ###
         self.model2 = sm.OLS(y, pd.concat([endog_hat, endog_sq_hat, X, Z], axis=1))
         self.result2 = self.model2.fit()
+
+        # ~~~~ NOTE: I might need to resort to using bootstrapping to estimate the
+        #            Standard Errors of the coefficient estimates.
+        #            If this is the case, need to decide if the final coefficients reported
+        #            are the average estimates from the bootstrapping, or the coefficients
+        #            returned by the full sample. I think standard practice is to return
+        #            the average, but need to double check.
+        #            If bootstrapping, I also should include a parameter in the `fit()`
+        #            function `n_iter` for the number of bootstrap iterations.
 
         ### Heteroskedasticity Robust Covariance Matrix ###
         if cov_type == 'HCR':
