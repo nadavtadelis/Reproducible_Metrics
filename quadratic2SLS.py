@@ -105,7 +105,7 @@ class Quadratic2SLS(object):
 
         ### Second Stage ###
         inter_df = pd.DataFrame({'endog_hat' : endog_hat.values, 'endog_sq_hat' : endog_sq_hat.values})
-        X_hat = pd.concat([inter_df.reset_index(drop=True), X.reset_index(drop=True)], axis = 1)
+        X_hat = pd.concat([X['const'], inter_df, X.ix[:, X.columns != 'const']], axis = 1)
         model2 = sm.OLS(y, X_hat)
         result2 = model2.fit()
 
@@ -157,12 +157,16 @@ class Quadratic2SLS(object):
                 ## Second Stage ##
                 inter_df = pd.DataFrame({'endog_hat' : b_endog_hat.values, 'endog_sq_hat' : b_endog_sq_hat.values})
                 inter_df = inter_df.reindex(b_index)
-                X_hat = pd.concat([inter_df, X], axis = 1)
+                X_hat = pd.concat([X['const'], inter_df, X.ix[:, X.columns != 'const']], axis = 1)
                 b_model2 = sm.OLS(y, X_hat)
                 b_result2 = b_model2.fit()
 
                 # Saving coefficient estimates from second stage
                 beta_hat_boots[b_iter] = b_result2.params
+            
+            beta_hat_boots = pd.DataFrame(beta_hat_boots)
+            beta_hat_boots.index.name = 'boot_iter'
+            beta_hat_boots.columns = X_hat.columns.values.tolist()
 
             # ~~~~~~ TESTING ~~~~~~
             return Results_wrap(model = 'Q2SLS', 
