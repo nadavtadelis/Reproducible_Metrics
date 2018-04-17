@@ -14,6 +14,7 @@
 
 import statsmodels.api as sm
 import pandas as pd
+import numpy as np
 
 class Quadratic2SLS(object):
     r'''   
@@ -61,7 +62,7 @@ class Quadratic2SLS(object):
 
 
 
-    def fit(self, cov_type=None):
+    def fit(self, cov_type=None, n_iter=None):
         '''
         Estimate model using 2SLS IV regression with quadratic RHS
         endogenous variables as described in Wooldridge.
@@ -69,7 +70,10 @@ class Quadratic2SLS(object):
         Parameters
         ----------
         cov_type : string
+            If "Bootstrap" uses bootstrapping with n_iter to estimate errors
             If "HCR" computes heteroskedasticity robust covariance
+        n_iter : int
+            Number of iterations for bootstrapping
 
         Returns
         -------
@@ -83,6 +87,8 @@ class Quadratic2SLS(object):
         '''
 
         y, X, X2, endog, Z, Z2 = self.dependent, self.exog, self.exog2, self.endog, self.instruments, self.instruments2
+        self.nobs = float(self.exog.shape[0])
+        K = float(self.exog.shape[1] + 2)
         
         ### First Stage ###
         # Part A: Estimating endogenous var
@@ -117,7 +123,49 @@ class Quadratic2SLS(object):
             #            then find the SE of that coefficient?
             #            Or do we estimate the covariance matrix Sigma_hat in each iteration
             #            and then average across those matrices?
-        start here
+        if cov_type == 'Bootstrap':
+            self.cov_type = 'Bootstrap'
+            self.cov_kwds = {'description' : 'Standard Errors are bootstrapped ' +
+                             'ADD STUFF HERE.'}
+            self.n_iter = n_iter
+
+            # Bootstrapping
+            beta_hat = np.zeros((n_iter, K+1))
+            for b_iter in range(0, n_iter):
+                b_index = np.random.choice(range(0, self.nobs), self.nobs, replace = True)
+                y, X, X2, endog, Z, Z2 = self.dependent.iloc[b_index], self.exog.iloc[b_index], self.exog2.iloc[b_index], self.endog.iloc[b_index], self.instruments.iloc[b_index], self.instruments2.iloc[b_index]
+
+                ## First Stage ##
+                # Part A: Estimating endogenous var
+                b_model1A = sm.OLS(endog, pd.concat([X, Z], axis=1))
+                b_result1A = b_model1A.fit()
+                b_endog_hat = b_result1A.fittedvalues
+
+                # Part B: Estimating (endogenous var)^2
+                if X2 == None: X2 = X
+                if Z2 == None: Z2 = Z
+                b_model1B = sm.OLS(endog**2, pd.concat([b_endog_hat**2, X2, Z2], axis=1))
+                b_result1B = b_model1B.fit()
+                b_endog_sq_hat = b_result1B.fittedvalues
+
+                ## Second Stage ##
+                b_model2 = sm.OLS(y, pd.concat([b_endog_hat, b_endog_sq_hat, X, Z], axis=1))
+                b_result2 = b_model2.fit()
+
+                # Saving coefficient estimates from second stage
+                beta_hat[b_iter] = b_result2.params
+
+                # ~~~~~~ TESTING ~~~~~~~~~~~
+                if b_iter == 0:
+                    print('First iteration')
+                    print('b_index =', b_index)
+                    print('beta_hat =', beta_hat)
+                if b_iter == 1:
+                    print('Second iteration')
+                    print('b_index =', b_index)
+                    print('beta_hat =', beta_hat)
+
+
 
         ### Heteroskedasticity Robust Covariance Matrix ###
         if cov_type == 'HCR':
@@ -136,7 +184,7 @@ class Quadratic2SLS(object):
 
         
         ### Regression Features ###
-        self.nobs = float(self.exog.shape[0])
+        
 
         # TESTING #
         return Results_wrap(model = 'testmodel', 
