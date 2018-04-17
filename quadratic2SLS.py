@@ -166,7 +166,7 @@ class Quadratic2SLS(object):
 
             # ~~~~~~ TESTING ~~~~~~
             return Results_wrap(model = 'Q2SLS', 
-                                coefficients = 0 * y, 
+                                coefficients = np.zeros(K), 
                                 VarCovMatrix = 0 * X,
                                 model1A = model1A,
                                 result1A = result1A,
