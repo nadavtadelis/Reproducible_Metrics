@@ -6,8 +6,10 @@ dependencies:
   - matplotlib = 2.2.2
   - seaborn = 0.8.1
   - jupyter
+  - jupyterlab
   - ipykernel
   - pip:
     - pytest == 3.4.2
     - linearmodels == 4.1
     - statsmodels == 0.8.0
+    - tqdm == 4.23.0
