@@ -132,7 +132,7 @@ class Quadratic2SLS(object):
             self.n_iter = n_iter
 
             # Bootstrapping
-            beta_hat = np.zeros((n_iter, K))
+            self.beta_hat_boots = np.zeros((n_iter, K))
             for b_iter in range(0, n_iter):
                 b_index = np.random.choice(range(0, self.nobs), self.nobs, replace = True)
                 y, X, endog, Z = self.dependent.iloc[b_index], self.exog.iloc[b_index], self.endog.iloc[b_index], self.instruments.iloc[b_index]
@@ -156,25 +156,14 @@ class Quadratic2SLS(object):
 
                 ## Second Stage ##
                 inter_df = pd.DataFrame({'endog_hat' : b_endog_hat.values, 'endog_sq_hat' : b_endog_sq_hat.values})
-                inter_df.reindex(b_index)
-                #X_hat = pd.concat([inter_df.reset_index(drop=True), X.reset_index(drop=True)], axis = 1)
+                inter_df = inter_df.reindex(b_index)
                 X_hat = pd.concat([inter_df, X], axis = 1)
                 b_model2 = sm.OLS(y, X_hat)
                 b_result2 = b_model2.fit()
 
                 # Saving coefficient estimates from second stage
-                #print(b_result2.params) # ~~~~~~~~ TESTING ~~~~~~~~
-                beta_hat[b_iter] = b_result2.params
+                self.beta_hat_boots[b_iter] = b_result2.params
 
-                # ~~~~~~ TESTING ~~~~~~~~~~~
-                if b_iter == 0:
-                    print('First iteration')
-                    print('b_index =', b_index)
-                    print('beta_hat =', beta_hat)
-                if b_iter == 1:
-                    print('Second iteration')
-                    print('b_index =', b_index)
-                    print('beta_hat =', beta_hat)
 
 
 
