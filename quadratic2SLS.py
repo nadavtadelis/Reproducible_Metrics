@@ -92,22 +92,22 @@ class Quadratic2SLS(object):
         
         ### First Stage ###
         # Part A: Estimating endogenous var
-        self.model1A = sm.OLS(endog, pd.concat([X, Z], axis=1))
-        self.result1A = self.model1A.fit()
-        endog_hat = self.result1A.fittedvalues
+        model1A = sm.OLS(endog, pd.concat([X, Z], axis=1))
+        result1A = model1A.fit()
+        endog_hat = result1A.fittedvalues
 
         # Part B: Estimating (endogenous var)^2
         if self.exog2 == None: X2 = X
         if self.instruments2 == None: Z2 = Z
-        self.model1B = sm.OLS(endog**2, pd.concat([endog_hat**2, X2, Z2], axis=1))
-        self.result1B = self.model1B.fit()
-        endog_sq_hat = self.result1B.fittedvalues
+        model1B = sm.OLS(endog**2, pd.concat([endog_hat**2, X2, Z2], axis=1))
+        result1B = model1B.fit()
+        endog_sq_hat = result1B.fittedvalues
 
         ### Second Stage ###
         inter_df = pd.DataFrame({'endog_hat' : endog_hat.values, 'endog_sq_hat' : endog_sq_hat.values})
-        self.X_hat = pd.concat([inter_df.reset_index(drop=True), X.reset_index(drop=True)], axis = 1)
-        self.model2 = sm.OLS(y, self.X_hat)
-        self.result2 = self.model2.fit()
+        X_hat = pd.concat([inter_df.reset_index(drop=True), X.reset_index(drop=True)], axis = 1)
+        model2 = sm.OLS(y, X_hat)
+        result2 = model2.fit()
 
         ### Bootstrapped Covariance Matrix ###
             # ~~~~ NOTE: I might need to resort to using bootstrapping to estimate the
@@ -132,7 +132,7 @@ class Quadratic2SLS(object):
             self.n_iter = n_iter
 
             # Bootstrapping
-            self.beta_hat_boots = np.zeros((n_iter, K))
+            beta_hat_boots = np.zeros((n_iter, K))
             for b_iter in range(0, n_iter):
                 b_index = np.random.choice(range(0, self.nobs), self.nobs, replace = True)
                 y, X, endog, Z = self.dependent.iloc[b_index], self.exog.iloc[b_index], self.endog.iloc[b_index], self.instruments.iloc[b_index]
@@ -162,7 +162,21 @@ class Quadratic2SLS(object):
                 b_result2 = b_model2.fit()
 
                 # Saving coefficient estimates from second stage
-                self.beta_hat_boots[b_iter] = b_result2.params
+                beta_hat_boots[b_iter] = b_result2.params
+
+            # ~~~~~~ TESTING ~~~~~~
+            return Results_wrap(model = 'Q2SLS', 
+                                coefficients = 0 * y, 
+                                VarCovMatrix = 0 * X,
+                                model1A = model1A,
+                                result1A = result1A,
+                                model1B = model1B,
+                                result1B = result1B,
+                                X_hat = X_hat,
+                                model2 = model2,
+                                result2 = result2, 
+                                cov_type = self.cov_type,
+                                bootstrap_coeffs = beta_hat_boots)
 
 
 
@@ -172,7 +186,13 @@ class Quadratic2SLS(object):
             self.cov_type = 'HCR'
             self.cov_kwds = {'description' : 'Standard Errors are robust ' +
                              'to heteroskedasticity.'}
+            
+            # ~~~~~~ TESTING ~~~~~~
             print('testing_in_robust')
+            return Results_wrap(model = 'Q2SLS', 
+            coefficients = y, 
+            VarCovMatrix = X, 
+            cov_type = self.cov_type)
 
 
         ### Covariance Matrix under Homoskedasticity Assumption ###
@@ -181,16 +201,18 @@ class Quadratic2SLS(object):
             self.cov_kwds = {'description' : 'Standard Errors assume that the ' +
                              'covariance matrix of the errors is correctly ' +
                              'specified. (Homoskedasticity assumed)'}
+            
+            # ~~~~~~ TESTING ~~~~~~
+            return Results_wrap(model = 'Q2SLS', 
+            coefficients = y, 
+            VarCovMatrix = X, 
+            cov_type = self.cov_type)
 
         
         ### Regression Features ###
         
 
-        # TESTING #
-        return Results_wrap(model = 'testmodel', 
-        coefficients = y, 
-        VarCovMatrix = X, 
-        cov_type = self.cov_type)
+        
 
         
 
@@ -217,10 +239,19 @@ class Results_wrap(object):
         this holds the summary tables and text, which can be printed or
         converted to various output formats.
     '''
-    def __init__(self, model, coefficients, VarCovMatrix, cov_type='nonrobust'):
+    def __init__(self, model, coefficients, VarCovMatrix, model1A, result1A, model1B, result1B, X_hat, model2, result2, cov_type='nonrobust', bootstrap_coeffs=None):
         self.model = model
         self.coefficients = coefficients
         self.VarCovMatrix = VarCovMatrix
+        self.model1A = model1A
+        self.result1A = result1A
+        self.model1B = model1B
+        self.results1B = result1B
+        self.X_hat = X_hat
+        self.model2 = model2
+        self.result2 = result2
+        self.cov_type = cov_type
+        self.beta_hat_boots = bootstrap_coeffs
 
     def summary(self, title=None):
         if title is None:
