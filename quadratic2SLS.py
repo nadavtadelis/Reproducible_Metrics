@@ -87,8 +87,8 @@ class Quadratic2SLS(object):
         '''
 
         y, X, X2, endog, Z, Z2 = self.dependent, self.exog, self.exog2, self.endog, self.instruments, self.instruments2
-        self.nobs = float(self.exog.shape[0])
-        K = float(self.exog.shape[1] + 2)
+        self.nobs = int(self.exog.shape[0])
+        K = int(self.exog.shape[1] + 2)
         
         ### First Stage ###
         # Part A: Estimating endogenous var
@@ -97,14 +97,16 @@ class Quadratic2SLS(object):
         endog_hat = self.result1A.fittedvalues
 
         # Part B: Estimating (endogenous var)^2
-        if X2 == None: X2 = X
-        if Z2 == None: Z2 = Z
+        if self.exog2 == None: X2 = X
+        if self.instruments2 == None: Z2 = Z
         self.model1B = sm.OLS(endog**2, pd.concat([endog_hat**2, X2, Z2], axis=1))
         self.result1B = self.model1B.fit()
         endog_sq_hat = self.result1B.fittedvalues
 
         ### Second Stage ###
-        self.model2 = sm.OLS(y, pd.concat([endog_hat, endog_sq_hat, X, Z], axis=1))
+        inter_df = pd.DataFrame({'endog_hat' : endog_hat.values, 'endog_sq_hat' : endog_sq_hat.values})
+        self.X_hat = pd.concat([inter_df.reset_index(drop=True), X.reset_index(drop=True)], axis = 1)
+        self.model2 = sm.OLS(y, self.X_hat)
         self.result2 = self.model2.fit()
 
         ### Bootstrapped Covariance Matrix ###
@@ -130,10 +132,14 @@ class Quadratic2SLS(object):
             self.n_iter = n_iter
 
             # Bootstrapping
-            beta_hat = np.zeros((n_iter, K+1))
+            beta_hat = np.zeros((n_iter, K))
             for b_iter in range(0, n_iter):
                 b_index = np.random.choice(range(0, self.nobs), self.nobs, replace = True)
-                y, X, X2, endog, Z, Z2 = self.dependent.iloc[b_index], self.exog.iloc[b_index], self.exog2.iloc[b_index], self.endog.iloc[b_index], self.instruments.iloc[b_index], self.instruments2.iloc[b_index]
+                y, X, endog, Z = self.dependent.iloc[b_index], self.exog.iloc[b_index], self.endog.iloc[b_index], self.instruments.iloc[b_index]
+                if self.exog2 != None: 
+                    X2 = self.exog2.iloc[b_index]
+                if self.instruments2 != None: 
+                    Z2 = self.instruments2.iloc[b_index]
 
                 ## First Stage ##
                 # Part A: Estimating endogenous var
@@ -142,17 +148,22 @@ class Quadratic2SLS(object):
                 b_endog_hat = b_result1A.fittedvalues
 
                 # Part B: Estimating (endogenous var)^2
-                if X2 == None: X2 = X
-                if Z2 == None: Z2 = Z
+                if self.exog2 == None: X2 = X
+                if self.instruments2 == None: Z2 = Z
                 b_model1B = sm.OLS(endog**2, pd.concat([b_endog_hat**2, X2, Z2], axis=1))
                 b_result1B = b_model1B.fit()
                 b_endog_sq_hat = b_result1B.fittedvalues
 
                 ## Second Stage ##
-                b_model2 = sm.OLS(y, pd.concat([b_endog_hat, b_endog_sq_hat, X, Z], axis=1))
+                inter_df = pd.DataFrame({'endog_hat' : b_endog_hat.values, 'endog_sq_hat' : b_endog_sq_hat.values})
+                inter_df.reindex(b_index)
+                #X_hat = pd.concat([inter_df.reset_index(drop=True), X.reset_index(drop=True)], axis = 1)
+                X_hat = pd.concat([inter_df, X], axis = 1)
+                b_model2 = sm.OLS(y, X_hat)
                 b_result2 = b_model2.fit()
 
                 # Saving coefficient estimates from second stage
+                #print(b_result2.params) # ~~~~~~~~ TESTING ~~~~~~~~
                 beta_hat[b_iter] = b_result2.params
 
                 # ~~~~~~ TESTING ~~~~~~~~~~~
