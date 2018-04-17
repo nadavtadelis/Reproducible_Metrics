@@ -101,16 +101,23 @@ class Quadratic2SLS(object):
         self.model2 = sm.OLS(y, pd.concat([endog_hat, endog_sq_hat, X, Z], axis=1))
         self.result2 = self.model2.fit()
 
-        # ~~~~ NOTE: I might need to resort to using bootstrapping to estimate the
-        #            Standard Errors of the coefficient estimates.
-        #            If this is the case, need to decide if the final coefficients reported
-        #            are the average estimates from the bootstrapping, or the coefficients
-        #            returned by the full sample. I think standard practice is to return
-        #            the average, but in this case it seems more reasonable to report the 
-        #            coefficients from full sample... actually, they should definitely be the
-        #            same if `n_iter` is large enough.
-        #            If bootstrapping, I also should include a parameter in the `fit()`
-        #            function `n_iter` for the number of bootstrap iterations.
+        ### Bootstrapped Covariance Matrix ###
+            # ~~~~ NOTE: I might need to resort to using bootstrapping to estimate the
+            #            Standard Errors of the coefficient estimates.
+            #            If this is the case, need to decide if the final coefficients reported
+            #            are the average estimates from the bootstrapping, or the coefficients
+            #            returned by the full sample. I think standard practice is to return
+            #            the average, but in this case it seems more reasonable to report the 
+            #            coefficients from full sample... actually, they should definitely be the
+            #            same if `n_iter` is large enough.
+            #            If bootstrapping, I also should include a parameter in the `fit()`
+            #            function `n_iter` for the number of bootstrap iterations.
+            #            
+            #  Question: Do we just collect the coefficient estimates from each iteration and 
+            #            then find the SE of that coefficient?
+            #            Or do we estimate the covariance matrix Sigma_hat in each iteration
+            #            and then average across those matrices?
+        start here
 
         ### Heteroskedasticity Robust Covariance Matrix ###
         if cov_type == 'HCR':
