@@ -5,6 +5,7 @@ dependencies:
   - numpy = 1.14.2
   - matplotlib = 2.2.2
   - seaborn = 0.8.1
+  - sklearn = 0.19.1
   - jupyter
   - jupyterlab
   - ipykernel
