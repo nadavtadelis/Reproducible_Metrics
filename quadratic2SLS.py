@@ -135,8 +135,8 @@ class Quadratic2SLS(object):
             from tqdm import tqdm
             beta_hat_boots = np.zeros((n_iter, K))
             for b_iter in tqdm(range(0, n_iter)):
-                #b_index = np.random.choice(range(0, self.nobs), self.nobs, replace = True)
-                b_index = np.random.choice(range(0, self.nobs), self.nobs, replace = False) # ~~~~~~~~~~~~ TESTING ~~~~~~~~~~~~
+                b_index = np.random.choice(range(0, self.nobs), self.nobs, replace = True)
+                #b_index = np.random.choice(range(0, self.nobs), self.nobs, replace = False) # ~~~~~~~~~~~~ TESTING ~~~~~~~~~~~~
                 y, X, endog, Z = self.dependent.iloc[b_index], self.exog.iloc[b_index], self.endog.iloc[b_index], self.instruments.iloc[b_index]
                 if self.exog2 is not None: 
                     X2 = self.exog2.iloc[b_index]
