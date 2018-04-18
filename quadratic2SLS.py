@@ -117,10 +117,8 @@ class Quadratic2SLS(object):
             #            are the average estimates from the bootstrapping, or the coefficients
             #            returned by the full sample. I think standard practice is to return
             #            the average, but in this case it seems more reasonable to report the 
-            #            coefficients from full sample... actually, they should definitely be the
+            #            coefficients from full sample... actually, they should be the
             #            same if `n_iter` is large enough.
-            #            If bootstrapping, I also should include a parameter in the `fit()`
-            #            function `n_iter` for the number of bootstrap iterations.
             #            
             #  Question: Do we just collect the coefficient estimates from each iteration and 
             #            then find the SE of that coefficient?
