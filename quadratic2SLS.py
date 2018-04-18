@@ -97,8 +97,8 @@ class Quadratic2SLS(object):
         endog_hat = result1A.fittedvalues
 
         # Part B: Estimating (endogenous var)^2
-        if self.exog2 == None: X2 = X
-        if self.instruments2 == None: Z2 = Z
+        if self.exog2 is None: X2 = X
+        if self.instruments2 is None: Z2 = Z
         model1B = sm.OLS(endog**2, pd.concat([endog_hat**2, X2, Z2], axis=1))
         result1B = model1B.fit()
         endog_sq_hat = result1B.fittedvalues
@@ -136,10 +136,11 @@ class Quadratic2SLS(object):
             beta_hat_boots = np.zeros((n_iter, K))
             for b_iter in tqdm(range(0, n_iter)):
                 b_index = np.random.choice(range(0, self.nobs), self.nobs, replace = True)
+                #b_index = range(0,self.nobs) # ~~~~~~~~~~~~ TESTING ~~~~~~~~~~~~
                 y, X, endog, Z = self.dependent.iloc[b_index], self.exog.iloc[b_index], self.endog.iloc[b_index], self.instruments.iloc[b_index]
-                if self.exog2 != None: 
+                if self.exog2 is not None: 
                     X2 = self.exog2.iloc[b_index]
-                if self.instruments2 != None: 
+                if self.instruments2 is not None: 
                     Z2 = self.instruments2.iloc[b_index]
 
                 ## First Stage ##
@@ -149,8 +150,8 @@ class Quadratic2SLS(object):
                 b_endog_hat = b_result1A.fittedvalues
 
                 # Part B: Estimating (endogenous var)^2
-                if self.exog2 == None: X2 = X
-                if self.instruments2 == None: Z2 = Z
+                if self.exog2 is None: X2 = X
+                if self.instruments2 is None: Z2 = Z
                 b_model1B = sm.OLS(endog**2, pd.concat([b_endog_hat**2, X2, Z2], axis=1))
                 b_result1B = b_model1B.fit()
                 b_endog_sq_hat = b_result1B.fittedvalues
@@ -251,7 +252,7 @@ class Results_wrap(object):
         self.model1A = model1A
         self.result1A = result1A
         self.model1B = model1B
-        self.results1B = result1B
+        self.result1B = result1B
         self.X_hat = X_hat
         self.model2 = model2
         self.result2 = result2
