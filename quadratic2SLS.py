@@ -104,7 +104,7 @@ class Quadratic2SLS(object):
         endog_sq_hat = result1B.fittedvalues
 
         ### Second Stage ###
-        inter_df = pd.DataFrame({'endog_hat' : endog_hat.values, 'endog_sq_hat' : endog_sq_hat.values})
+        inter_df = pd.DataFrame({'endog_hat' : endog_hat, 'endog_sq_hat' : endog_sq_hat})
         X_hat_full = pd.concat([X['const'], inter_df, X.ix[:, X.columns != 'const']], axis = 1)
         model2 = sm.OLS(y, X_hat_full)
         result2 = model2.fit()
@@ -136,7 +136,6 @@ class Quadratic2SLS(object):
             beta_hat_boots = np.zeros((n_iter, K))
             for b_iter in tqdm(range(0, n_iter)):
                 b_index = np.random.choice(range(0, self.nobs), self.nobs, replace = True)
-                #b_index = np.random.choice(range(0, self.nobs), self.nobs, replace = False) # ~~~~~~~~~~~~ TESTING ~~~~~~~~~~~~
                 y, X, endog, Z = self.dependent.iloc[b_index], self.exog.iloc[b_index], self.endog.iloc[b_index], self.instruments.iloc[b_index]
                 if self.exog2 is not None: 
                     X2 = self.exog2.iloc[b_index]
@@ -158,8 +157,6 @@ class Quadratic2SLS(object):
 
                 ## Second Stage ##
                 inter_df = pd.DataFrame({'endog_hat' : b_endog_hat, 'endog_sq_hat' : b_endog_sq_hat})
-                #inter_df = pd.DataFrame({'endog_hat' : b_endog_hat.values, 'endog_sq_hat' : b_endog_sq_hat.values})
-                #inter_df = inter_df.reindex(b_index)
                 X_hat = pd.concat([X['const'], inter_df, X.ix[:, X.columns != 'const']], axis = 1)
                 b_model2 = sm.OLS(y, X_hat)
                 b_result2 = b_model2.fit()
