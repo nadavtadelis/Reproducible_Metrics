@@ -15,6 +15,7 @@
 import statsmodels.api as sm
 import pandas as pd
 import numpy as np
+from tqdm import tqdm
 
 class Quadratic2SLS(object):
     r'''   
@@ -132,7 +133,6 @@ class Quadratic2SLS(object):
             self.n_iter = n_iter
 
             # Bootstrapping
-            from tqdm import tqdm
             beta_hat_boots = np.zeros((n_iter, K))
             for b_iter in tqdm(range(0, n_iter)):
                 b_index = np.random.choice(range(0, self.nobs), self.nobs, replace = True)
@@ -169,7 +169,7 @@ class Quadratic2SLS(object):
             beta_hat_boots.columns = X_hat.columns.values.tolist()
 
             # ~~~~~~ TESTING ~~~~~~
-            return Results_wrap(model = 'Q2SLS', 
+            return Results_wrap(model = 'Q2SLS_bootstrap', 
                                 coefficients = np.zeros(K), 
                                 VarCovMatrix = 0 * X,
                                 model1A = model1A,
@@ -194,9 +194,16 @@ class Quadratic2SLS(object):
             # ~~~~~~ TESTING ~~~~~~
             print('testing_in_robust')
             return Results_wrap(model = 'Q2SLS', 
-            coefficients = y, 
-            VarCovMatrix = X, 
-            cov_type = self.cov_type)
+                                coefficients = np.zeros(K), 
+                                VarCovMatrix = 0 * X,
+                                model1A = model1A,
+                                result1A = result1A,
+                                model1B = model1B,
+                                result1B = result1B,
+                                X_hat = X_hat_full,
+                                model2 = model2,
+                                result2 = result2, 
+                                cov_type = self.cov_type)
 
 
         ### Covariance Matrix under Homoskedasticity Assumption ###
@@ -208,9 +215,16 @@ class Quadratic2SLS(object):
             
             # ~~~~~~ TESTING ~~~~~~
             return Results_wrap(model = 'Q2SLS', 
-            coefficients = y, 
-            VarCovMatrix = X, 
-            cov_type = self.cov_type)
+                                coefficients = np.zeros(K), 
+                                VarCovMatrix = 0 * X,
+                                model1A = model1A,
+                                result1A = result1A,
+                                model1B = model1B,
+                                result1B = result1B,
+                                X_hat = X_hat_full,
+                                model2 = model2,
+                                result2 = result2, 
+                                cov_type = self.cov_type)
 
         
         ### Regression Features ###
