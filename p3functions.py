@@ -2,34 +2,47 @@ import pandas as pd
 import numpy as np
 
 def make_indicators(df, names):
-    """Make indicator columns in dataframe df of whether existing columns are 
+    r'''
+    Make indicator columns in dataframe df of whether existing columns are 
     equal to given values.
 
-    Args:
-        df (pandas.DataFrame): Dataframe to be modified.
-        names (dict)         : Dictionary containing:
-                                 - Keys: Desired indicator column names
-                                 - Values: Two item tuple containing:
-                                     - Original dataframe column
-                                     - Value to compare to column
+    Parameters
+    ----------
+    df : pandas.DataFrame
+        Dataframe to be modified.
+    names : dict
+        Dictionary containing:
+            - Keys: Desired indicator column names
+            - Values: Two item tuple containing:
+                - Original dataframe column
+                - Value to compare to column
 
-    Returns:
-        void: Dataframe df is modified in place.
-    """
+    Returns
+    -------
+    void : 
+        Dataframe df is modified in place.
+    '''
     for k,v in names.items():
         df[k] = 1*(df[v[0]] == v[1])
 
 def two_way(df, col0, col1):
-    """Make two-way frequency table of two columns in a dataframe.
+    r'''
+    Make two-way frequency table of two columns in a dataframe.
 
-    Args:
-        df (pandas.DataFrame): Dataframe containing columns to be compared.
-        col0 (String)        : Name of first column to compare.
-        col1 (String)        : Name of second column to compare.
+    Parameters
+    ----------
+    df : pandas.DataFrame
+        Dataframe containing columns to be compared.
+    col0 : String
+        Name of first column to compare.
+    col1 : String
+        Name of second column to compare.
 
-    Returns:
-        df (pandas.DataFrame): Dataframe of two-way frequency table.
-    """
+    Returns
+    -------
+    df : pandas.DataFrame 
+        Dataframe of two-way frequency table.
+    '''
     index = np.sort(df[col0].unique())
     columns = np.sort(df[col1].unique())
     tab = pd.DataFrame(index=index, columns=columns)
