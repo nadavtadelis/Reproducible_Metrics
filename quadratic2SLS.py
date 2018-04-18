@@ -138,7 +138,6 @@ class Quadratic2SLS(object):
                 #b_index = np.random.choice(range(0, self.nobs), self.nobs, replace = True)
                 #b_index = range(0,self.nobs) # ~~~~~~~~~~~~ TESTING ~~~~~~~~~~~~
                 b_index = np.random.choice(range(0, self.nobs), self.nobs, replace = False) # ~~~~~~~~~~~~ TESTING ~~~~~~~~~~~~
-                print(len(np.unique(b_index)))
                 y, X, endog, Z = self.dependent.iloc[b_index], self.exog.iloc[b_index], self.endog.iloc[b_index], self.instruments.iloc[b_index]
                 if self.exog2 is not None: 
                     X2 = self.exog2.iloc[b_index]
