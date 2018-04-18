@@ -1,5 +1,6 @@
 # Brief Analysis on the Marginal Effects of Studying 
-[![Build Status](https://travis-ci.org/nadavtadelis/Reproducible_Metrics.svg?branch=master)](https://travis-ci.org/nadavtadelis/Reproducible_Metrics) [![Binder](https://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/nadavtadelis/Reproducible_Metrics/master)
+[![Build Status](https://travis-ci.org/nadavtadelis/Reproducible_Metrics.svg?branch=master)](https://travis-ci.org/nadavtadelis/Reproducible_Metrics) [![Binder](https://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/nadavtadelis/Reproducible_Metrics/master) [![Project Status: WIP – Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](http://www.repostatus.org/badges/latest/wip.svg)](http://www.repostatus.org/#wip)
+
 
 This is a working project attempting to provide a framework for a responsible and reproducible econometric paper.
 
