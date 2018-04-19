@@ -7,7 +7,7 @@ This is a working project attempting to provide a framework for a responsible an
 As students, we have often wondered what effect an extra hour of studying will have on our grades. When trying to determine whether staying up an extra hour to study for that final exam is truly worth it, we usually are limited by imperfect information and our own superstitions. In this project, we attempt to estimate the "true" marginal effect of studying on students' grades. We try to model the effects of studying first using OLS and then various instruments and 2 stage least squares. This repository is also meant to serve as an example of what a reproducible econometric analysis would look like.
 
 ## Required Installations
-The only installation needed to run this repo is Anaconda. Click [here](https://conda.io/docs/user-guide/install/index.html#regular-installation){:target="_blank"} to learn about how to install Anaconda. Once installed, you should be good to go!
+The only installation needed to run this repo is Anaconda. Click [here](https://conda.io/docs/user-guide/install/index.html#regular-installation "Conda"){:target="_blank"} to learn about how to install Anaconda. Once installed, you should be good to go!
  
 ## Using Binder
 We've enabled Binder for this project which allows you to view and edit jupyter notebooks in an executable environment. Feel free to click the badge at the top of this README to launch the binder.
