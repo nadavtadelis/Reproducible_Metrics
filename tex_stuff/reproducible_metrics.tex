@@ -92,10 +92,85 @@ In recent years there has been a strong push to increase the reproducibility and
 
 This paper was written as my honors thesis for undergraduate studies in statistics at UC Berkeley. Due to deadlines for submission I was unable to spend an appropriate amount of time on the econometric analysis, and will point out some of the weak points in my models (specifically the instruments). Any comments would be greatly appreciated.
 
+[A bunch more stuff needs to go here before we dive in]
+
+[Include acknowledgments and describe original source from my 152 project and the additional contributions that team members made in 159]
+
 %***********************
+\newpage
+\section{Data}
+[Overview of data]
+
+\subsection{Data Exploration}
+[Similar to data exploration notebook, but more detail]
+
+\subsection{Data Issues}
+[Go over issues with the data that I didn't originally cover (stated preferences, cross-sectional rather than panel, categorical mappings for continuous vars, etc.]
+
+[Point out that self reported vars like `freetime` tell us more about student's individual perceptions than the reality. Talk about the benefits and drawbacks to this kind of data]
 
 
+%***********************
+\newpage
+\section{Models}
+[Begin theoretical motivation here]
 
+\subsection{Naive OLS}
+[Report the two fits from the naive OLS - first one with only `studytime` and school level characteristics, then one with individual level characteristics. Note: I think best approach is to point out that there are diminishing returns to studying at the begining, and to start with a models that have both `studytime` and `studytime`$^2$]
+
+[Maybe include plot of estimated relationship between `studytime` and `G3`]
+
+[Lasso-flavor penalization and VIF discussion here, point out that Lasso keeps the variable of interest and also explore the other variables that it weights highly]
+
+[Point out simultaneous causality between `G1`, `G2`, and `studytime`]
+
+[Discuss issues with this naive approach to estimation and why it doesn't apply to causal relationships because of endogeneity, segue to 2SLS theory and explain some theory and bias]
+
+\subsection{Q2SLS}
+[Continue discussion of 2SLS theory if needed]
+
+[Point out issue with trying to use 2SLS when you want to account for diminishing marginal returns in the endogenous variable, especially when the instruments are binary (so squaring them does nothing). Lead to discussion of Q2SLS procedure from Wooldridge]
+
+[Discuss difficulty with finding the asymptotically consistent estimator for variance in Q2SLS because of the nested generated regressors]
+
+[Give brief overview of bootstrapping and explain how its being used here to estimate variance of coeff. estimates in 2nd stage]
+
+[Discuss chosen instruments and give motivation for why they might be okay to use, give strong disclaimer that even if they are valid, they are probably weak instruments]
+
+[Report results]
+
+[Discuss results]
+
+
+%***********************
+\newpage
+\section{Reproducibility}
+[Discuss importance of reproducibility in general, and especially in today's political environment. Maybe point out that HONEST might start being used non only in climate science, but in policy making as a whole, which would have massive impacts on how applied econometric research (and empirical social science research as a whole) would be viewed by policy makers]
+
+\subsection{Current Attempts}
+[Discuss current approaches to reproducibility in econometrics]
+
+[Especially point out Gentzkow \& Shapiro's guide for research methods, and its helpfulness in ensuring that research workflow makes sense, but it's lack of any open source reproducibility]
+
+\subsection{Basic Workflow}
+[Discuss git version control, environments, makefiles, using notebooks as a way to document any analysis that was not included in the final paper, but had an impact on the direction of the results (this increases confidence that there is not any unintentional p-hacking style things going on)]
+
+\subsection{Custom Functions}
+[Discuss the process of creating your own function in  a way that other people can implement it without hassle: docstrings, comments, readability, etc.]
+
+[Cover the long process of testing a new function that isnt necessarily included in the final tests.py script (function\_testing.ipynb)]
+
+[Explain Travis and CI]
+
+\subsection{Optional Elements}
+[Cover optional but useful things that the open source community has begun using: Binder, Sphinx, etc.]
+
+[Talk to Fernando about things here that I wouldn't think of]
+
+
+%***********************
+\newpage
+\section{Conclusion}
 
 %******************************** References
 \newpage
