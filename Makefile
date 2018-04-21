@@ -62,7 +62,7 @@ default:
 
 
 display: default
-	(${PDFVIEWER} tex_stuff/intermediate/$(PROJECT).pdf &)
+	(${PDFVIEWER} $(PROJECT2).pdf &)
 
 
 ### Compilation Flags
