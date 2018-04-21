@@ -47,19 +47,25 @@
 \newtheorem{claim}{Claim}
 \newtheorem{definition}{Definition}
 
-%ADDED FOR TABLE ROW HEIGHT
+%Table Row Height
 \usepackage{array}
 \newcolumntype{M}[1]{>{\centering\arraybackslash}m{#1}}
 \newcolumntype{N}{@{}m{0pt}@{}}
 
+% ~~~~~ Temporary: Watermark ~~~~~~~
+\usepackage{draftwatermark}
+\SetWatermarkText{DRAFT}
+\SetWatermarkScale{5}
+% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 \begin{document}
 
-\title{ROUGH FRAMEWORK FOR PAPER (using old material as filler for now)}
+\title{Reproducibility and Applied Econometrics - The Effect of Studying on Grades}
 
-\date{First draft: FILL\\ Current Draft: FILL}
+\author{Nadav Tadelis}
 
-\author{ \\ Nadav Tadelis}
+\date{April 2018}
+
 
 \pagenumbering{gobble} 
 
@@ -69,8 +75,7 @@
 
 
 \begin{abstract}
-\footnotesize{
-\noindent ABSTRACT HERE \vfill}
+In this paper we establish a framework for reproducible empirical research. We use a non-standard 2SLS model to estimate the marginal effects of studying on grades. The paper is split into two distinct sections. The first part is the econometric analysis on the causal impact of studying. The second part details the steps taken to ensure reproducibility and suggests how to easily integrate these methods into a researcher's future projects.
 \end{abstract}
 
 \clearpage
@@ -81,59 +86,20 @@
 
 \section{Introduction}
 \label{sec_intro}
-Intro
+This paper explores what responsible and reproducible research practices look like in applied econometrics. We present an instrumental variables approach to estimating the causal effect of studying on grades and develop custom python scripts to implement an unusual 2SLS set up that allows for nonlinearity in our endogenous predictor. The latter part of this work discusses the current state of reproducibility in econometric research, and explains in detail the techniques we implement in the analysis.
+
+In recent years there has been a strong push to increase the reproducibility and replicability of scientific research. Unfortunately this movement seems to have been centered on the hard sciences and has not yet become standard practice in the social sciences. It is possible that this is partly due to a lack of reproducibly researched papers in these fields. This paper attempts to show an example of what reproducibility looks like for empirical work in the social sciences, especially in applied econometrics.
+
+This paper was written as my honors thesis for undergraduate studies in statistics at UC Berkeley. Due to deadlines for submission I was unable to spend an appropriate amount of time on the econometric analysis, and will point out some of the weak points in my models (specifically the instruments). Any comments would be greatly appreciated.
 
 %***********************
 
-\section{Defining the Model and Assumptions}
-\label{sec_background}
 
-Let $Z_i$ represent the treatment status of individual $i$ where $Z_i=0$ when an individual is not treated, and $Z_i=1$ when an individual is treated. When using a proxy model, assignment of the treatment is the same for all individuals.
-\begin{definition} \label{D1} (Treatment) Under a proxy, the treatment status of one individual is analogous to the treatment status of the population, i.e.,
-\begin{equation*}
-%\tag{C1} 
-Z_i=Z. 
-\end{equation*}
-\end{definition}
 
-\subsection{Comparison to the Instrumental Variable model}
-\label{sec_background_iv}
 
-\begin{equation*}
-\label{eq_sutva}
-\begin{split}
-\text{The }&\text{SUTVA (Rubin, 1990):}\\
-& a. \text{ If } Z_{i} = Z_{i}^{\prime} \text{ then } R_{i}(\mathbf{Z}) = R_{i}(\mathbf{Z}^{\prime}).\\
-& b. \text{ If } Z_{i} = Z_{i}^{\prime} \text{ and } R_i = R_{i}^{\prime}, \text{ then } S_{i}(\mathbf{Z}, \mathbf{R})=S_{i}(\mathbf{Z}^{\prime}, \mathbf{R}^{\prime}).
-\end{split}
-\end{equation*}
-Part $a$ of the SUTVA states that an individual's value $R_i$ is only dependent on her own treatment status $Z_i$; i.e. the treatment status of other individuals $Z_j, j \neq i$, does not affect $R_i$. Part $b$ requires that the potential outcomes $S_{i}(\mathbf{Z}, \mathbf{R})$ of $i$ are independent of the treatment status's ($Z_j$) and risks ($R_{j}(\mathbf{Z})$) of other individuals. Clearly, from Definition 1, part $a$ will always be satisfied under a proxy model.
-\begin{claim} (Assumptions) When applied to a proxy model, the original SUTVA from Rubin's Causal model simplifies to:
-\begin{equation*}
-%\tag{C1} 
-\text{ If } Z_{i} = Z_{i}^{\prime} \text{ and } R_i = R_{i}^{\prime}, \text{ then } S_{i}(\mathbf{Z}, \mathbf{R})=S_{i}(\mathbf{Z}^{\prime}, \mathbf{R}^{\prime}).
-\end{equation*}
-\end{claim}
-%********************************
-
-%********************************
-
+%******************************** References
 \newpage
-\section*{References}
-\begin{footnotesize}
-
-\begin{description}
-
-\item Angrist, J.D., Imbens, G.W., and Rubin, D.B. (1996), ``Identification of Causal Effects Using Instrumental Variables,'' \emph{Journal of the American Statistical Association}, 91:444-455. 
-
-\item Angrist, J.D., and Lavy, V. (1999), ``Using Maimonides' Rule to Estimate the Effect of Class Size on Scholastic Achievement,'' \emph{The Quarterly Journal of Economics}, 114(2):533-575.
-
-
-\end{description}
-\end{footnotesize}\newpage
-
-%******************************** bibliography test ********************************
-citation test \cite{latexcompanion}
+citation test \cite{lasso, latexcompanion, IV_orig}
 
 \bibliographystyle{abbrv}
 \bibliography{tex_stuff/RM_bibliography}
