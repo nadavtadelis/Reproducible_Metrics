@@ -6,6 +6,12 @@ J.~D. Angrist, G.~W. Imbens, and D.~B. Rubin.
 \newblock {\em Journal of the American Statistical Association}, 91:444--455,
   1996.
 
+\bibitem{data_paper}
+P.~Cortez and A.~Silva.
+\newblock Using data mining to predict secondary school student performance.
+\newblock {\em A. Brito and J. Teixeira Eds., Proceedings of 5th FUture
+  BUsiness TEChnology Conference (FUBUTEC 2008)}, pages 5--12, 01 2008.
+
 \bibitem{latexcompanion}
 M.~Goossens, F.~Mittelbach, and A.~Samarin.
 \newblock {\em The \LaTeX\ Companion}.

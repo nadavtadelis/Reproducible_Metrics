@@ -23,9 +23,13 @@
 \widowpenalty=10000 \clubpenalty=10000 %keeps pdf open properties you like
 \usepackage[bookmarks=false]{hyperref} 
 \hypersetup{
+	colorlinks=true,
+	linkcolor=blue,
+	filecolor=magenta,
+	urlcolor=cyan,
 	pdfauthor = {Nadav Tadelis}, 
-    pdftitle = {Reproducible Econometrics}, 
-    pdfsubject = {A reproducible approach to analyzing the effect of studying on grades},
+ 	pdftitle = {Reproducible Econometrics}, 
+ 	pdfsubject = {A reproducible approach to analyzing the effect of studying on grades},
 	pdfborder =0 0 0, bookmarksopen=false, colorlinks=false,
 %	pdfkeywords = {Keyword1, Keyword2, ...}, pdfcreator = {LaTeX with hyperref package}, pdfproducer = {dvips + ps2pdf}}
 }
@@ -52,6 +56,8 @@
 \newcolumntype{M}[1]{>{\centering\arraybackslash}m{#1}}
 \newcolumntype{N}{@{}m{0pt}@{}}
 
+\newcommand{\inlinecode}{\texttt}
+
 % ~~~~~ Temporary: Watermark ~~~~~~~
 \usepackage{draftwatermark}
 \SetWatermarkText{DRAFT}
@@ -77,6 +83,9 @@
 
 \begin{abstract}
 In this paper we establish a framework for reproducible empirical research. We use a non-standard 2SLS model to estimate the marginal effects of studying on grades. The paper is split into two distinct sections. The first part is the econometric analysis on the causal impact of studying. The second part details the steps taken to ensure reproducibility and suggests how to easily integrate these methods into a researcher's future projects.
+
+\vspace{3mm}
+\noindent Git Repository: \url{https://github.com/nadavtadelis/Reproducible_Metrics}
 \end{abstract}
 
 \clearpage
@@ -91,9 +100,9 @@ This paper explores what responsible and reproducible research practices look li
 
 In recent years there has been a strong push to increase the reproducibility and replicability of scientific research. Unfortunately this movement seems to have been centered on the hard sciences and has not yet become standard practice in the social sciences. It is possible that this is partly due to a lack of reproducibly researched papers in these fields. This paper attempts to show an example of what reproducibility looks like for empirical work in the social sciences, especially in applied econometrics.
 
-This paper was written as my honors thesis for undergraduate studies in statistics at UC Berkeley. Due to deadlines for submission I was unable to spend an appropriate amount of time on the econometric analysis, and will point out some of the weak points in my models (specifically the instruments). Any comments or suggestions would be greatly appreciated.
+This paper was written as my honors thesis for undergraduate studies in statistics at UC Berkeley. Due to deadlines for submission I was unable to spend an appropriate amount of time on the econometric analysis, and will point out some of the weak points in my models (specifically the instruments). Any comments or suggestions would be greatly appreciated. 
 
-[Include acknowledgments and describe original source from my 152 project and the additional contributions that team members made in 159]
+The rough idea for the econometric analysis in the paper is adapted from an independent project I completed during my Junior year. In a subsequent class the project was modified and rebuilt in a reproducible fashion. Sarah Johnson created the original intermediate functions in \inlinecode{p3functions.py}, and the associated tests and Travis integration. Chitwan Kaudan created the original Makefile for running the individual Jupyter Notebooks. All aspects of those original original analyses have been altered significantly, and the history of the alterations is fully documented in the commit history of the git repo.
 
 \textcolor{BrickRed}{[A bunch more stuff needs to go here before we dive in]}
 
@@ -101,73 +110,75 @@ This paper was written as my honors thesis for undergraduate studies in statisti
 %***********************
 \newpage
 \section{Data}
-[Overview of data]
+The \href{https://archive.ics.uci.edu/ml/datasets/Student+Performance#}{\textcolor{cyan}{data}} being used are from the public archive of UCI's machine learning repository and were collected by Paulo Cortez of the University of Minho, Portugal in the 2005 - 2006 academic year \cite{data_paper}. The data were collected in two secondary schools in the Alentejo region of Portugal, using school reports and questionnaires. The data were cleaned to only include students for which all the variables are known - and a further 111 students were discarded because of mismatched information between the surveys and the school reports. The data come with a file containing attribute information which can be found \href{https://archive.ics.uci.edu/ml/datasets/Student+Performance#}{\textcolor{cyan}{here}}. The data include 649 students from a Portuguese Language course of study, and 395 students from a Mathematics course. 
+
+\textcolor{BrickRed}{[Need more background here]}
 
 \subsection{Data Exploration}
-[Similar to data exploration notebook, but more detail]
+\textcolor{BrickRed}{[Similar to data exploration notebook, but more detail]}
 
 \subsection{Data Issues}
-[Go over issues with the data that I didn't originally cover (stated preferences, cross-sectional rather than panel, categorical mappings for continuous vars, etc.]
+\textcolor{BrickRed}{[Go over issues with the data that I didn't originally cover (stated preferences, cross-sectional rather than panel, categorical mappings for continuous vars, etc.]}
 
-[Point out that self reported vars like `freetime` tell us more about student's individual perceptions than the reality. Talk about the benefits and drawbacks to this kind of data]
+\textcolor{BrickRed}{[Point out that self reported vars like `freetime` tell us more about student's individual perceptions than the reality. Talk about the benefits and drawbacks to this kind of data]}
 
 
 %***********************
 \newpage
 \section{Models}
-[Begin theoretical motivation here]
+\textcolor{BrickRed}{[Begin theoretical motivation here]}
 
 \subsection{Naive OLS}
-[Report the two fits from the naive OLS - first one with only `studytime` and school level characteristics, then one with individual level characteristics. Note: I think best approach is to point out that there are diminishing returns to studying at the begining, and to start with a models that have both `studytime` and `studytime`$^2$]
+\textcolor{BrickRed}{[Report the two fits from the naive OLS - first one with only `studytime` and school level characteristics, then one with individual level characteristics. Note: I think best approach is to point out that there are diminishing returns to studying at the begining, and to start with a models that have both `studytime` and `studytime`$^2$]}
 
-[Maybe include plot of estimated relationship between `studytime` and `G3`]
+\textcolor{BrickRed}{[Maybe include plot of estimated relationship between `studytime` and `G3`]}
 
-[Lasso-flavor penalization and VIF discussion here, point out that Lasso keeps the variable of interest and also explore the other variables that it weights highly]
+\textcolor{BrickRed}{[Lasso-flavor penalization and VIF discussion here, point out that Lasso keeps the variable of interest and also explore the other variables that it weights highly]}
 
-[Point out simultaneous causality between `G1`, `G2`, and `studytime`]
+\textcolor{BrickRed}{[Point out simultaneous causality between `G1`, `G2`, and `studytime`]}
 
-[Discuss issues with this naive approach to estimation and why it doesn't apply to causal relationships because of endogeneity, segue to 2SLS theory and explain some theory and bias]
+\textcolor{BrickRed}{[Discuss issues with this naive approach to estimation and why it doesn't apply to causal relationships because of endogeneity, segue to 2SLS theory and explain some theory and bias]}
 
 \subsection{Q2SLS}
-[Continue discussion of 2SLS theory if needed]
+\textcolor{BrickRed}{[Continue discussion of 2SLS theory if needed]}
 
-[Point out issue with trying to use 2SLS when you want to account for diminishing marginal returns in the endogenous variable, especially when the instruments are binary (so squaring them does nothing). Lead to discussion of Q2SLS procedure from Wooldridge]
+\textcolor{BrickRed}{[Point out issue with trying to use 2SLS when you want to account for diminishing marginal returns in the endogenous variable, especially when the instruments are binary (so squaring them does nothing). Lead to discussion of Q2SLS procedure from Wooldridge]}
 
-[Discuss difficulty with finding the asymptotically consistent estimator for variance in Q2SLS because of the nested generated regressors]
+\textcolor{BrickRed}{[Discuss difficulty with finding the asymptotically consistent estimator for variance in Q2SLS because of the nested generated regressors]}
 
-[Give brief overview of bootstrapping and explain how its being used here to estimate variance of coeff. estimates in 2nd stage]
+\textcolor{BrickRed}{[Give brief overview of bootstrapping and explain how its being used here to estimate variance of coeff. estimates in 2nd stage]}
 
-[Discuss chosen instruments and give motivation for why they might be okay to use, give strong disclaimer that even if they are valid, they are probably weak instruments]
+\textcolor{BrickRed}{[Discuss chosen instruments and give motivation for why they might be okay to use, give strong disclaimer that even if they are valid, they are probably weak instruments]}
 
-[Report results]
+\textcolor{BrickRed}{[Report results]}
 
-[Discuss results]
+\textcolor{BrickRed}{[Discuss results]}
 
 
 %***********************
 \newpage
 \section{Reproducibility}
-[Discuss importance of reproducibility in general, and especially in today's political environment. Maybe point out that HONEST might start being used non only in climate science, but in policy making as a whole, which would have massive impacts on how applied econometric research (and empirical social science research as a whole) would be viewed by policy makers]
+\textcolor{BrickRed}{[Discuss importance of reproducibility in general, and especially in today's political environment. Maybe point out that HONEST might start being used non only in climate science, but in policy making as a whole, which would have massive impacts on how applied econometric research (and empirical social science research as a whole) would be viewed by policy makers]}
 
 \subsection{Current Attempts}
-[Discuss current approaches to reproducibility in econometrics]
+\textcolor{BrickRed}{[Discuss current approaches to reproducibility in econometrics]}
 
-[Especially point out Gentzkow \& Shapiro's guide for research methods, and its helpfulness in ensuring that research workflow makes sense, but it's lack of any open source reproducibility]
+\textcolor{BrickRed}{[Especially point out Gentzkow \& Shapiro's guide for research methods, and its helpfulness in ensuring that research workflow makes sense, but it's lack of any open source reproducibility]}
 
 \subsection{Basic Workflow}
-[Discuss git version control, environments, makefiles, using notebooks as a way to document any analysis that was not included in the final paper, but had an impact on the direction of the results (this increases confidence that there is not any unintentional p-hacking style things going on)]
+\textcolor{BrickRed}{[Discuss git version control, environments, makefiles, using notebooks as a way to document any analysis that was not included in the final paper, but had an impact on the direction of the results (this increases confidence that there is not any unintentional p-hacking style things going on)]}
 
 \subsection{Custom Functions}
-[Discuss the process of creating your own function in  a way that other people can implement it without hassle: docstrings, comments, readability, etc.]
+\textcolor{BrickRed}{[Discuss the process of creating your own function in  a way that other people can implement it without hassle: docstrings, comments, readability, etc.]}
 
-[Cover the long process of testing a new function that isnt necessarily included in the final tests.py script (function\_testing.ipynb)]
+\textcolor{BrickRed}{[Cover the long process of testing a new function that isnt necessarily included in the final tests.py script (function\_testing.ipynb)]}
 
-[Explain Travis and CI]
+\textcolor{BrickRed}{[Explain Travis and CI]}
 
 \subsection{Optional Elements}
-[Cover optional but useful things that the open source community has begun using: Binder, Sphinx, etc.]
+\textcolor{BrickRed}{[Cover optional but useful things that the open source community has begun using: Binder, Sphinx, etc.]}
 
-[Talk to Fernando about things here that I wouldn't think of]
+\textcolor{BrickRed}{[Talk to Fernando about things here that I wouldn't think of]}
 
 
 %***********************
