@@ -5,7 +5,7 @@
 This is a work in progress attempting to provide a framework for a responsible and reproducible econometric paper.
 
 This repository holds all the material for "Reproducibility and Applied Econometrics - The Effect of Studying on Grades
-". The main paper is [reproducible_metrics.pdf](https://github.com/nadavtadelis/Reproducible_Metrics/blob/master/reproducible_metrics.pdf) and all additional analaysis and intermediate steps can be found in the jupyter notebooks.
+". The main paper is [reproducible_metrics.pdf](https://github.com/nadavtadelis/Reproducible_Metrics/blob/master/reproducible_metrics.pdf) and all additional analaysis and intermediate steps can be found in the Jupyter Notebooks.
 
 ## Required Installations
 
