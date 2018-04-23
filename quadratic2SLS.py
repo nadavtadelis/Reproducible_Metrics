@@ -63,7 +63,7 @@ class Quadratic2SLS(object):
 
 
 
-    def fit(self, cov_type=None, n_iter=None):
+    def fit(self, cov_type=None, n_iter=None, progress_disable=False):
         '''
         Estimate model using 2SLS IV regression with quadratic RHS
         endogenous variables as described in Wooldridge.
@@ -75,6 +75,8 @@ class Quadratic2SLS(object):
             If "HCR" computes heteroskedasticity robust covariance
         n_iter : int
             Number of iterations for bootstrapping
+        progress_disable : bool
+            Boolean for whether progress bar should be included if bootstrapping
 
         Returns
         -------
@@ -132,7 +134,7 @@ class Quadratic2SLS(object):
 
             # Bootstrapping
             beta_hat_boots = np.zeros((n_iter, K))
-            for b_iter in tqdm(range(0, n_iter)):
+            for b_iter in tqdm(range(0, n_iter), disable=progress_disable):
                 b_index = np.random.choice(range(0, self.nobs), self.nobs, replace = True)
                 y, X, endog, Z = self.dependent.iloc[b_index], self.exog.iloc[b_index], self.endog.iloc[b_index], self.instruments.iloc[b_index]
                 if self.exog2 is not None: 
