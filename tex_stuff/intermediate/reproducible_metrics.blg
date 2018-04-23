@@ -5,36 +5,36 @@ The style file: abbrv.bst
 Database file #1: tex_stuff/RM_bibliography.bib
 You've used 4 entries,
             2118 wiz_defined-function locations,
-            526 strings with 4532 characters,
-and the built_in function-call counts, 1323 in all, are:
+            527 strings with 4524 characters,
+and the built_in function-call counts, 1272 in all, are:
 = -- 132
-> -- 56
+> -- 45
 < -- 1
-+ -- 23
-- -- 18
-* -- 92
-:= -- 226
-add.period$ -- 12
++ -- 18
+- -- 14
+* -- 87
+:= -- 217
+add.period$ -- 13
 call.type$ -- 4
-change.case$ -- 20
+change.case$ -- 19
 chr.to.int$ -- 0
 cite$ -- 4
 duplicate$ -- 50
 empty$ -- 103
-format.name$ -- 18
-if$ -- 272
+format.name$ -- 14
+if$ -- 265
 int.to.chr$ -- 0
 int.to.str$ -- 4
 missing$ -- 5
 newline$ -- 23
 num.names$ -- 8
-pop$ -- 20
+pop$ -- 16
 preamble$ -- 1
-purify$ -- 17
+purify$ -- 15
 quote$ -- 0
 skip$ -- 34
 stack$ -- 0
-substring$ -- 90
+substring$ -- 89
 swap$ -- 9
 text.length$ -- 1
 text.prefix$ -- 0
@@ -43,4 +43,4 @@ type$ -- 14
 warning$ -- 0
 while$ -- 15
 width$ -- 5
-write$ -- 46
+write$ -- 47

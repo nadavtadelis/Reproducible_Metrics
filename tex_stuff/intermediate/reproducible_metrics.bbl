@@ -12,15 +12,15 @@ P.~Cortez and A.~Silva.
 \newblock {\em A. Brito and J. Teixeira Eds., Proceedings of 5th FUture
   BUsiness TEChnology Conference (FUBUTEC 2008)}, pages 5--12, 01 2008.
 
-\bibitem{latexcompanion}
-M.~Goossens, F.~Mittelbach, and A.~Samarin.
-\newblock {\em The \LaTeX\ Companion}.
-\newblock Addison-Wesley, Reading, Massachusetts, 1993.
-
 \bibitem{lasso}
 R.~Tibshirani.
 \newblock Regression shrinkage and selection via the lasso.
 \newblock {\em Journal of the Royal Statistical Society. Series B
   (Methodological)}, 58(1):267--288, 1996.
+
+\bibitem{wooldridge}
+J.~M. Wooldridge.
+\newblock {\em {Econometric Analysis of Cross Section and Panel Data}}.
+\newblock MIT Press Books. The MIT Press, 2 edition, November 2001.
 
 \end{thebibliography}
