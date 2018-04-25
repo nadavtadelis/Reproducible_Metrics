@@ -56,7 +56,14 @@
 \newcolumntype{M}[1]{>{\centering\arraybackslash}m{#1}}
 \newcolumntype{N}{@{}m{0pt}@{}}
 
+% Command for formatting inline code
 \newcommand{\inlinecode}{\texttt}
+
+% Changing the spacing above the footnote
+\setlength{\skip\footins}{8mm}
+
+% Changing spacing between multiple footnotes
+% \setlength{\footnotesep}{4mm}
 
 % ~~~~~ Temporary: Watermark ~~~~~~~
 \usepackage{draftwatermark}
@@ -100,7 +107,7 @@ In recent years there has been a strong push to increase the reproducibility and
 
 This paper was written as my honors thesis for undergraduate studies in statistics at UC Berkeley. I would like to thank my thesis advisor, Professor Fernando P\'erez, for his generosity with his time and deep knowledge of the reproducibility movement. Due to deadlines for submission I was unable to spend an appropriate amount of time on the econometric analysis, and will point out some of the weak points in my models (specifically the instruments). Any comments or suggestions would be greatly appreciated. 
 
-The rough idea for the econometric analysis in the paper is adapted from an independent project I completed during my Junior year. In a subsequent class the project was modified and rebuilt in a reproducible fashion. Sarah Johnson created the original intermediate functions in \inlinecode{p3functions.py}, and the associated tests and Travis integration. Chitwan Kaudan created the original Makefile for running the individual Jupyter Notebooks. All aspects of those original analyses have been altered significantly, and the history of the alterations is fully documented in the commit history of the git repo.
+The rough idea for the econometric analysis in the paper is adapted from an independent project I completed during my Junior year. In a subsequent class the project was modified and rebuilt in a reproducible fashion. Sarah Johnson created the original intermediate functions in \inlinecode{p3functions.py}\textcolor{BrickRed}{[Maybe link to script in repo]}, and the associated tests and Travis integration. Chitwan Kaudan created the original Makefile for running the individual Jupyter Notebooks. All aspects of those original analyses have been altered significantly, and the history of the alterations is fully documented in the commit history of the git repo.
 
 \textcolor{BrickRed}{[Maybemore stuff needs to go here before we dive in]}
 
@@ -212,16 +219,28 @@ Maybe: \textcolor{BrickRed}{[Reference appendix, and in the appendix include the
 %***********************
 \newpage
 \section{Conclusion (? - maybe not needed)}
+Maybe include a conclusion in the Q2SLS section, but not here.
 
 %***********************
 \newpage
 \section{Appendix}
 
+\subsection{Data Exploration Figures}
+
+\subsection{Naive OLS Extra Models}
+
+\subsection{Q2SLS Function Testing Procedure}
+
+\subsection{Q2SLS Extra Models}
+
+\subsection{Miscellenia}
+
 %******************************** References
 \newpage
-citation test \citep{wooldridge, lasso, IV_orig}
+citation test \citep{wooldridge, lasso}%, IV_orig}
 
 \bibliographystyle{agsm}
+\nocite{*} % makes sure that all items in .bib are included in bibliography, even if they aren't cited
 \bibliography{tex_stuff/RM_bibliography}
 %********************************
 
