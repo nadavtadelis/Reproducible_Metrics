@@ -131,28 +131,36 @@ The \href{https://archive.ics.uci.edu/ml/datasets/Student+Performance#}{\textcol
 \subsection{Naive OLS}
 \textcolor{BrickRed}{[Report the two fits from the naive OLS - first one with only `studytime` and school level characteristics, then one with individual level characteristics. Note: I think best approach is to point out that there are diminishing returns to studying at the begining, and to start with a models that have both `studytime` and `studytime`$^2$]}
 
-\textcolor{BrickRed}{[Maybe include plot of estimated relationship between `studytime` and `G3`]}
+\textcolor{BrickRed}{[Maybe include plot of estimated relationship between `studytime` and `G3` (nonlinear, one line for math, one for Portuguese)]}
 
+\subsubsection{Additional Analysis}
 \textcolor{BrickRed}{[Lasso-flavor penalization and VIF discussion here, point out that Lasso keeps the variable of interest and also explore the other variables that it weights highly]}
 
+\subsubsection{Simultaneous Causality}
 \textcolor{BrickRed}{[Point out simultaneous causality between `G1`, `G2`, and `studytime`]}
 
+\subsubsection{Endogeneity}
 \textcolor{BrickRed}{[Discuss issues with this naive approach to estimation and why it doesn't apply to causal relationships because of endogeneity, segue to 2SLS theory and explain some theory and bias]}
 
 \subsection{Q2SLS}
 \textcolor{BrickRed}{[Continue discussion of 2SLS theory if needed]}
 
+\subsubsection{Motivation}
 \textcolor{BrickRed}{[Point out issue with trying to use 2SLS when you want to account for diminishing marginal returns in the endogenous variable, especially when the instruments are binary (so squaring them does nothing). Lead to discussion of Q2SLS procedure from Wooldridge]}
 
+\subsubsection{Properties of Q2SLS}
 \textcolor{BrickRed}{[Discuss difficulty with finding the asymptotically consistent estimator for variance in Q2SLS because of the nested generated regressors]}
 
 \textcolor{BrickRed}{[Give brief overview of bootstrapping and explain how its being used here to estimate variance of coeff. estimates in 2nd stage]}
 
+\subsubsection{Application}
 \textcolor{BrickRed}{[Discuss chosen instruments and give motivation for why they might be okay to use, give strong disclaimer that even if they are valid, they are probably weak instruments]}
 
 \textcolor{BrickRed}{[Report results]}
 
 \textcolor{BrickRed}{[Discuss results]}
+
+Maybe: \textcolor{BrickRed}{[Reference appendix, and in the appendix include the results from Q2SLS with only 'essential' controls. Similar to the approach for the naive OLS at the begining]}
 
 
 %***********************
@@ -183,7 +191,7 @@ The \href{https://archive.ics.uci.edu/ml/datasets/Student+Performance#}{\textcol
 
 %***********************
 \newpage
-\section{Conclusion}
+\section{Conclusion (? - maybe not needed)}
 
 %******************************** References
 \newpage
