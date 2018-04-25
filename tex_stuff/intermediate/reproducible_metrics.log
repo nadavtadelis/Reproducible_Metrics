@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.99992 (TeX Live 2015) (preloaded format=xelatex 2015.5.24)  25 APR 2018 13:40
+This is XeTeX, Version 3.14159265-2.6-0.99992 (TeX Live 2015) (preloaded format=xelatex 2015.5.24)  25 APR 2018 15:01
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -695,29 +695,29 @@ LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <142.26378> not available
 
 ] [1
 
-] [2] [3] [4] [5] [6] [7] [8]
+] [2] [3] [4] [5] [6] [7] [8] [9]
 (tex_stuff/intermediate/reproducible_metrics.bbl)
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 224.
- [9]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 224.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 228.
+ [10]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 228.
 
 (tex_stuff/intermediate/reproducible_metrics.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 224.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 224.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 228.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 228.
 
 
 LaTeX Font Warning: Size substitutions with differences
 (Font)              up to 117.38377pt have occurred.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 224.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 228.
  ) 
 Here is how much of TeX's memory you used:
- 13786 strings out of 493706
- 204747 string characters out of 6145769
+ 13789 strings out of 493706
+ 204804 string characters out of 6145769
  313277 words of memory out of 5000000
- 16922 multiletter control sequences out of 15000+600000
+ 16925 multiletter control sequences out of 15000+600000
  18815 words of font info for 72 fonts, out of 8000000 for 9000
  1328 hyphenation exceptions out of 8191
- 42i,11n,38p,1472b,341s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 42i,11n,40p,1472b,341s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on tex_stuff/intermediate/reproducible_metrics.pdf (10 pages).
+Output written on tex_stuff/intermediate/reproducible_metrics.pdf (11 pages).
