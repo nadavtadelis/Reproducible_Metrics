@@ -1,26 +1,26 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{xx}
 
-\bibitem{IV_orig}
-J.~D. Angrist, G.~W. Imbens, and D.~B. Rubin.
-\newblock Identification of causal effects using instrumental variables.
-\newblock {\em Journal of the American Statistical Association}, 91:444--455,
-  1996.
+\harvarditem[Angrist et~al.]{Angrist, Imbens \harvardand\ Rubin}{1996}{IV_orig}
+Angrist, J.~D., Imbens, G.~W. \harvardand\ Rubin, D.~B.  \harvardyearleft
+  1996\harvardyearright , `Identification of causal effects using instrumental
+  variables', {\em Journal of the American Statistical Association} {\bf
+  91},~444--455.
 
-\bibitem{data_paper}
-P.~Cortez and A.~Silva.
-\newblock Using data mining to predict secondary school student performance.
-\newblock {\em A. Brito and J. Teixeira Eds., Proceedings of 5th FUture
-  BUsiness TEChnology Conference (FUBUTEC 2008)}, pages 5--12, 01 2008.
+\harvarditem{Cortez \harvardand\ Silva}{2008}{data_paper}
+Cortez, P. \harvardand\ Silva, A.  \harvardyearleft 2008\harvardyearright ,
+  `Using data mining to predict secondary school student performance', {\em A.
+  Brito and J. Teixeira Eds., Proceedings of 5th FUture BUsiness TEChnology
+  Conference (FUBUTEC 2008)} pp.~5--12.
+\newline\harvardurl{http://www3.dsi.uminho.pt/pcortez/student.pdf}
 
-\bibitem{lasso}
-R.~Tibshirani.
-\newblock Regression shrinkage and selection via the lasso.
-\newblock {\em Journal of the Royal Statistical Society. Series B
-  (Methodological)}, 58(1):267--288, 1996.
+\harvarditem{Tibshirani}{1996}{lasso}
+Tibshirani, R.  \harvardyearleft 1996\harvardyearright , `Regression shrinkage
+  and selection via the lasso', {\em Journal of the Royal Statistical Society.
+  Series B (Methodological)} {\bf 58}(1),~267--288.
 
-\bibitem{wooldridge}
-J.~M. Wooldridge.
-\newblock {\em {Econometric Analysis of Cross Section and Panel Data}}.
-\newblock MIT Press Books. The MIT Press, 2 edition, November 2001.
+\harvarditem{Wooldridge}{2001}{wooldridge}
+Wooldridge, J.~M.  \harvardyearleft 2001\harvardyearright , {\em {Econometric
+  Analysis of Cross Section and Panel Data}}, MIT Press Books, 2 edn, The MIT
+  Press.
 
 \end{thebibliography}

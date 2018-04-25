@@ -93,29 +93,28 @@ In this paper we establish a framework for reproducible empirical research. We u
 \pagenumbering{arabic} 
 
 %***********************
-
+%***********************
 \section{Introduction}
 \label{sec_intro}
-This paper explores what responsible and reproducible research practices look like in applied econometrics. We present an instrumental variables approach to estimating the causal effect of studying on grades and develop custom python scripts to implement an unusual 2SLS set up that allows for nonlinearity in our endogenous predictor. The latter part of this work discusses the current state of reproducibility in econometric research, and explains in detail the techniques we implement in the analysis.
+In recent years there has been a strong push to increase the reproducibility and replicability of scientific research. Unfortunately this movement seems to have been centered on the hard sciences and has not yet become standard practice in the social sciences. It is possible that this is partly due to a lack of reproducibly researched papers in these fields. This paper explores what responsible and reproducible research practices look like in applied econometrics. We present an instrumental variables approach to estimating the causal effect of studying on grades and develop custom python scripts to implement an unusual 2SLS set up that allows for nonlinearity in our endogenous predictor. The latter part of this work discusses the current state of reproducibility in econometric research, and explains in detail the techniques implemented in the analysis.
 
-In recent years there has been a strong push to increase the reproducibility and replicability of scientific research. Unfortunately this movement seems to have been centered on the hard sciences and has not yet become standard practice in the social sciences. It is possible that this is partly due to a lack of reproducibly researched papers in these fields. This paper attempts to show an example of what reproducibility looks like for empirical work in the social sciences, especially in applied econometrics.
+This paper was written as my honors thesis for undergraduate studies in statistics at UC Berkeley. I would like to thank my thesis advisor, Professor Fernando P\'erez, for his generosity with his time and deep knowledge of the reproducibility movement. Due to deadlines for submission I was unable to spend an appropriate amount of time on the econometric analysis, and will point out some of the weak points in my models (specifically the instruments). Any comments or suggestions would be greatly appreciated. 
 
-This paper was written as my honors thesis for undergraduate studies in statistics at UC Berkeley. Due to deadlines for submission I was unable to spend an appropriate amount of time on the econometric analysis, and will point out some of the weak points in my models (specifically the instruments). Any comments or suggestions would be greatly appreciated. 
+The rough idea for the econometric analysis in the paper is adapted from an independent project I completed during my Junior year. In a subsequent class the project was modified and rebuilt in a reproducible fashion. Sarah Johnson created the original intermediate functions in \inlinecode{p3functions.py}, and the associated tests and Travis integration. Chitwan Kaudan created the original Makefile for running the individual Jupyter Notebooks. All aspects of those original analyses have been altered significantly, and the history of the alterations is fully documented in the commit history of the git repo.
 
-The rough idea for the econometric analysis in the paper is adapted from an independent project I completed during my Junior year. In a subsequent class the project was modified and rebuilt in a reproducible fashion. Sarah Johnson created the original intermediate functions in \inlinecode{p3functions.py}, and the associated tests and Travis integration. Chitwan Kaudan created the original Makefile for running the individual Jupyter Notebooks. All aspects of those original original analyses have been altered significantly, and the history of the alterations is fully documented in the commit history of the git repo.
-
-\textcolor{BrickRed}{[A bunch more stuff needs to go here before we dive in]}
+\textcolor{BrickRed}{[Maybemore stuff needs to go here before we dive in]}
 
 
 %***********************
 \newpage
 \section{Data}
-The \href{https://archive.ics.uci.edu/ml/datasets/Student+Performance#}{\textcolor{cyan}{data}} being used are from the public archive of UCI's machine learning repository and were collected by Paulo Cortez of the University of Minho, Portugal in the 2005 - 2006 academic year \cite{data_paper}. The data were collected in two secondary schools in the Alentejo region of Portugal, using school reports and questionnaires. The data were cleaned to only include students for which all the variables are known - and a further 111 students were discarded because of mismatched information between the surveys and the school reports. The data come with a file containing attribute information which can be found \href{https://archive.ics.uci.edu/ml/datasets/Student+Performance#}{\textcolor{cyan}{here}}. The data include 649 students from a Portuguese Language course of study, and 395 students from a Mathematics course. 
+The \href{https://archive.ics.uci.edu/ml/datasets/Student+Performance#}{\textcolor{cyan}{data}} being used are from the public archive of UCI's machine learning repository and were collected by Paulo Cortez of the University of Minho, Portugal in the 2005 - 2006 academic year \citep{data_paper}. The data were collected in two secondary schools in the Alentejo region of Portugal, using school reports and questionnaires. The data were cleaned to only include students for which all the variables are known - and a further 111 students were discarded because of mismatched information between the surveys and the school reports. The data come with a file containing attribute information which can be found \href{https://archive.ics.uci.edu/ml/datasets/Student+Performance#}{\textcolor{cyan}{here}}; these include school, course, and many individual level characteristics. The data include 649 students from a Portuguese Language course of study, and 395 students from a Mathematics course. 
 
-\textcolor{BrickRed}{[Need more background here]}
+\textcolor{BrickRed}{[Need more background here?]}
 
 \subsection{Data Exploration}
-\textcolor{BrickRed}{[Similar to data exploration notebook, but more detail]}
+\textcolor{BrickRed}{[Similar to data exploration notebook, but more detail - see the discussion in main notebook after the plots]}
+reference to data distributions graphs in the appendix. split the graphs by course of study. in this section note the differences between the distributions of the two courses.
 
 \subsection{Data Issues}
 \textcolor{BrickRed}{[Go over issues with the data that I didn't originally cover (stated preferences, cross-sectional rather than panel, categorical mappings for continuous vars, etc.]}
@@ -126,18 +125,37 @@ The \href{https://archive.ics.uci.edu/ml/datasets/Student+Performance#}{\textcol
 %***********************
 \newpage
 \section{Models}
-\textcolor{BrickRed}{[Begin theoretical motivation here]}
+We need to first set up our structural equation defining the relationship between grades and studying. Let an individual's grade be $\mathrm{g}_i$ and weekly hours of studying be $\mathrm{s}_i$ and their ``ability" be $\mathrm{a}_i$. Then we can write:
+$$
+\mathrm{g}_i = \beta_0 + \beta_1 \mathrm{s}_i + \beta_2 \mathrm{s}_i^2  + \beta_3 \mathrm{a}_i + \boldsymbol{\beta}_{4:k}\mathrm{X}_i + \varepsilon_i
+$$
+Where X$_i$ is a matrix of school and course level characteristics and $\varepsilon_i$ captures some unobserved heterogeneity and disturbances. Note that grades are nonlinear in weekly study time. While this nonlinearity complicates our model, it seems necessary because assuming that marginal returns to studying must vary depending on the initial level of studying.
+
+Clearly, there are issues with this model. How are we defining grades? The ideal set up would have a course specific set of simultaneous equations, where the number of equations is equal to the number of classes. The next best set up would involve estimating one equation for each type of class (quantitative, literary, historical, etc.) within each course. Another alternative would be to define grades as cumulative GPA. In this analysis, due to the limitations of the data, we define $\mathrm{g}_i$ as the student's score on the final test for their course of study (\inlinecode{G3} in the data).
+
+Another issue with this model is: how are we defining ability? By its very nature, ability is unobserved. We can proxy for ability using other individual level characteristics (intelligence, age, parents' education, etc.) but we cannot fully capture ability because it does not have a clear measurable meaning. Hence, we must keep in mind that the model is never going to be fully specified.
+
+We can think of a student's utility maximization problem as being some function of grades, free time (let's consider everything that is not studying, sleeping, or class as ``free time"), and studying time. We would expect that the coefficients on grades and free time would be positive, and the coefficient on study time would be negative, with magnitudes of these coefficients being determined by an individual's preferences. For example, a student who cares very little about grades, enjoys constantly partying, and hates studying, would have a small positive coefficient on grades, a large positive coefficient on free time, and a large negative coefficient on studying time\footnote{Of course, for some people and some subject matters of study, the coefficient on studying time may be positive with a decreasing marginal utility. We simplify the specification here dramatically.}. This student would maximize their utility and choose how to allocate their time, and would probably end up spending very little time studying. Notice that before maximizing their utility, an individual would replace grades with the previously defined model for grades (dependent on studying and ability); so someone who heavily values grades could end up having a positive coefficient on studying after including the model for grades into their utility function, even if they do not intrinsically value studying.
+
+Establishing this utility function gives motivation for including variables that might introduce multicollinearity. For example, weekly amount of free time might not improve our estimate of the marginal effect of studying, and would be collinear with the amount of weekly studying. However, when we think of our observations as realizations of a decision making process that involves utility maximization, there is an argument for including free time in the final model estimation procedure.
+
 
 \subsection{Naive OLS}
-\textcolor{BrickRed}{[Report the two fits from the naive OLS - first one with only `studytime` and school level characteristics, then one with individual level characteristics. Note: I think best approach is to point out that there are diminishing returns to studying at the begining, and to start with a models that have both `studytime` and `studytime`$^2$]}
+\textcolor{BrickRed}{[Report the four fits from the naive OLS - first one with only `studytime` and school level characteristics, then one with individual level characteristics (for each course of study). Note: I think best approach is to point out that there are diminishing returns to studying at the beginning, and to start with a models that have both `studytime` and `studytime`$^2$]}
 
 \textcolor{BrickRed}{[Maybe include plot of estimated relationship between `studytime` and `G3` (nonlinear, one line for math, one for Portuguese)]}
 
 \subsubsection{Additional Analysis}
+\textcolor{BrickRed}{[Note that the model fitting 1 notebook includes running the model on both mapping schemes for `studytime`]}
+
 \textcolor{BrickRed}{[Lasso-flavor penalization and VIF discussion here, point out that Lasso keeps the variable of interest and also explore the other variables that it weights highly]}
 
 \subsubsection{Simultaneous Causality}
-\textcolor{BrickRed}{[Point out simultaneous causality between `G1`, `G2`, and `studytime`]}
+There is an additional issue with this model specification that we did not explore in the original discussion. The data include three test scores: G1, G2, and G3. G1 and G2 are midterms, and G3 is the final. It is plausible that part of how students inform their study allocation decision comes from how well they did on their previous exam and how many hours they studied in the time leading up to the exam. The data is taken at a single undefined point in time, so it is unclear at what point the students are reporting their weekly amount of studying. This complicates things because if the survey was administered after the midterms, then there is clear simultaneous causality between study time, G1 and G2. This is the motivation for excluding G1 and G2 from the model estimation. There may be a novel way of 
+
+\textcolor{BrickRed}{[Need to edit this section, right now its really rough]}
+
+\textcolor{BrickRed}{[Maybe move this to right before the Naive OLS section?]}
 
 \subsubsection{Endogeneity}
 \textcolor{BrickRed}{[Discuss issues with this naive approach to estimation and why it doesn't apply to causal relationships because of endogeneity, segue to 2SLS theory and explain some theory and bias]}
@@ -149,6 +167,8 @@ The \href{https://archive.ics.uci.edu/ml/datasets/Student+Performance#}{\textcol
 \textcolor{BrickRed}{[Point out issue with trying to use 2SLS when you want to account for diminishing marginal returns in the endogenous variable, especially when the instruments are binary (so squaring them does nothing). Lead to discussion of Q2SLS procedure from Wooldridge]}
 
 \subsubsection{Properties of Q2SLS}
+\textcolor{BrickRed}{[Explain the testing that I did for Q2SLS, mention that it looks like the coeff.s on endog\_sq\_hat and the exog vars are consistent and unbiased, but that the coeff on endog\_hat is consistent but biased. point out the oddness of this behavior and note that I plan on researching this further.]}
+
 \textcolor{BrickRed}{[Discuss difficulty with finding the asymptotically consistent estimator for variance in Q2SLS because of the nested generated regressors]}
 
 \textcolor{BrickRed}{[Give brief overview of bootstrapping and explain how its being used here to estimate variance of coeff. estimates in 2nd stage]}
@@ -195,9 +215,9 @@ Maybe: \textcolor{BrickRed}{[Reference appendix, and in the appendix include the
 
 %******************************** References
 \newpage
-citation test \cite{wooldridge, lasso, IV_orig}
+citation test \citep{wooldridge, lasso, IV_orig}
 
-\bibliographystyle{abbrv}
+\bibliographystyle{agsm}
 \bibliography{tex_stuff/RM_bibliography}
 %********************************
 

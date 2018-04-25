@@ -1,46 +1,46 @@
 This is BibTeX, Version 0.99d (TeX Live 2015)
 Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: tex_stuff/intermediate/reproducible_metrics.aux
-The style file: abbrv.bst
+The style file: agsm.bst
 Database file #1: tex_stuff/RM_bibliography.bib
 You've used 4 entries,
-            2118 wiz_defined-function locations,
-            527 strings with 4524 characters,
-and the built_in function-call counts, 1272 in all, are:
-= -- 132
-> -- 45
-< -- 1
-+ -- 18
-- -- 14
-* -- 87
-:= -- 217
-add.period$ -- 13
+            2909 wiz_defined-function locations,
+            668 strings with 5588 characters,
+and the built_in function-call counts, 13420 in all, are:
+= -- 2154
+> -- 165
+< -- 0
++ -- 991
+- -- 49
+* -- 1129
+:= -- 2756
+add.period$ -- 4
 call.type$ -- 4
-change.case$ -- 19
-chr.to.int$ -- 0
+change.case$ -- 56
+chr.to.int$ -- 4
 cite$ -- 4
-duplicate$ -- 50
-empty$ -- 103
-format.name$ -- 14
-if$ -- 265
-int.to.chr$ -- 0
-int.to.str$ -- 4
+duplicate$ -- 68
+empty$ -- 137
+format.name$ -- 62
+if$ -- 2402
+int.to.chr$ -- 5
+int.to.str$ -- 0
 missing$ -- 5
-newline$ -- 23
-num.names$ -- 8
-pop$ -- 16
+newline$ -- 16
+num.names$ -- 41
+pop$ -- 17
 preamble$ -- 1
-purify$ -- 15
+purify$ -- 60
 quote$ -- 0
-skip$ -- 34
+skip$ -- 56
 stack$ -- 0
-substring$ -- 89
-swap$ -- 9
-text.length$ -- 1
+substring$ -- 3005
+swap$ -- 13
+text.length$ -- 56
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 14
 warning$ -- 0
-while$ -- 15
-width$ -- 5
-write$ -- 47
+while$ -- 91
+width$ -- 0
+write$ -- 55
