@@ -155,7 +155,7 @@ Establishing this utility function gives motivation for including variables that
 \subsubsection{Additional Analysis}
 \textcolor{BrickRed}{[Note that the model fitting 1 notebook includes running the model on both mapping schemes for `studytime`]}
 
-\textcolor{BrickRed}{[Lasso-flavor penalization and VIF discussion here, point out that Lasso keeps the variable of interest and also explore the other variables that it weights highly]}
+\textcolor{BrickRed}{[Lasso-flavor penalization and VIF discussion here (maybe no numbers, just general take-aways and link to the relevant notebook), point out that Lasso keeps the variable of interest and also explore the other variables that it weights highly]}, note: need to clean up Lasso output in notebook
 
 \subsubsection{Simultaneous Causality}
 There is an additional issue with this model specification that we did not explore in the original discussion. The data include three test scores: G1, G2, and G3. G1 and G2 are midterms, and G3 is the final. It is plausible that part of how students inform their study allocation decision comes from how well they did on their previous exam and how many hours they studied in the time leading up to the exam. The data is taken at a single undefined point in time, so it is unclear at what point the students are reporting their weekly amount of studying. This complicates things because if the survey was administered after the midterms, then there is clear simultaneous causality between study time, G1 and G2. This is the motivation for excluding G1 and G2 from the model estimation. There may be a novel way of 
@@ -163,6 +163,8 @@ There is an additional issue with this model specification that we did not explo
 \textcolor{BrickRed}{[Need to edit this section, right now its really rough]}
 
 \textcolor{BrickRed}{[Maybe move this to right before the Naive OLS section?]}
+
+Actually: \textcolor{BrickRed}{[Maybe move this to the Data Issues as its own subsection?]}
 
 \subsubsection{Endogeneity}
 \textcolor{BrickRed}{[Discuss issues with this naive approach to estimation and why it doesn't apply to causal relationships because of endogeneity, segue to 2SLS theory and explain some theory and bias]}
