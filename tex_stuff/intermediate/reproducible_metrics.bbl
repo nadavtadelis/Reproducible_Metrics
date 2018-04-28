@@ -19,6 +19,16 @@ Cortez, P. \harvardand\ Silva, A.  \harvardyearleft 2008\harvardyearright ,
   Conference (FUBUTEC 2008)} pp.~5--12.
 \newline\harvardurl{http://www3.dsi.uminho.pt/pcortez/student.pdf}
 
+\harvarditem{Greene}{2011}{green}
+Greene, W.~H.  \harvardyearleft 2011\harvardyearright , {\em {Econometric
+  Analysis}}, 7 edn, Prentice Hall.
+
+\harvarditem{MacKinnon \harvardand\ White}{1985}{robust_se}
+MacKinnon, J.~G. \harvardand\ White, H.  \harvardyearleft 1985\harvardyearright
+  , `Some heteroskedasticity-consistent covariance matrix estimators with
+  improved finite sample properties', {\em Journal of Econometrics} {\bf
+  29}(3),~305 -- 325.
+
 \harvarditem{Tibshirani}{1996}{lasso}
 Tibshirani, R.  \harvardyearleft 1996\harvardyearright , `Regression shrinkage
   and selection via the lasso', {\em Journal of the Royal Statistical Society.
