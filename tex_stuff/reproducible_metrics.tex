@@ -65,6 +65,10 @@
 % Changing spacing between multiple footnotes
 % \setlength{\footnotesep}{4mm}
 
+% Graphics Path
+%\usepackage{subfig}
+\graphicspath{ {/Reproducible_Metrics/figures/} }
+
 % ~~~~~ Temporary: Watermark ~~~~~~~
 \usepackage{draftwatermark}
 \SetWatermarkText{DRAFT}
@@ -109,7 +113,7 @@ This paper was written as my honors thesis for undergraduate studies in statisti
 
 The rough idea for the econometric analysis in the paper is adapted from an independent project I completed during my Junior year. In a subsequent class the project was modified and rebuilt in a reproducible fashion. Sarah Johnson created the original intermediate functions in \inlinecode{p3functions.py}\textcolor{BrickRed}{[Maybe link to script in repo]}, and the associated tests and Travis integration. Chitwan Kaudan created the original Makefile for running the individual Jupyter Notebooks. All aspects of those original analyses have been altered significantly, and the history of the alterations is fully documented in the commit history of the git repo.
 
-\textcolor{BrickRed}{[Maybemore stuff needs to go here before we dive in]}
+\textcolor{BrickRed}{[Maybe more stuff needs to go here before we dive in]}
 
 
 %***********************
@@ -120,13 +124,19 @@ The \href{https://archive.ics.uci.edu/ml/datasets/Student+Performance#}{\textcol
 \textcolor{BrickRed}{[Need more background here?]}
 
 \subsection{Data Exploration}
-\textcolor{BrickRed}{[Similar to data exploration notebook, but more detail - see the discussion in main notebook after the plots]}
-reference to data distributions graphs in the appendix. split the graphs by course of study. in this section note the differences between the distributions of the two courses.
+There is some pre-analysis data cleaning and exploration that we run, which can be found in the data exploration notebook \href{https://github.com/nadavtadelis/Reproducible_Metrics/blob/master/data_exploration.ipynb}{\textcolor{cyan}{here}}; some figures from this notebook are included in the Appendix. The notebook contains the full data exploration process, as well as explanations and commentary detailing the figure generation process.
+
+We draw attention to two attributes of special import: there are stark differences in the distributions of the data between the two schools, and across the two courses of study. The school level differences seem to be fairly consistent; perhaps the two schools have slightly different grading policies. However, the within school course level differences are highly variable; this is perhaps capturing the heterogeneity between students who choose Portuguese Language and Mathematics. This strongly suggests that even our simplest models should include controls for school to account for different policies, and should estimate the two courses as separate entities to account for different types of students.
+
+\textcolor{BrickRed}{[Very Rough]}
 
 \subsection{Data Issues}
+
 \textcolor{BrickRed}{[Go over issues with the data that I didn't originally cover (stated preferences, cross-sectional rather than panel, categorical mappings for continuous vars, etc.]}
 
 \textcolor{BrickRed}{[Point out that self reported vars like `freetime` tell us more about student's individual perceptions than the reality. Talk about the benefits and drawbacks to this kind of data]}
+
+\textcolor{BrickRed}{[Very Rough]}
 
 
 %***********************
@@ -230,6 +240,17 @@ Maybe include a conclusion in the Q2SLS section, but not here.
 \section{Appendix}
 
 \subsection{Data Exploration Figures}
+
+\includegraphics[scale=0.5]{figures/quantvar_hist_math.png}
+
+%\begin{figure}[h]
+%    \centering
+%    {{\includegraphics[width=10cm]{figures/quantvar_hist_math.png} }}
+%    \\
+%    {{\includegraphics[width=7cm]{figures/quantvar_hist_por.png} }}
+%    \caption{3 Figures arrayed}
+%    \label{fig:example}
+%\end{figure}
 
 \subsection{Naive OLS Extra Models}
 
