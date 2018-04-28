@@ -103,8 +103,8 @@ In this paper we establish a framework for reproducible empirical research. We u
 
 \pagenumbering{arabic} 
 
-%***********************
-%***********************
+%*******************************************************************************************************************
+%*******************************************************************************************************************
 \section{Introduction}
 \label{sec_intro}
 In recent years there has been a strong push to increase the reproducibility and replicability of scientific research. Unfortunately this movement seems to have been centered on the hard sciences and has not yet become standard practice in the social sciences. It is possible that this is partly due to a lack of reproducibly researched papers in these fields. This paper explores what responsible and reproducible research practices look like in applied econometrics. We present an instrumental variables approach to estimating the causal effect of studying on grades and develop custom python scripts to implement an unusual 2SLS set up that allows for nonlinearity in our endogenous predictor. The latter part of this work discusses the current state of reproducibility in econometric research, and explains in detail the techniques implemented in the analysis.
@@ -116,13 +116,14 @@ The rough idea for the econometric analysis in the paper is adapted from an inde
 \textcolor{BrickRed}{[Maybe more stuff needs to go here before we dive in]}
 
 
-%***********************
+%*******************************************************************************************************************
 \newpage
 \section{Data}
 The \href{https://archive.ics.uci.edu/ml/datasets/Student+Performance#}{\textcolor{cyan}{data}} being used are from the public archive of UCI's machine learning repository and were collected by Paulo Cortez of the University of Minho, Portugal in the 2005 - 2006 academic year \citep{data_paper}. The data were collected in two secondary schools in the Alentejo region of Portugal, using school reports and questionnaires. The data were cleaned to only include students for which all the variables are known - and a further 111 students were discarded because of mismatched information between the surveys and the school reports. The data come with a file containing attribute information which can be found \href{https://archive.ics.uci.edu/ml/datasets/Student+Performance#}{\textcolor{cyan}{here}}; these include school, course, and many individual level characteristics. The data include 649 students from a Portuguese Language course of study, and 395 students from a Mathematics course. 
 
 \textcolor{BrickRed}{[Need more background here?]}
 
+%~~~~~~~~~~~~~~~~~~
 \subsection{Data Exploration}
 There is some pre-analysis data cleaning and exploration that we run, which can be found in the data exploration notebook \href{https://github.com/nadavtadelis/Reproducible_Metrics/blob/master/data_exploration.ipynb}{\textcolor{cyan}{here}}; some figures from this notebook are included in the Appendix. The notebook contains the full data exploration process, as well as explanations and commentary detailing the figure generation process.
 
@@ -130,16 +131,18 @@ We draw attention to two attributes of special import: there are stark differenc
 
 \textcolor{BrickRed}{[Very Rough]}
 
+%~~~~~~~~~~~~~~~~~~
 \subsection{Data Issues}
+As is often the case in the education space, the data have some large issues that must be considered. As any undergraduate taking their first econometrics course would point out, much of the data are stated preferences (as opposed to observed). Happily, the test scores and number of absences are provided by the schools, so we can be certain in their accuracy. The issue with self-reported data is the potential for inaccuracy. Even if a student is not maliciously providing misinformation, it is likely that personal biases are affecting the response. With variables like weekly hours of free time, this self reported data might actually be a benefit, as we are getting information about the student's perception of reality rather than the truth. If a student reports that they have very little free time then that tells us something about how they view their current time allocations. As such, these variables might be useful as controls for student level heterogeneity, but should be considered with a healthy dose of skepticism, and estimated coefficients should be interpreted with care. \textcolor{BrickRed}{[Think about this more.]} The issue of self reported data becomes more problematic when it comes to our variable of interest - hours of studying per week. While our central research goal is identifying a relationship between hours of studying and academic success, our data on hours of studying cannot be trusted as accurate \textcolor{BrickRed}{[expand more here]}.
 
-\textcolor{BrickRed}{[Go over issues with the data that I didn't originally cover (stated preferences, cross-sectional rather than panel, categorical mappings for continuous vars, etc.]}
+In addition to the issue of self reporting, our data on studying time (and other variables) suffers from another issue; categorical mappings of quantitive measures. Many of the quantitive variables in the data are reported as categorical bins. For example, weekly studying time is coded as four distinct levels (0-2 hours, 2-5 hours, 5-10 hours, and 10+ hours). In the case of studying time, we explore two different re-mapping schemes\footnote{Mapping both as discrete and continuous, detailed in the data exploration notebook - \href{https://github.com/nadavtadelis/Reproducible_Metrics/blob/master/data_exploration.ipynb}{\textcolor{cyan}{link}}}. But for the other variables with this format we treat them as categorical variables and include indicators for each level (thus allowing for some nonlinearity). \textcolor{BrickRed}{[expand more here]}
 
-\textcolor{BrickRed}{[Point out that self reported vars like `freetime` tell us more about student's individual perceptions than the reality. Talk about the benefits and drawbacks to this kind of data]}
+Lastly, the data are cross-sectional rather than longitudinal, and the specific sampling time is unspecified. \textcolor{BrickRed}{[Expand more here, talk about why this is bad when studytime changes through the academic year. This might be a good place to include the simultaneous causality issue, or at least allude to it so that it is more familiar when we go over it later (?)]}
 
 \textcolor{BrickRed}{[Very Rough]}
 
 
-%***********************
+%*******************************************************************************************************************
 \newpage
 \section{Models}
 We need to first set up our structural equation \textcolor{BrickRed}{[Maybe this isn't actually a structural equation? Need to double check this term]} defining the relationship between grades and studying \citep{CardKrueger}. Let an individual's grade be $\mathrm{g}_i$ and weekly hours of studying be $\mathrm{s}_i$ and their ``ability" be $\mathrm{a}_i$. Then our model is:
@@ -156,17 +159,19 @@ We can think of a student's utility maximization problem as being some function 
 
 Establishing this utility function gives motivation for including variables that might introduce multicollinearity. For example, weekly amount of free time might not improve our estimate of the marginal effect of studying, and would be collinear with the amount of weekly studying. However, when we think of our observations as realizations of a decision making process that involves utility maximization, there is an argument for including free time in the final model estimation procedure.
 
-
+%~~~~~~~~~~~~~~~~~~
 \subsection{Naive OLS}
 \textcolor{BrickRed}{[Report the four fits from the naive OLS - first one with only `studytime` and school level characteristics, then one with individual level characteristics (for each course of study). Note: I think best approach is to point out that there are diminishing returns to studying at the beginning, and to start with a models that have both `studytime` and `studytime`$^2$]}
 
 \textcolor{BrickRed}{[Maybe include plot of estimated relationship between `studytime` and `G3` (nonlinear, one line for math, one for Portuguese)]}
 
+%~~~~~~~~~~~~~~~~~~
 \subsubsection{Additional Analysis}
 \textcolor{BrickRed}{[Note that the model fitting 1 notebook includes running the model on both mapping schemes for `studytime`]}
 
 \textcolor{BrickRed}{[Lasso-flavor penalization and VIF discussion here (maybe no numbers, just general take-aways and link to the relevant notebook), point out that Lasso keeps the variable of interest and also explore the other variables that it weights highly]}, note: need to clean up Lasso output in notebook
 
+%~~~~~~~~~~~~~~~~~~
 \subsubsection{Simultaneous Causality}
 There is an additional issue with this model specification that we did not explore in the original discussion. The data include three test scores: G1, G2, and G3. G1 and G2 are midterms, and G3 is the final. It is plausible that part of how students inform their study allocation decision comes from how well they did on their previous exam and how many hours they studied in the time leading up to the exam. The data is taken at a single undefined point in time, so it is unclear at what point the students are reporting their weekly amount of studying. This complicates things because if the survey was administered after the midterms, then there is clear simultaneous causality between study time, G1 and G2. This is the motivation for excluding G1 and G2 from the model estimation. There may be a novel way of 
 
@@ -176,15 +181,19 @@ There is an additional issue with this model specification that we did not explo
 
 Actually: \textcolor{BrickRed}{[Maybe move this to the Data Issues as its own subsection?]}
 
+%~~~~~~~~~~~~~~~~~~
 \subsubsection{Endogeneity}
 \textcolor{BrickRed}{[Discuss issues with this naive approach to estimation and why it doesn't apply to causal relationships because of endogeneity, segue to 2SLS theory and explain some theory and bias]}
 
+%~~~~~~~~~~~~~~~~~~
 \subsection{Q2SLS}
 \textcolor{BrickRed}{[Continue discussion of 2SLS theory if needed]}
 
+%~~~~~~~~~~~~~~~~~~
 \subsubsection{Motivation}
 \textcolor{BrickRed}{[Point out issue with trying to use 2SLS when you want to account for diminishing marginal returns in the endogenous variable, especially when the instruments are binary (so squaring them does nothing). Lead to discussion of Q2SLS procedure from Wooldridge]}
 
+%~~~~~~~~~~~~~~~~~~
 \subsubsection{Properties of Q2SLS}
 \textcolor{BrickRed}{[Explain the testing that I did for Q2SLS, mention that it looks like the coeff.s on endog\_sq\_hat and the exog vars are consistent and unbiased, but that the coeff on endog\_hat is consistent but biased. Point out the oddness of this behavior and note that I plan on researching this further.]} Note: pretty sure my instruments are weak (need to check), and the simulation seems to suggest that in the case of weak instruments the estimates are still okay (maybe) but that the SE's are going to be too large for the endogenous vars.
 
@@ -192,6 +201,7 @@ Actually: \textcolor{BrickRed}{[Maybe move this to the Data Issues as its own su
 
 \textcolor{BrickRed}{[Give brief overview of bootstrapping and explain how its being used here to estimate variance of coeff. estimates in 2nd stage]}
 
+%~~~~~~~~~~~~~~~~~~
 \subsubsection{Application}
 \textcolor{BrickRed}{[Discuss chosen instruments and give motivation for why they might be okay to use, give strong disclaimer that even if they are valid, they are probably weak instruments]}
 
@@ -202,21 +212,24 @@ Actually: \textcolor{BrickRed}{[Maybe move this to the Data Issues as its own su
 Maybe: \textcolor{BrickRed}{[Reference appendix, and in the appendix include the results from Q2SLS with only 'essential' controls in the extra results subsection. Similar to the approach for the naive OLS at the beginning]}
 
 
-%***********************
+%*******************************************************************************************************************
 \newpage
 \section{Reproducibility}
 \textcolor{BrickRed}{[Discuss importance of reproducibility in general, and especially in today's political environment. Maybe point out that HONEST might start being used non only in climate science, but in policy making as a whole, which would have massive impacts on how applied econometric research (and empirical social science research as a whole) would be viewed by policy makers]}
 
 \textcolor{BrickRed}{[Maybe also talk about some of the arguments in ``The Market for (Ir)reproducible Econometrics"]}
 
+%~~~~~~~~~~~~~~~~~~
 \subsection{Current Attempts}
 \textcolor{BrickRed}{[Discuss current approaches to reproducibility in econometrics]}
 
 \textcolor{BrickRed}{[Especially point out Gentzkow \& Shapiro's guide for research methods, and its helpfulness in ensuring that research workflow makes sense, but it's lack of any open source reproducibility]}
 
+%~~~~~~~~~~~~~~~~~~
 \subsection{Basic Workflow}
 \textcolor{BrickRed}{[Discuss git version control, environments, makefiles, using notebooks as a way to document any analysis that was not included in the final paper, but had an impact on the direction of the results (this increases confidence that there is not any unintentional p-hacking style things going on)]}
 
+%~~~~~~~~~~~~~~~~~~
 \subsection{Custom Functions}
 \textcolor{BrickRed}{[Discuss the process of creating your own function in  a way that other people can implement it without hassle: docstrings, comments, readability, etc.]}
 
@@ -224,21 +237,23 @@ Maybe: \textcolor{BrickRed}{[Reference appendix, and in the appendix include the
 
 \textcolor{BrickRed}{[Explain Travis and CI]}
 
+%~~~~~~~~~~~~~~~~~~
 \subsection{Optional Elements}
 \textcolor{BrickRed}{[Cover optional but useful things that the open source community has begun using: Binder, Sphinx, etc.]}
 
 \textcolor{BrickRed}{[Talk to Fernando about things here that I wouldn't think of]}
 
 
-%***********************
+%*******************************************************************************************************************
 \newpage
 \section{Conclusion (? - maybe not needed)}
 Maybe include a conclusion in the Q2SLS section, but not here.
 
-%***********************
+%*******************************************************************************************************************
 \newpage
 \section{Appendix}
 
+%~~~~~~~~~~~~~~~~~~
 \subsection{Data Exploration Figures}
 
 \includegraphics[scale=0.5]{figures/quantvar_hist_math.png}
@@ -252,23 +267,28 @@ Maybe include a conclusion in the Q2SLS section, but not here.
 %    \label{fig:example}
 %\end{figure}
 
+%~~~~~~~~~~~~~~~~~~
 \subsection{Naive OLS Extra Models}
 
+%~~~~~~~~~~~~~~~~~~
 \subsection{Q2SLS Function Testing Procedure}
 \textcolor{BrickRed}{[Can use some of the markdown from the functions testing notebook here, and obv.s link to the notebook as well]}
 
+%~~~~~~~~~~~~~~~~~~
 \subsection{Q2SLS Extra Models}
 
+%~~~~~~~~~~~~~~~~~~
 \subsection{Miscellanea}
 
-%******************************** References
+%*******************************************************************************************************************
 \newpage
 citation test \citep{wooldridge, lasso}%, IV_orig}
 
 \bibliographystyle{agsm}
 \nocite{*} % makes sure that all items in .bib are included in bibliography, even if they aren't cited
 \bibliography{tex_stuff/RM_bibliography}
-%********************************
+
+%*******************************************************************************************************************
 
 \end{document}
 
