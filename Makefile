@@ -20,10 +20,10 @@ env : environment.yml
 
 # Running all notebooks
 all :
-	jupyter nbconvert --ExecutePreprocessor.timeout=3600 --to notebook --execute jupyter_notebooks/data_exploration
-	jupyter nbconvert --ExecutePreprocessor.timeout=3600 --to notebook --execute jupyter_notebooks/model_fitting_2
-	jupyter nbconvert --ExecutePreprocessor.timeout=3600 --to notebook --execute jupyter_notebooks/model_fitting_2
-	jupyter nbconvert --ExecutePreprocessor.timeout=3600 --to notebook --execute jupyter_notebooks/main.ipynb
+	jupyter nbconvert --ExecutePreprocessor.timeout=3600 --to notebook --execute data_exploration
+	jupyter nbconvert --ExecutePreprocessor.timeout=3600 --to notebook --execute model_fitting_2
+	jupyter nbconvert --ExecutePreprocessor.timeout=3600 --to notebook --execute model_fitting_2
+	jupyter nbconvert --ExecutePreprocessor.timeout=3600 --to notebook --execute main.ipynb
 	make default
 
 
