@@ -20,10 +20,10 @@ env : environment.yml
 
 # Running all notebooks
 all :
-	jupyter nbconvert --ExecutePreprocessor.timeout=3600 --to notebook --execute data_exploration
-	jupyter nbconvert --ExecutePreprocessor.timeout=3600 --to notebook --execute model_fitting_2
-	jupyter nbconvert --ExecutePreprocessor.timeout=3600 --to notebook --execute model_fitting_2
-	jupyter nbconvert --ExecutePreprocessor.timeout=3600 --to notebook --execute main.ipynb
+	jupyter nbconvert --ExecutePreprocessor.timeout=3600 --to notebook --execute jupyter_notebooks/data_exploration
+	jupyter nbconvert --ExecutePreprocessor.timeout=3600 --to notebook --execute jupyter_notebooks/model_fitting_2
+	jupyter nbconvert --ExecutePreprocessor.timeout=3600 --to notebook --execute jupyter_notebooks/model_fitting_2
+	jupyter nbconvert --ExecutePreprocessor.timeout=3600 --to notebook --execute jupyter_notebooks/main.ipynb
 	make default
 
 
@@ -31,7 +31,7 @@ all :
 # Also removes all LaTex outputs
 .PHONY : clean
 clean:
-	rm -f fig/*.png
+	rm -f figures/*.png
 	rm -f results/*.pickle
 	rm -rf tex_stuff/intermediate/
 	rm -f *.pdf
