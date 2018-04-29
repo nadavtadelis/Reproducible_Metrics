@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.99992 (TeX Live 2015) (preloaded format=xelatex 2015.5.24)  28 APR 2018 14:23
+This is XeTeX, Version 3.14159265-2.6-0.99992 (TeX Live 2015) (preloaded format=xelatex 2015.5.24)  29 APR 2018 13:47
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -535,14 +535,14 @@ tly
 )
 \Hy@SectionHShift=\skip63
 )
-Package hyperref Info: Option `colorlinks' set `true' on input line 35.
+Package hyperref Info: Option `colorlinks' set `true' on input line 34.
 
 (/usr/local/texlive/2015/texmf-dist/tex/generic/oberdiek/se-ascii-print.def
 File: se-ascii-print.def 2011/12/02 v1.10 stringenc: Printable ASCII characters
 
 )
-Package hyperref Info: Option `bookmarksopen' set `false' on input line 35.
-Package hyperref Info: Option `colorlinks' set `false' on input line 35.
+Package hyperref Info: Option `bookmarksopen' set `false' on input line 34.
+Package hyperref Info: Option `colorlinks' set `false' on input line 34.
 
 (/usr/local/texlive/2015/texmf-dist/tex/latex/caption/subcaption.sty
 Package: subcaption 2013/02/03 v1.1-62 Sub-captions (AR)
@@ -583,22 +583,22 @@ File: dvipsnam.def 2014/10/14 v3.0j Driver-dependent file (DPC,SPQR)
 (tex_stuff/intermediate//reproducible_metrics.aux)
 \openout1 = `reproducible_metrics.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 79.
-LaTeX Font Info:    ... okay on input line 79.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 79.
-LaTeX Font Info:    ... okay on input line 79.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 79.
-LaTeX Font Info:    ... okay on input line 79.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 79.
-LaTeX Font Info:    ... okay on input line 79.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 79.
-LaTeX Font Info:    ... okay on input line 79.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 79.
-LaTeX Font Info:    ... okay on input line 79.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 79.
-LaTeX Font Info:    ... okay on input line 79.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 79.
-LaTeX Font Info:    ... okay on input line 79.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 78.
+LaTeX Font Info:    ... okay on input line 78.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 78.
+LaTeX Font Info:    ... okay on input line 78.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 78.
+LaTeX Font Info:    ... okay on input line 78.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 78.
+LaTeX Font Info:    ... okay on input line 78.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 78.
+LaTeX Font Info:    ... okay on input line 78.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 78.
+LaTeX Font Info:    ... okay on input line 78.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 78.
+LaTeX Font Info:    ... okay on input line 78.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 78.
+LaTeX Font Info:    ... okay on input line 78.
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: hyperref package is loaded.
 Package caption Info: longtable package is loaded.
@@ -608,7 +608,7 @@ Package: ltcaption 2013/02/03 v1.3-62 longtable captions (AR)
 )
 Package caption Info: rotating package is loaded.
 Package caption Info: End \AtBeginDocument code.
-LaTeX Info: Redefining \microtypecontext on input line 79.
+LaTeX Info: Redefining \microtypecontext on input line 78.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using default protrusion set `alltext'.
 Package microtype Info: No adjustment of tracking.
@@ -654,7 +654,7 @@ File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
 \AtBeginShipoutBox=\box64
-Package hyperref Info: Link coloring OFF on input line 79.
+Package hyperref Info: Link coloring OFF on input line 78.
 (/usr/local/texlive/2015/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
 
@@ -663,10 +663,10 @@ Package: gettitlestring 2010/12/03 v1.4 Cleanup title references (HO)
 )
 \c@section@level=\count149
 )
-LaTeX Info: Redefining \ref on input line 79.
-LaTeX Info: Redefining \pageref on input line 79.
-LaTeX Info: Redefining \nameref on input line 79.
-LaTeX Font Info:    Try loading font information for U+msa on input line 91.
+LaTeX Info: Redefining \ref on input line 78.
+LaTeX Info: Redefining \pageref on input line 78.
+LaTeX Info: Redefining \nameref on input line 78.
+LaTeX Font Info:    Try loading font information for U+msa on input line 90.
 
 (/usr/local/texlive/2015/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
@@ -674,7 +674,7 @@ File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 (/usr/local/texlive/2015/texmf-dist/tex/latex/microtype/mt-msa.cfg
 File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 91.
+LaTeX Font Info:    Try loading font information for U+msb on input line 90.
 
 (/usr/local/texlive/2015/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
@@ -689,38 +689,44 @@ Package microtype Info: Loading generic settings for font family
 
 
 LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <142.26378> not available
-(Font)              size <24.88> substituted on input line 102.
+(Font)              size <24.88> substituted on input line 101.
 
 [1
 
 ] [1
 
-] [2] [3] [4] [5] [6] [7] [8] [9]
-File: figures/quantvar_hist_math.png Graphic file (type QTm)
+] [2] [3] [4]
 
-<use  "figures/quantvar_hist_math.png" > [10] [11]
-(tex_stuff/intermediate/reproducible_metrics.bbl)
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 292.
- [12]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 292.
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[5] [6] [7] [8] [9]
+File: figures/quantvar_hist_math.png Graphic file (type QTm)
+ <use  "figures/quantvar_hist_math.png" > [10]
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[11] (tex_stuff/intermediate/reproducible_metrics.bbl [12])
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 405.
+ [13]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 405.
 
 (tex_stuff/intermediate/reproducible_metrics.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 292.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 292.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 405.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 405.
 
 
 LaTeX Font Warning: Size substitutions with differences
 (Font)              up to 117.38377pt have occurred.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 292.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 405.
  ) 
 Here is how much of TeX's memory you used:
- 13801 strings out of 493706
- 204999 string characters out of 6145769
- 313313 words of memory out of 5000000
- 16932 multiletter control sequences out of 15000+600000
- 18815 words of font info for 72 fonts, out of 8000000 for 9000
+ 13811 strings out of 493706
+ 205144 string characters out of 6145769
+ 337313 words of memory out of 5000000
+ 16940 multiletter control sequences out of 15000+600000
+ 19516 words of font info for 74 fonts, out of 8000000 for 9000
  1328 hyphenation exceptions out of 8191
- 42i,10n,44p,1530b,341s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 42i,17n,44p,1530b,464s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on tex_stuff/intermediate/reproducible_metrics.pdf (13 pages).
+Output written on tex_stuff/intermediate/reproducible_metrics.pdf (14 pages).
