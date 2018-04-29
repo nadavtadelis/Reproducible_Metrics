@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.99992 (TeX Live 2015) (preloaded format=xelatex 2015.5.24)  29 APR 2018 13:47
+This is XeTeX, Version 3.14159265-2.6-0.99992 (TeX Live 2015) (preloaded format=xelatex 2015.5.24)  29 APR 2018 15:04
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -695,38 +695,40 @@ LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <142.26378> not available
 
 ] [1
 
-] [2] [3] [4]
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-[5] [6] [7] [8] [9]
+] [2] [3] [4] [5] [6] [7] [8] [9] [10]
 File: figures/quantvar_hist_math.png Graphic file (type QTm)
- <use  "figures/quantvar_hist_math.png" > [10]
+
+<use  "figures/quantvar_hist_math.png" > [11]
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[11] (tex_stuff/intermediate/reproducible_metrics.bbl [12])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 405.
- [13]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 405.
+[12] [13] (tex_stuff/intermediate/reproducible_metrics.bbl
+Underfull \hbox (badness 10000) in paragraph at lines 38--41
+\OT1/cmr/bx/n/12 URL: \OT1/cmr/m/it/12 https://www.wired.com/story/sciences-rep
+roducibility-crisis-is-being-used-as-
+ []
 
-(tex_stuff/intermediate/reproducible_metrics.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 405.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 405.
+)
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 373.
+ [14]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 373.
+ (tex_stuff/intermediate/reproducible_metrics.aux)
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 373.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 373.
 
 
 LaTeX Font Warning: Size substitutions with differences
 (Font)              up to 117.38377pt have occurred.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 405.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 373.
  ) 
 Here is how much of TeX's memory you used:
- 13811 strings out of 493706
- 205144 string characters out of 6145769
+ 13817 strings out of 493706
+ 205249 string characters out of 6145769
  337313 words of memory out of 5000000
- 16940 multiletter control sequences out of 15000+600000
+ 16946 multiletter control sequences out of 15000+600000
  19516 words of font info for 74 fonts, out of 8000000 for 9000
  1328 hyphenation exceptions out of 8191
- 42i,17n,44p,1530b,464s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 42i,17n,44p,1682b,366s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on tex_stuff/intermediate/reproducible_metrics.pdf (14 pages).
+Output written on tex_stuff/intermediate/reproducible_metrics.pdf (15 pages).

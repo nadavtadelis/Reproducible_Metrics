@@ -19,6 +19,11 @@ Cortez, P. \harvardand\ Silva, A.  \harvardyearleft 2008\harvardyearright ,
   Conference (FUBUTEC 2008)} pp.~5--12.
 \newline\harvardurl{http://www3.dsi.uminho.pt/pcortez/student.pdf}
 
+\harvarditem{Feigenbaum \harvardand\ Levy}{1993}{irreproducible}
+Feigenbaum, S. \harvardand\ Levy, D.~M.  \harvardyearleft 1993\harvardyearright
+  , `The market for (ir)reproducible econometrics', {\em Social Epistemology}
+  {\bf 7}(3),~215--232.
+
 \harvarditem{Greene}{2011}{green}
 Greene, W.~H.  \harvardyearleft 2011\harvardyearright , {\em {Econometric
   Analysis}}, 7 edn, Prentice Hall.
@@ -27,7 +32,12 @@ Greene, W.~H.  \harvardyearleft 2011\harvardyearright , {\em {Econometric
 MacKinnon, J.~G. \harvardand\ White, H.  \harvardyearleft 1985\harvardyearright
   , `Some heteroskedasticity-consistent covariance matrix estimators with
   improved finite sample properties', {\em Journal of Econometrics} {\bf
-  29}(3),~305 -- 325.
+  29}(3),~305--325.
+
+\harvarditem{Schulson}{n.d.}{wired}
+Schulson, M.  \harvardyearleft n.d.\harvardyearright , `Science's
+  ``reproducibility crisis" is being used as political ammunition'.
+\newline\harvardurl{https://www.wired.com/story/sciences-reproducibility-crisis-is-being-used-as-political-ammunition/}
 
 \harvarditem{Tibshirani}{1996}{lasso}
 Tibshirani, R.  \harvardyearleft 1996\harvardyearright , `Regression shrinkage
