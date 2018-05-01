@@ -10,9 +10,9 @@ This repository holds all the material for "Reproducibility and Applied Economet
 ## Notebook Descriptions
 
 * [`data_exploration.ipynb`](https://github.com/nadavtadelis/Reproducible_Metrics/blob/master/data_exploration.ipynb) - Numerical and visual representations of the data. Mapping studytime variable.
-* `model_fitting_1.ipynb` - Naive OLS model fitting. Multicollinearity exploration (VIF, LASSO).
-* `model_fitting_2.ipynb` - Q2SLS model fitting.
-* `function_testing.ipynb` - Testing Q2SLS script and exploring asymptotic properties of Q2SLS procedure.
+* [`model_fitting_1.ipynb`](https://github.com/nadavtadelis/Reproducible_Metrics/blob/master/model_fitting_1.ipynb) - Naive OLS model fitting. Multicollinearity exploration (VIF, LASSO).
+* [`model_fitting_2.ipynb`](https://github.com/nadavtadelis/Reproducible_Metrics/blob/master/model_fitting_2.ipynb) - Q2SLS model fitting.
+* [`function_testing.ipynb`](https://github.com/nadavtadelis/Reproducible_Metrics/blob/master/function_testing.ipynb) - Testing Q2SLS script and exploring asymptotic properties of Q2SLS procedure.
 
 ## Required Installations
 
