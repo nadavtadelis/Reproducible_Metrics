@@ -7,6 +7,13 @@ This is a work in progress attempting to provide a framework for a responsible a
 This repository holds all the material for "Reproducibility and Applied Econometrics - The Effect of Studying on Grades
 ". The main paper is [reproducible_metrics.pdf](https://github.com/nadavtadelis/Reproducible_Metrics/blob/master/reproducible_metrics.pdf) and all additional analaysis and intermediate steps can be found in the Jupyter Notebooks.
 
+## Notebook Descriptions
+
+* `data_exploration.ipynb` - Numerical and visual representations of the data. Mapping studytime variable.
+* `model_fitting_1.ipynb` - Naive OLS model fitting. Multicollinearity exploration (VIF, LASSO).
+* `model_fitting_2.ipynb` - Q2SLS model fitting.
+* `function_testing.ipynb` - Testing Q2SLS script and exploring asymptotic properties of Q2SLS procedure.
+
 ## Required Installations
 
 The only installation needed to run this repo is Anaconda. Click [here](https://conda.io/docs/user-guide/install/index.html#regular-installation) to learn about how to install Anaconda. Once installed, you should be good to go!
@@ -17,7 +24,7 @@ We've enabled Binder for this project which allows you to view and edit jupyter 
 
 ## Getting Started
 
-Download the repo onto your local machine and open your command prompt. Simply type in the following commands to run the analysis:
+Download the repo onto your local machine and open your command prompt to the Reproducible_Metrics directory. Simply type in the following commands to run the analysis:
 
 ```
 make clean
@@ -26,7 +33,7 @@ source activate study_env
 make run
 ```
 
-After all your notebooks have run you should see new files in the results, fig, and data directories. Read about our approach and results in main.ipynb. All the figures from our analysis are saved in the fig directory and our regressions are saved in the results directory as dataframes. You can load in these dataframes and work with them as regression instances (i.e. you can call `.summary()`, `.params()` etc. click [here](http://www.statsmodels.org/dev/generated/statsmodels.regression.linear_model.OLS.html) for OLS documentation and [here](https://bashtage.github.io/linearmodels/doc/iv/methods.html#linearmodels.iv.model.IV2SLS) for 2SLS documentation)
+After all your notebooks have run you should see new files in the results, fig, and data directories. Read about our approach and results in main.ipynb. All the figures from our analysis are saved in the fig directory and our regressions are saved in the results directory as dataframes. You can load in these dataframes and work with them as regression instances (i.e. you can call `.summary()`, `.params()` etc. click [here](http://www.statsmodels.org/dev/generated/statsmodels.regression.linear_model.OLS.html) for OLS documentation)
 
 ## Licensing
 
