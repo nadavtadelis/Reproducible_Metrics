@@ -3,7 +3,8 @@
 \usepackage{graphicx}
 \usepackage{epstopdf}
 \usepackage{natbib, microtype, color, amsmath, graphics, dcolumn, booktabs, multicol}
-\usepackage{multirow} 
+\usepackage{multirow}
+\usepackage{MnSymbol}
 \usepackage{amsfonts,dsfont}
 \usepackage{setspace, lscape, longtable, rotating}
 \usepackage{geometry}
@@ -74,7 +75,14 @@
 \SetWatermarkScale{5}
 \usepackage[dvipsnames]{xcolor}
 % ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+% For plotting functions
 \usepackage{tikz}
+
+% Custom functions for easy stats
+\newcommand{\E}{\mathrm{E}}
+\newcommand{\Cov}{\mathrm{Cov}}
+\newcommand{\Var}{\mathrm{Var}}
 
 \begin{document}
 
@@ -273,23 +281,37 @@ Actually: \textcolor{BrickRed}{[Maybe move this to the Data Issues as its own su
 
 %~~~~~~~~~~~~~~~~~~
 \subsubsection{Endogeneity}
-\textcolor{BrickRed}{[Discuss issues with this naive approach to estimation and why it doesn't apply to causal relationships because of endogeneity, segue to 2SLS theory and explain some theory and bias]}
-
-\textcolor{BrickRed}{[NOTE: BELOW IS VERY ROUGH, PRETTY MUCH JUST COPY PASTED FROM PREVIOUS WORK, NEEDS SERIOUS UPDATES, CURRENTLY ACTING AS PLACEHOLDER]} need to make theoretical motivation more robust (see 212 notes), need to change or at least point out that the bias from the endogeneity is different in our case because our model is not linear in study time (i think this would make the bias worse, but need to check and show this)
-
-In the second run of naive regressions we add various covariates as proxies representing unobserved ability. This set up makes the implicit assumption that hours of studying and ability are independent. Unfortunately, the validity of this assumption is questionable. It is certainly plausible that students with higher abilities enjoy studying more (perhaps because they find it less difficult), suggesting that they will have a less negative coefficient on studying in their utility maximizations, leading them to study for longer. So the assumption that hours of studying and ability are independent is quite strong, and not necessarily valid. Violation of this assumption would suggest that the dependence between ability and studying is a source of serious multicollinearity. On the other hand, our low $\mathrm{R}^2$ suggests that multicollinearity might not be an issue here; and that we probably just need more data. We could try to address this potential multicollinearity by dropping some variables, but generally it is better to report the full model and point out the potential issues. We don't usually drop variables because that could cause a more egregious problem through confounding effects. The ideal solution here would be to collect more data, but that is not a possibility. While multicollinearity might be present, we can't do much about it.
-
-There is another, more serious, issue with this naive approach of running an OLS fit on the data - endogeneity. In our model we have attempted to use proxies to identify ability, but what if our proxies are not fully identifying ability?  Then clearly the covariance between our $x_k$'s and the error terms is non-zero: we have endogenous variables. This endogeneity means that OLS is not a consistent estimator for our vector of $\beta$'s! We have the following:
+In the second run of naive regressions we add many covariates as proxies representing unobserved ability (parental education, individual characteristics, and others detailed in the model fitting 1 notebook - \href{https://github.com/nadavtadelis/Reproducible_Metrics/blob/master/model_fitting_1.ipynb}{\textcolor{cyan}{link}}). We pointed out that since ability is unobservable and undefinable we cannot expect to fully capture it through our proxies. Let $q_i$ be the unobserved portion of ability that we are not capturing through our imperfect proxies. Then we have:
 $$
-\mathrm{b}_k \stackrel{p}{\longrightarrow} \beta_k + \gamma \frac{\mathrm{Cov}[q, x_k]}{\mathrm{Var}[x_k]}
+g_i = \beta_0 + \beta_1 s_i + \beta_2 s_i^2 + \beta_3 school_i + \beta_4 course_i + \beta_5 x_{i,5} + \cdots + \beta_k x_{i,k} + \gamma q_i + \vartheta_i
 $$
-Where $q$ is the unidentified portion of ability, $\gamma$ is the true coefficient on $q$ (if we could identify it), $\mathrm{b}_k$ is the OLS estimated coefficient on $x_k$, and $\beta_k$ is the true coefficient on $x_k$. Notice that $q$ is determined by how well our proxies identify ability. The better our proxies identify ability, the smaller the bias term $\gamma \frac{\mathrm{Cov}[q, x_k]}{\mathrm{Var}[x_k]}$ will be (with bias arising from our endogeneity problem).
-
-In many settings, researchers assume that $\mathrm{Cov}[q, x_k] = 0$ except for the variable of interest (in our case, hours of studying). This is also a plausible assumption in our setting \textcolor{BrickRed}{[BECAUSE WE ONLY HAVE SCHOOL LEVEL COVARIATES OTHER THAN STUDYTIME, AND THESE SHOULD BE INDEPENDENT TO ABILITY]}. So we have simplified our problem to identification of the true coefficient on the endogenous variable hours of studying. We should note that since we do not know what part of "ability" is being omitted, we cannot make any guesses about which way our OLS estimated coefficient is biased (because we can't determine the sign of $\mathrm{Cov}[q, studying]$).
+Where $x_{i,5}, \cdots, x_{i,k}$ are proxies and $\vartheta_i$ is the structural error term. Let $x_{i,j}$ be the j'th covariate in the design matrix ($x_{1 i} = 1$, $x_{2 i} = s_i$, etc.) and let $\underline{x}_i$ be the vector of covariates for $i$. We are mainly interested in $\beta_1$ and $\beta_2$ the coefficients on studying. It is reasonable to assume that $\E[\vartheta_i | \underline{x}_i, q_i] = 0$ unfortunately we have no choice but to stick $q_i$ into the error term which gives us the new structural equation:
+$$
+g_i = \beta_0 + \beta_1 s_i + \beta_2 s_i^2 + \beta_3 school_i + \beta_4 course_i + \beta_5 x_{i,5} + \cdots + \beta_k x_{i,k} + \varepsilon_i
+$$
+Where $\varepsilon_i = \gamma q_i + \vartheta_i$. We know that $\vartheta_i$ is well behaved (uncorrelated with $x_{i,j} \forall j \in \{1,k\}$) but $\varepsilon_i$ is uncorrelated with the covariates iff $q_i$ is uncorrelated with the covariates. Lets look at the consistency of this set up (starting with the linear projection of $q_i$ onto $\underline{x}_i$):
+\begin{align}
+&g_i = \delta_0 + \delta_1 s_i + \delta_2 s_i^2 + \delta_3 school_i + \delta_4 course_i + \delta_5 x_{i,5} + \cdots + \delta_k x_{i,k} + \eta_i  \nonumber \\
+&\E[\eta_i] = 0 \\
+&\Cov[x_{i,j}, \eta_i] = 0
+\end{align}
+Where (1) and (2) follow from the definition of linear projections. Now we can represent our original model in terms of this linear projection:
+\begin{alignat*}{2}
+g_i &= {}&&\beta_0 + \beta_1 s_i + \beta_2 s_i^2 + \beta_3 school_i + \beta_4 course_i + \beta_5 x_{i,5} + \cdots + \beta_k x_{i,k} \\
+      &     &&+ \gamma \delta_0 + \gamma \delta_1 s_i + \cdots + \gamma \delta_k x_{i,k} + \gamma \eta_i + \vartheta_i \\
+g_i &=   &&(\beta_0 + \gamma\delta_0) + (\beta_1 + \gamma\delta_1)s_i + (\beta_2 + \gamma\delta_2)s_i^2 + \cdots + (\beta_k + \gamma\delta_k)x_{i,k} + \gamma \eta_i + \vartheta_i \\
+      &\Rightarrow &&{} \E[\gamma\eta_i + \vartheta_i] = 0 \\
+      &                    &&{} \Cov[x_{i,j}, \gamma\eta_i + \vartheta_i] = 0
+\end{alignat*}
+This shows that we can run OLS and get consistent estimates of $(\beta_j + \gamma\delta_j)$, but we are actually interested in $\underline{\beta}$. OLS does not allow us to recover $\underline{\beta}$ in this case because:
+$$
+\hat{\beta}_j \stackrel{p}{\longrightarrow} \beta_j + \underbrace{\gamma\delta_j}_{ \mathclap{\text{omitted variable bias}} }
+$$
+If $\gamma \ne 0$ and $\delta_j \ne 0$ then we cannot get a consistent estimate of $\beta_j$ using OLS. Rather, we get an endogenous estimator with a bias of $\gamma\delta_j$ (notice that the better our proxies identify ability, the smaller the bias term will be). Often times in practice researchers will assume that all $\delta_j$'s are zero except for the ones on the variables of interest. The implicit assumption behind setting $\delta_j = 0$ is that the unobserved $q_i$ and $x_{i,j}$ are independent (i.e. $\Cov[x_{i,j}, q_i] = 0$). In our setting this is actually a very reasonable assumption; we have already defined $x_{i,5}, \cdots, k x_{i,k}$ as proxies for ability, meaning that the unobserved portion of ability should be orthogonal to each of these variables. It  is also reasonable to assume that there is independence between school and course level characteristics and the unobserved $q_i$. This simplifies\footnote{If we had only one endogenous variable we could simplify further because $\hat{\beta}_j \stackrel{p}{\longrightarrow} \beta_j + \gamma\frac{\Cov[x_j, q]}{\Var[x_j]}$. In this case we would be able to make some guesses about the direction of the bias.} our endogeneity problem so that the only endogenous variables are $s_i$ and $s_i^2$ ($\Cov[s_i, \varepsilon], \ \Cov[s_i^2, \varepsilon] \ne 0$). 
 
 %~~~~~~~~~~~~~~~~~~
 \subsection{Q2SLS}
-\textcolor{BrickRed}{[Continue discussion of 2SLS theory if needed]}
+\textcolor{BrickRed}{[Continue discussion of 2SLS theory if needed]} Introduce idea of instrumental variables really briefly, maybe just go over the conditions for validity of instruments (see page 45 of 212 notes)
 
 %~~~~~~~~~~~~~~~~~~
 \subsubsection{Motivation}
