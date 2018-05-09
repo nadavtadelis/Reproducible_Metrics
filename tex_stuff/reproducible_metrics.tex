@@ -181,9 +181,9 @@ Establishing this utility function gives motivation for including variables that
 % Functions - WITHOUT CONTROLS
 \draw[smooth, samples=200, color=black, domain=0:6] plot ({\x},{50*(0.022*2*(\x) - 0.001*2*(\x)*2*(\x))}) 
         node at (5,5.5) {Both}; %{$f(x) = t$};
-\draw[smooth, dotted, samples=200, color=blue, domain=0:6] plot ({\x},{50*(0.0268*2*(\x) - 0.0013*2*(\x)*2*(\x))}) 
+\draw[smooth, solid, samples=200, color=blue, domain=0:6] plot ({\x},{50*(0.0268*2*(\x) - 0.0013*2*(\x)*2*(\x))}) 
         node at (5.1, 6.4) {Port.};
-\draw[smooth, dashed, samples=200, color=red, domain=0:6] plot ({\x},{50*(0.0128*2*(\x) - 0.0005*2*(\x)*2*(\x))}) 
+\draw[smooth, solid, samples=200, color=red, domain=0:6] plot ({\x},{50*(0.0128*2*(\x) - 0.0005*2*(\x)*2*(\x))}) 
         node[below left] {Math};                  
 
 \begin{scope}[xshift=8cm]
@@ -293,11 +293,13 @@ In many settings, researchers assume that $\mathrm{Cov}[q, x_k] = 0$ except for 
 
 %~~~~~~~~~~~~~~~~~~
 \subsubsection{Motivation}
-\textcolor{BrickRed}{[Point out issue with trying to use 2SLS when you want to account for diminishing marginal returns in the endogenous variable, especially when the instruments are binary (so squaring them does nothing). Lead to discussion of Q2SLS procedure from Wooldridge]}
+\textcolor{BrickRed}{[Point out issue with trying to use 2SLS when you want to account for diminishing marginal returns in the endogenous variable, especially when the instruments are binary (so squaring them does nothing). Lead to discussion of Q2SLS procedure from Wooldridge]} Mostly Harmless briefly points out that with binary instruments you can't square them, so you need to find different instruments for the second part of the first stage (p. 192).
 
 %~~~~~~~~~~~~~~~~~~
 \subsubsection{Properties of Q2SLS}
 \textcolor{BrickRed}{[Explain the testing that I did for Q2SLS, mention that it looks like the coeff.s on endog\_sq\_hat and the exog vars are consistent and unbiased, but that the coeff on endog\_hat is consistent but biased. Point out the oddness of this behavior and note that I plan on researching this further.]} Note: pretty sure my instruments are weak (need to check), and the simulation seems to suggest that in the case of weak instruments the estimates are still okay (maybe) but that the SE's are going to be too large for the endogenous vars.
+
+\textcolor{BrickRed}{[Question:]} Since both fitted values from the first stage are linear combinations of the instruments (albeit the second part being built with an added instrument), could there by collinearity between them? The only reason I'm skeptical is that it doesn't seem like we have a collinearity issue in the simulation (if they were collinear then wouldnt we expect to see the range of the coefficient to be very wide, and include the true coefficient within it? not the consistent bias that we see?). I think perhaps the inclusion of the new instrument in the second part actually means that there isn't collinearity. 
 
 \textcolor{BrickRed}{[Discuss difficulty with finding the asymptotically consistent estimator for variance in Q2SLS because of the nested generated regressors]}
 
