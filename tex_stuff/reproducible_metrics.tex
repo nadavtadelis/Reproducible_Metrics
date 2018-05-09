@@ -4,6 +4,7 @@
 \usepackage{epstopdf}
 \usepackage{natbib, microtype, color, amsmath, graphics, dcolumn, booktabs, multicol}
 \usepackage{multirow}
+\usepackage{bm}
 \usepackage{MnSymbol}
 \usepackage{amsfonts,dsfont}
 \usepackage{setspace, lscape, longtable, rotating}
@@ -285,11 +286,11 @@ In the second run of naive regressions we add many covariates as proxies represe
 $$
 g_i = \beta_0 + \beta_1 s_i + \beta_2 s_i^2 + \beta_3 school_i + \beta_4 course_i + \beta_5 x_{i,5} + \cdots + \beta_k x_{i,k} + \gamma q_i + \vartheta_i
 $$
-Where $x_{i,5}, \cdots, x_{i,k}$ are proxies and $\vartheta_i$ is the structural error term. Let $x_{i,j}$ be the j'th covariate in the design matrix ($x_{1 i} = 1$, $x_{2 i} = s_i$, etc.) and let $\underline{x}_i$ be the vector of covariates for $i$. We are mainly interested in $\beta_1$ and $\beta_2$ the coefficients on studying. It is reasonable to assume that $\E[\vartheta_i | \underline{x}_i, q_i] = 0$ unfortunately we have no choice but to stick $q_i$ into the error term which gives us the new structural equation:
+Where $x_{i,5}, \cdots, x_{i,k}$ are proxies and $\vartheta_i$ is the structural error term. Let $x_{i,j}$ be the j'th covariate in the design matrix ($x_{1 i} = 1$, $x_{2 i} = s_i$, etc.) and let $\bm{x}_i$ be the vector of covariates for $i$. We are mainly interested in $\beta_1$ and $\beta_2$ the coefficients on studying. It is reasonable to assume that $\E[\vartheta_i | \bm{x}_i, q_i] = 0$ unfortunately we have no choice but to stick $q_i$ into the error term which gives us the new structural equation:
 $$
 g_i = \beta_0 + \beta_1 s_i + \beta_2 s_i^2 + \beta_3 school_i + \beta_4 course_i + \beta_5 x_{i,5} + \cdots + \beta_k x_{i,k} + \varepsilon_i
 $$
-Where $\varepsilon_i = \gamma q_i + \vartheta_i$. We know that $\vartheta_i$ is well behaved (uncorrelated with $x_{i,j} \forall j \in \{1,k\}$) but $\varepsilon_i$ is uncorrelated with the covariates iff $q_i$ is uncorrelated with the covariates. Lets look at the consistency of this set up (starting with the linear projection of $q_i$ onto $\underline{x}_i$):
+Where $\varepsilon_i = \gamma q_i + \vartheta_i$. We know that $\vartheta_i$ is well behaved (uncorrelated with $x_{i,j} \forall j \in \{1,k\}$) but $\varepsilon_i$ is uncorrelated with the covariates iff $q_i$ is uncorrelated with the covariates. Lets look at the consistency of this set up (starting with the linear projection of $q_i$ onto $\bm{x}_i$):
 \begin{align}
 &g_i = \delta_0 + \delta_1 s_i + \delta_2 s_i^2 + \delta_3 school_i + \delta_4 course_i + \delta_5 x_{i,5} + \cdots + \delta_k x_{i,k} + \eta_i  \nonumber \\
 &\E[\eta_i] = 0 \\
@@ -303,7 +304,7 @@ g_i &=   &&(\beta_0 + \gamma\delta_0) + (\beta_1 + \gamma\delta_1)s_i + (\beta_2
       &\Rightarrow &&{} \E[\gamma\eta_i + \vartheta_i] = 0 \\
       &                    &&{} \Cov[x_{i,j}, \gamma\eta_i + \vartheta_i] = 0
 \end{alignat*}
-This shows that we can run OLS and get consistent estimates of $(\beta_j + \gamma\delta_j)$, but we are actually interested in $\underline{\beta}$. OLS does not allow us to recover $\underline{\beta}$ in this case because:
+This shows that we can run OLS and get consistent estimates of $(\beta_j + \gamma\delta_j)$, but we are actually interested in $\bm{\beta}$. OLS does not allow us to recover $\bm{\beta}$ in this case because:
 $$
 \hat{\beta}_j \stackrel{p}{\longrightarrow} \beta_j + \underbrace{\gamma\delta_j}_{ \mathclap{\text{omitted variable bias}} }
 $$
