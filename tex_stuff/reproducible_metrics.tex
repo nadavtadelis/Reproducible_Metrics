@@ -175,14 +175,14 @@ Establishing this utility function gives motivation for including variables that
 		(2,0) node[anchor=north] {4}
 		(4,0) node[anchor=north] {8}
 		(0,2) node[anchor=east] {0.04}
-		(0,4) node[anchor=east] {0.08};
+		(0,4) node[anchor=east] {0.08}
 		(0,6) node[anchor=east] {0.12};
 
-% Functions
+% Functions - WITHOUT CONTROLS
 \draw[smooth, samples=200, color=black, domain=0:6] plot ({\x},{50*(0.022*2*(\x) - 0.001*2*(\x)*2*(\x))}) 
-        node at (5,5) {$f(x) = t$};
+        node at (5,5.5) {$f(x) = t$};
 \draw[smooth, dotted, samples=200, color=blue, domain=0:6] plot ({\x},{50*(0.0268*2*(\x) - 0.0013*2*(\x)*2*(\x))}) 
-        node[below] {$f(x) = t$ P};
+        node at (5.1, 6.4) {$f(x) = t$ P};
 \draw[smooth, dashed, samples=200, color=red, domain=0:6] plot ({\x},{50*(0.0128*2*(\x) - 0.0005*2*(\x)*2*(\x))}) 
         node[below left] {$f(x) = t$ M};                  
 
@@ -196,145 +196,57 @@ Establishing this utility function gives motivation for including variables that
 			(2,0) node[anchor=north] {4}
 			(4,0) node[anchor=north] {8}
 			(0,2) node[anchor=east] {0.04}
-			(0,4) node[anchor=east] {0.08};
+			(0,4) node[anchor=east] {0.08}
 			(0,6) node[anchor=east] {0.12};
 
-	% Connected Segments
-	\draw [color = black] (1,0) -- (1,5*0.0361) -- (2.5,5*0.0361) -- (2.5,5*0.0924) -- (5,5*0.0924) -- (5,5*0.0787) -- (6,5*0.0787);                 
+	% Functions - WITH CONTROLS
+\draw[smooth, samples=200, color=black, domain=0:6] plot ({\x},{50*(0.016*2*(\x) - 0.0008*2*(\x)*2*(\x))}) 
+        node[below] {$f(x) = t$};
+\draw[smooth, dotted, samples=200, color=blue, domain=0:6] plot ({\x},{50*(0.0110*2*(\x) - 0.0005*2*(\x)*2*(\x))}) 
+        node[below] {$f(x) = t$ P};
+\draw[smooth, dashed, samples=200, color=red, domain=0:6] plot ({\x},{50*(0.0229*2*(\x) - 0.0012*2*(\x)*2*(\x))}) 
+        node[below left] {$f(x) = t$ M}; 
 \end{scope}
 \end{tikzpicture}
 
 
 \begin{tikzpicture}
-% horizontal axis
-\draw[->] (-0.3,0) -- (12,0) node[anchor=north] {studytime};
-
-% labels
-\draw	(0,0) node[anchor=north] {0}
-		(2,0) node[anchor=north] {2}
-		(4,0) node[anchor=north] {4}
-		(0,0) node[anchor=east] {0}
-		(0,2.5) node[anchor=east] {0.05}
-		(0,5) node[anchor=east] {0.1};
-
-% vertical axis
-\draw[->] (0,-0.3) -- (0,5.5) node[anchor=east] {$\hat{\mathrm{G3}\%}$};
-
-% vertical line
-%\draw[dotted] (2,0) -- (2,4);
-
-% Connected Segments
-%\draw[thick] (0,0) -- (2,2) -- (6,2);
-%\draw (1,1.5) node {$U_s$}; %label
-
-% Functions
-\draw[smooth, samples=200, color=black, domain=0:12] plot ({\x},{50*(0.022*\x - 0.001*\x*\x)}) 
-        node at (5,3) {$f(x) = t$};
-\draw[smooth, dotted, samples=200, color=blue, domain=0:12] plot ({\x},{50*(0.0268*\x - 0.0013*\x*\x)}) 
-        node[above left] {$f(x) = t$ P};
-\draw[smooth, dashed, samples=200, color=red, domain=0:12] plot ({\x},{50*(0.0128*\x - 0.0005*\x*\x)}) 
-        node[below left] {$f(x) = t$ M};
-%\draw[smooth, dashed, samples=200, color=red, domain=0:6] plot ({\x},{50*(0.0128*\x - 0.0005*\x*\x)}) 
-%        node[right] {$f(x) = t$ M};                   
-
-\begin{scope}[yshift=-8cm]
-        \draw[->] (-0.3,0) -- (12,0) node[anchor=north] {studytime};
-
-	% labels
-	\draw	(0,0) node[anchor=north] {0}
-			(2,0) node[anchor=north] {2}
-			(4,0) node[anchor=north] {4}
-			(0,0) node[anchor=east] {0}
-			(0,2.5) node[anchor=east] {0.05}
-			(0,5) node[anchor=east] {0.1};
-
-	% vertical axis
-	\draw[->] (0,-0.3) -- (0,5.5) node[anchor=east] {$\hat{\mathrm{G3}\%}$};
-
-	% vertical line
-	%\draw[dotted] (2,0) -- (2,4);
-
-	% Connected Segments
-	\draw [color = black] (2,0) -- (2,5*0.0361) -- (5,5*0.0361) -- (5,5*0.0924) -- (10,5*0.0924) -- (10,5*0.0787) -- (15,5*0.0787);
-
-	% Functions
-	%\draw[smooth, samples=200, color=black, domain=0:6] plot ({\x},{50*(0.022*\x - 0.001*\x*\x)}); 
-	%        \node[anchor=south] at (3,4.1) {$f(x) = t$};
-	%\draw[smooth, dotted, samples=200, color=blue, domain=0:6] plot ({\x},{50*(0.0268*\x - 0.0013*\x*\x)}) 
-	%        node[above left] {$f(x) = t$ P};
-	%\draw[smooth, dashed, samples=200, color=red, domain=0:6] plot ({\x},{50*(0.0128*\x - 0.0005*\x*\x)}) 
-	%       node[below left] {$f(x) = t$ M};
-	%\draw[smooth, dashed, samples=200, color=red, domain=0:6] plot ({\x},{50*(0.0128*\x - 0.0005*\x*\x)}) 
-	%        node[right] {$f(x) = t$ M};                  
-\end{scope}
-
-\end{tikzpicture}
-
-
-\begin{tikzpicture}
-% horizontal axis
+% Axis
 \draw[->] (-0.3,0) -- (6,0) node[anchor=north] {studytime};
-
-% labels
-\draw	(0,0) node[anchor=north] {0}
-		(2,0) node[anchor=north] {2}
-		(4,0) node[anchor=north] {4}
-		(0,0) node[anchor=east] {0}
-		(0,2.5) node[anchor=east] {0.05}
-		(0,5) node[anchor=east] {0.1};
-
-% vertical axis
 \draw[->] (0,-0.3) -- (0,5.5) node[anchor=east] {$\hat{\mathrm{G3}\%}$};
 
-% vertical line
-%\draw[dotted] (2,0) -- (2,4);
+% labels
+\draw	(-0.2,0) node[anchor=north] {0}
+		(2,0) node[anchor=north] {4}
+		(4,0) node[anchor=north] {8}
+		(0,1.5) node[anchor=east] {0.03}
+		(0,3) node[anchor=east] {0.06}
+		(0,4.5) node[anchor=east] {0.09};
 
-% Connected Segments
-%\draw[thick] (0,0) -- (2,2) -- (6,2);
-%\draw (1,1.5) node {$U_s$}; %label
-
-% Functions
-\draw[smooth, samples=200, color=black, domain=0:6] plot ({\x},{50*(0.022*\x - 0.001*\x*\x)}) 
-        node at (5,3) {$f(x) = t$};
-\draw[smooth, dotted, samples=200, color=blue, domain=0:6] plot ({\x},{50*(0.0268*\x - 0.0013*\x*\x)}) 
-        node[above left] {$f(x) = t$ P};
-\draw[smooth, dashed, samples=200, color=red, domain=0:6] plot ({\x},{50*(0.0128*\x - 0.0005*\x*\x)}) 
-        node[below left] {$f(x) = t$ M};
-%\draw[smooth, dashed, samples=200, color=red, domain=0:6] plot ({\x},{50*(0.0128*\x - 0.0005*\x*\x)}) 
-%        node[right] {$f(x) = t$ M};                   
+% Connected Segments - WITHOUT CONTROLS
+\draw [color = black] (1,0) -- (1,50*0.0361) -- (2.5,50*0.0361) -- (2.5,50*0.0924) -- (5,50*0.0924) -- (5,50*0.0787) -- (6,50*0.0787); 
+\draw [color = blue] (1,0) -- (1,50*0.0526) -- (2.5,50*0.0526) -- (2.5,50*0.1045) -- (5,50*0.1045) -- (5,50*0.0927) -- (6,50*0.0927); 
+\draw [color = red] (1,0) -- (1,50*0.005) -- (2.5,50*0.005) -- (2.5,50*0.0668) -- (5,50*0.0668) -- (5,50*0.0563) -- (6,50*0.0563);                 
 
 \begin{scope}[xshift=8cm]
+	% Axis
         \draw[->] (-0.3,0) -- (6,0) node[anchor=north] {studytime};
+        \draw[->] (0,-0.3) -- (0,5.5) node[anchor=east] {$\hat{\mathrm{G3}\%}$};
 
 	% labels
-	\draw	(0,0) node[anchor=north] {0}
-			(2,0) node[anchor=north] {2}
-			(4,0) node[anchor=north] {4}
-			(0,0) node[anchor=east] {0}
-			(0,2.5) node[anchor=east] {0.05}
-			(0,5) node[anchor=east] {0.1};
+	\draw	(-0.2,0) node[anchor=north] {0}
+			(2,0) node[anchor=north] {4}
+			(4,0) node[anchor=north] {8}
+			(0,1.5) node[anchor=east] {0.03}
+			(0,3) node[anchor=east] {0.06}
+			(0,4.5) node[anchor=east] {0.09};
 
-	% vertical axis
-	\draw[->] (0,-0.3) -- (0,5.5) node[anchor=east] {$\hat{\mathrm{G3}\%}$};
-
-	% vertical line
-	%\draw[dotted] (2,0) -- (2,4);
-
-	% Connected Segments
-	\draw [color = black] (2,0) -- (2,5*0.0361) -- (5,5*0.0361) -- (5,5*0.0924) -- (10,5*0.0924) -- (10,5*0.0787) -- (15,5*0.0787);
-
-	% Functions
-	%\draw[smooth, samples=200, color=black, domain=0:6] plot ({\x},{50*(0.022*\x - 0.001*\x*\x)}); 
-	%        \node[anchor=south] at (3,4.1) {$f(x) = t$};
-	%\draw[smooth, dotted, samples=200, color=blue, domain=0:6] plot ({\x},{50*(0.0268*\x - 0.0013*\x*\x)}) 
-	%        node[above left] {$f(x) = t$ P};
-	%\draw[smooth, dashed, samples=200, color=red, domain=0:6] plot ({\x},{50*(0.0128*\x - 0.0005*\x*\x)}) 
-	%       node[below left] {$f(x) = t$ M};
-	%\draw[smooth, dashed, samples=200, color=red, domain=0:6] plot ({\x},{50*(0.0128*\x - 0.0005*\x*\x)}) 
-	%        node[right] {$f(x) = t$ M};                  
+	% Connected Segments - WITH CONTROLS
+	\draw [color = black] (1,0) -- (1,50*0.0186) -- (2.5,50*0.0186) -- (2.5,50*0.0483) -- (5,50*0.0483) -- (5,50*0.0476) -- (6,50*0.0476);                 
 \end{scope}
-
 \end{tikzpicture}
+
+
 
 
 
