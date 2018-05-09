@@ -180,11 +180,11 @@ Establishing this utility function gives motivation for including variables that
 
 % Functions - WITHOUT CONTROLS
 \draw[smooth, samples=200, color=black, domain=0:6] plot ({\x},{50*(0.022*2*(\x) - 0.001*2*(\x)*2*(\x))}) 
-        node at (5,5.5) {$f(x) = t$};
+        node at (5,5.5) {Both}; %{$f(x) = t$};
 \draw[smooth, dotted, samples=200, color=blue, domain=0:6] plot ({\x},{50*(0.0268*2*(\x) - 0.0013*2*(\x)*2*(\x))}) 
-        node at (5.1, 6.4) {$f(x) = t$ P};
+        node at (5.1, 6.4) {Port.};
 \draw[smooth, dashed, samples=200, color=red, domain=0:6] plot ({\x},{50*(0.0128*2*(\x) - 0.0005*2*(\x)*2*(\x))}) 
-        node[below left] {$f(x) = t$ M};                  
+        node[below left] {Math};                  
 
 \begin{scope}[xshift=8cm]
 	% Axis
@@ -201,11 +201,11 @@ Establishing this utility function gives motivation for including variables that
 
 	% Functions - WITH CONTROLS
 \draw[smooth, samples=200, color=black, domain=0:6] plot ({\x},{50*(0.016*2*(\x) - 0.0008*2*(\x)*2*(\x))}) 
-        node[below] {$f(x) = t$};
+        node[below left] {Both};
 \draw[smooth, dotted, samples=200, color=blue, domain=0:6] plot ({\x},{50*(0.0110*2*(\x) - 0.0005*2*(\x)*2*(\x))}) 
-        node[below] {$f(x) = t$ P};
+        node[below left] {Port.}; %node[below] {$f(x) = t$ P};
 \draw[smooth, dashed, samples=200, color=red, domain=0:6] plot ({\x},{50*(0.0229*2*(\x) - 0.0012*2*(\x)*2*(\x))}) 
-        node[below left] {$f(x) = t$ M}; 
+        node[below left] {Math}; 
 \end{scope}
 \end{tikzpicture}
 
@@ -224,9 +224,10 @@ Establishing this utility function gives motivation for including variables that
 		(0,4.5) node[anchor=east] {0.09};
 
 % Connected Segments - WITHOUT CONTROLS
-\draw [color = black] (1,0) -- (1,50*0.0361) -- (2.5,50*0.0361) -- (2.5,50*0.0924) -- (5,50*0.0924) -- (5,50*0.0787) -- (6,50*0.0787); 
-\draw [color = blue] (1,0) -- (1,50*0.0526) -- (2.5,50*0.0526) -- (2.5,50*0.1045) -- (5,50*0.1045) -- (5,50*0.0927) -- (6,50*0.0927); 
-\draw [color = red] (1,0) -- (1,50*0.005) -- (2.5,50*0.005) -- (2.5,50*0.0668) -- (5,50*0.0668) -- (5,50*0.0563) -- (6,50*0.0563);                 
+\draw [color = black] (1,0) -- (1,50*0.0361) -- (2.5,50*0.0361) -- (2.5,50*0.0924) -- (5,50*0.0924) -- (5,50*0.0787) -- (6,50*0.0787)
+	node[above left] {Both}; 
+\draw [color = blue, dashed] (1,0) -- (1,50*0.0526) -- (2.5,50*0.0526) -- (2.5,50*0.1045) -- (5,50*0.1045) -- (5,50*0.0927) -- (6,50*0.0927); 
+\draw [color = red, dashed] (1,0) -- (1,50*0.005) -- (2.5,50*0.005) -- (2.5,50*0.0668) -- (5,50*0.0668) -- (5,50*0.0563) -- (6,50*0.0563);                 
 
 \begin{scope}[xshift=8cm]
 	% Axis
@@ -242,7 +243,9 @@ Establishing this utility function gives motivation for including variables that
 			(0,4.5) node[anchor=east] {0.09};
 
 	% Connected Segments - WITH CONTROLS
-	\draw [color = black] (1,0) -- (1,50*0.0186) -- (2.5,50*0.0186) -- (2.5,50*0.0483) -- (5,50*0.0483) -- (5,50*0.0476) -- (6,50*0.0476);                 
+	\draw [color = black] (1,0) -- (1,50*0.0224) -- (2.5,50*0.0224) -- (2.5,50*0.0646) -- (5,50*0.0646) -- (5,50*0.0381) -- (6,50*0.0381); 
+	\draw [color = blue, dashed] (1,0) -- (1,50*0.0186) -- (2.5,50*0.0186) -- (2.5,50*0.0483) -- (5,50*0.0483) -- (5,50*0.0476) -- (6,50*0.0476); 
+	\draw [color = red, dashed] (1,0) -- (1,50*0.0252) -- (2.5,50*0.0252) -- (2.5,50*0.0903) -- (5,50*0.0903) -- (5,50*0.0339) -- (6,50*0.0339);              
 \end{scope}
 \end{tikzpicture}
 

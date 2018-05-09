@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.99992 (TeX Live 2015) (preloaded format=xelatex 2015.5.24)  9 MAY 2018 03:29
+This is XeTeX, Version 3.14159265-2.6-0.99992 (TeX Live 2015) (preloaded format=xelatex 2015.5.24)  9 MAY 2018 03:41
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -976,12 +976,12 @@ LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <142.26378> not available
 ] [1
 
 ] [2] [3] [4]
-Overfull \hbox (10.38385pt too wide) in paragraph at lines 210--211
+Overfull \hbox (8.69666pt too wide) in paragraph at lines 210--211
 [][] 
  []
 
 
-Overfull \hbox (8.69666pt too wide) in paragraph at lines 247--248
+Overfull \hbox (8.69666pt too wide) in paragraph at lines 250--251
 [][] 
  []
 
@@ -998,23 +998,23 @@ roducibility-crisis-is-being-used-as-
  []
 
 ) [15]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 465.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 465.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 468.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 468.
  (tex_stuff/intermediate/reproducible_metrics.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 465.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 465.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 468.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 468.
 
 
 LaTeX Font Warning: Size substitutions with differences
 (Font)              up to 117.38377pt have occurred.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 465.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 468.
  ) 
 Here is how much of TeX's memory you used:
- 23711 strings out of 493706
- 421774 string characters out of 6145769
- 638447 words of memory out of 5000000
- 26635 multiletter control sequences out of 15000+600000
+ 23717 strings out of 493706
+ 421894 string characters out of 6145769
+ 638435 words of memory out of 5000000
+ 26641 multiletter control sequences out of 15000+600000
  19516 words of font info for 74 fonts, out of 8000000 for 9000
  1328 hyphenation exceptions out of 8191
  55i,17n,54p,1700b,606s stack positions out of 5000i,500n,10000p,200000b,80000s
