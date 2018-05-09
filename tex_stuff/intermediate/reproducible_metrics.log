@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.99992 (TeX Live 2015) (preloaded format=xelatex 2015.5.24)  9 MAY 2018 04:15
+This is XeTeX, Version 3.14159265-2.6-0.99992 (TeX Live 2015) (preloaded format=xelatex 2015.5.24)  9 MAY 2018 04:24
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -976,7 +976,7 @@ LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <142.26378> not available
 ] [1
 
 ] [2] [3] [4]
-Overfull \hbox (8.69666pt too wide) in paragraph at lines 210--211
+Overfull \hbox (18.48822pt too wide) in paragraph at lines 210--211
 [][] 
  []
 
@@ -1014,7 +1014,7 @@ Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 480.
 Here is how much of TeX's memory you used:
  23717 strings out of 493706
  421894 string characters out of 6145769
- 638435 words of memory out of 5000000
+ 638437 words of memory out of 5000000
  26641 multiletter control sequences out of 15000+600000
  19516 words of font info for 74 fonts, out of 8000000 for 9000
  1328 hyphenation exceptions out of 8191
