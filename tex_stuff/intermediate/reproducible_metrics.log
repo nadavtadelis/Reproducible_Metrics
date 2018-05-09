@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.99992 (TeX Live 2015) (preloaded format=xelatex 2015.5.24)  9 MAY 2018 03:41
+This is XeTeX, Version 3.14159265-2.6-0.99992 (TeX Live 2015) (preloaded format=xelatex 2015.5.24)  9 MAY 2018 03:54
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -985,30 +985,31 @@ Overfull \hbox (8.69666pt too wide) in paragraph at lines 250--251
 [][] 
  []
 
-[5] [6] [7] [8] [9] [10] [11]
+[5] [6] [7] [8] [9] [10] [11] [12]
 File: figures/quantvar_hist_math.png Graphic file (type QTm)
- <use  "figures/quantvar_hist_math.png" > [12]
+ <use  "figures/quantvar_hist_math.png" >
+[13]
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[13] [14] (tex_stuff/intermediate/reproducible_metrics.bbl
+[14] [15] (tex_stuff/intermediate/reproducible_metrics.bbl
 Underfull \hbox (badness 10000) in paragraph at lines 53--56
 \OT1/cmr/bx/n/12 URL: \OT1/cmr/m/it/12 https://www.wired.com/story/sciences-rep
 roducibility-crisis-is-being-used-as-
  []
 
-) [15]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 468.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 468.
+) [16]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 480.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 480.
  (tex_stuff/intermediate/reproducible_metrics.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 468.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 468.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 480.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 480.
 
 
 LaTeX Font Warning: Size substitutions with differences
 (Font)              up to 117.38377pt have occurred.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 468.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 480.
  ) 
 Here is how much of TeX's memory you used:
  23717 strings out of 493706
@@ -1019,4 +1020,4 @@ Here is how much of TeX's memory you used:
  1328 hyphenation exceptions out of 8191
  55i,17n,54p,1700b,606s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on tex_stuff/intermediate/reproducible_metrics.pdf (16 pages).
+Output written on tex_stuff/intermediate/reproducible_metrics.pdf (17 pages).

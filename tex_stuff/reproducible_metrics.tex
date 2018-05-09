@@ -249,9 +249,9 @@ Establishing this utility function gives motivation for including variables that
 \end{scope}
 \end{tikzpicture}
 
+\textcolor{BrickRed}{[Plots need finishing (better labels, axis names, titles for with/without controls, choose line type and color, etc.]}
 
-
-
+\textcolor{BrickRed}{[Maybe only include the first two plots in this section, and include the discontinuous mapping only in appendix?]}
 
 
 %~~~~~~~~~~~~~~~~~~
@@ -274,6 +274,18 @@ Actually: \textcolor{BrickRed}{[Maybe move this to the Data Issues as its own su
 %~~~~~~~~~~~~~~~~~~
 \subsubsection{Endogeneity}
 \textcolor{BrickRed}{[Discuss issues with this naive approach to estimation and why it doesn't apply to causal relationships because of endogeneity, segue to 2SLS theory and explain some theory and bias]}
+
+\textcolor{BrickRed}{[NOTE: BELOW IS VERY ROUGH, PRETTY MUCH JUST COPY PASTED FROM PREVIOUS WORK, NEEDS SERIOUS UPDATES, CURRENTLY ACTING AS PLACEHOLDER]} need to make theoretical motivation more robust (see 212 notes), need to change or at least point out that the bias from the endogeneity is different in our case because our model is not linear in study time (i think this would make the bias worse, but need to check and show this)
+
+In the second run of naive regressions we add various covariates as proxies representing unobserved ability. This set up makes the implicit assumption that hours of studying and ability are independent. Unfortunately, the validity of this assumption is questionable. It is certainly plausible that students with higher abilities enjoy studying more (perhaps because they find it less difficult), suggesting that they will have a less negative coefficient on studying in their utility maximizations, leading them to study for longer. So the assumption that hours of studying and ability are independent is quite strong, and not necessarily valid. Violation of this assumption would suggest that the dependence between ability and studying is a source of serious multicollinearity. On the other hand, our low $\mathrm{R}^2$ suggests that multicollinearity might not be an issue here; and that we probably just need more data. We could try to address this potential multicollinearity by dropping some variables, but generally it is better to report the full model and point out the potential issues. We don't usually drop variables because that could cause a more egregious problem through confounding effects. The ideal solution here would be to collect more data, but that is not a possibility. While multicollinearity might be present, we can't do much about it.
+
+There is another, more serious, issue with this naive approach of running an OLS fit on the data - endogeneity. In our model we have attempted to use proxies to identify ability, but what if our proxies are not fully identifying ability?  Then clearly the covariance between our $x_k$'s and the error terms is non-zero: we have endogenous variables. This endogeneity means that OLS is not a consistent estimator for our vector of $\beta$'s! We have the following:
+$$
+\mathrm{b}_k \stackrel{p}{\longrightarrow} \beta_k + \gamma \frac{\mathrm{Cov}[q, x_k]}{\mathrm{Var}[x_k]}
+$$
+Where $q$ is the unidentified portion of ability, $\gamma$ is the true coefficient on $q$ (if we could identify it), $\mathrm{b}_k$ is the OLS estimated coefficient on $x_k$, and $\beta_k$ is the true coefficient on $x_k$. Notice that $q$ is determined by how well our proxies identify ability. The better our proxies identify ability, the smaller the bias term $\gamma \frac{\mathrm{Cov}[q, x_k]}{\mathrm{Var}[x_k]}$ will be (with bias arising from our endogeneity problem).
+
+In many settings, researchers assume that $\mathrm{Cov}[q, x_k] = 0$ except for the variable of interest (in our case, hours of studying). This is also a plausible assumption in our setting \textcolor{BrickRed}{[BECAUSE WE ONLY HAVE SCHOOL LEVEL COVARIATES OTHER THAN STUDYTIME, AND THESE SHOULD BE INDEPENDENT TO ABILITY]}. So we have simplified our problem to identification of the true coefficient on the endogenous variable hours of studying. We should note that since we do not know what part of "ability" is being omitted, we cannot make any guesses about which way our OLS estimated coefficient is biased (because we can't determine the sign of $\mathrm{Cov}[q, studying]$).
 
 %~~~~~~~~~~~~~~~~~~
 \subsection{Q2SLS}
