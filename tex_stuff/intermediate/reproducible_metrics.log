@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.99992 (TeX Live 2015) (preloaded format=xelatex 2015.5.24)  10 MAY 2018 13:31
+This is XeTeX, Version 3.14159265-2.6-0.99992 (TeX Live 2015) (preloaded format=xelatex 2015.5.24)  10 MAY 2018 15:26
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1157,24 +1157,29 @@ LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <142.26378> not available
 ] [1
 
 ] [2] [3] [4]
-Overfull \hbox (18.48822pt too wide) in paragraph at lines 223--224
+Overfull \hbox (18.48822pt too wide) in paragraph at lines 226--227
 [][] 
  []
 
 
-Overfull \hbox (8.69666pt too wide) in paragraph at lines 263--264
+Overfull \hbox (8.69666pt too wide) in paragraph at lines 266--267
 [][] 
  []
 
-[5] [6] [7] [8] [9] [10]
-Overfull \hbox (222.18364pt too wide) in paragraph at lines 352--353
-[][]\OT1/cmr/m/n/12 FOR BOOT-STRAP-PING COV MA-TRIX:[] See 8th slide of []https
-://www.math.kth.se/matstat/gru/sf2930/papers/wild.bootstrap.pdf[].
- []
+[5] [6] [7] [8]
 
-[11] [12] [13] [14]
+Package amsmath Warning: Foreign command \atop;
+(amsmath)                \frac or \genfrac should be used instead
+(amsmath)                 on input line 341.
+
+[9] [10] [11] [12] [13] [14]
 File: figures/quantvar_hist_math.png Graphic file (type QTm)
- <use  "figures/quantvar_hist_math.png" > [15]
+ <use  "figures/quantvar_hist_math.png" >
+Overfull \hbox (13.21277pt too wide) in paragraph at lines 420--421
+[][] 
+ []
+
+[15]
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
@@ -1185,25 +1190,25 @@ roducibility-crisis-is-being-used-as-
  []
 
 ) [18]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 530.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 530.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 533.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 533.
  (tex_stuff/intermediate/reproducible_metrics.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 530.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 530.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 533.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 533.
 
 
 LaTeX Font Warning: Size substitutions with differences
 (Font)              up to 117.38377pt have occurred.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 530.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 533.
  ) 
 Here is how much of TeX's memory you used:
- 25955 strings out of 493706
- 453434 string characters out of 6145769
- 649493 words of memory out of 5000000
- 28814 multiletter control sequences out of 15000+600000
+ 25961 strings out of 493706
+ 453532 string characters out of 6145769
+ 649656 words of memory out of 5000000
+ 28820 multiletter control sequences out of 15000+600000
  35468 words of font info for 123 fonts, out of 8000000 for 9000
  1328 hyphenation exceptions out of 8191
- 55i,17n,54p,1708b,606s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 55i,17n,54p,1708b,622s stack positions out of 5000i,500n,10000p,200000b,80000s
 
 Output written on tex_stuff/intermediate/reproducible_metrics.pdf (19 pages).

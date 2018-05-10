@@ -95,7 +95,7 @@
 
 \author{Nadav Tadelis}
 
-\date{April 2018}
+\date{May 2018}
 
 
 \pagenumbering{gobble} 
@@ -122,11 +122,11 @@ In this paper we establish a framework for reproducible empirical research. We u
 \label{sec_intro}
 In recent years there has been a strong push to increase the reproducibility and replicability of scientific research. Unfortunately this movement seems to have been centered on the hard sciences and has not yet become standard practice in the social sciences. It is possible that this is partly due to a lack of reproducibly researched papers in these fields. This paper explores what responsible and reproducible research practices look like in applied econometrics. We present an instrumental variables approach to estimating the causal effect of studying on grades and develop custom python scripts to implement an unusual 2SLS set up that allows for nonlinearity in our endogenous predictor. The latter part of this work discusses the current state of reproducibility in econometric research, and explains in detail the techniques implemented in the analysis.
 
-This paper was written as my honors thesis for undergraduate studies in statistics at UC Berkeley. I would like to thank my thesis advisor, Professor Fernando P\'erez, for his generosity with his time and deep knowledge of the reproducibility movement. Due to deadlines for submission I was unable to spend an appropriate amount of time on the econometric analysis, and will point out some of the weak points in my models (specifically the instruments). Any comments or suggestions would be greatly appreciated. 
+This paper was written as my honors thesis for undergraduate studies in statistics at UC Berkeley. I would like to thank my thesis advisor, Professor Fernando P\'erez, for his support and insights. Due to deadlines for submission I was unable to spend an appropriate amount of time on the econometric analysis, and will point out some of the weak points in my models (specifically the instruments). Any comments or suggestions would be greatly appreciated. 
 
 The rough idea for the econometric analysis in the paper is adapted from an independent project I completed during my Junior year. In a subsequent class the project was modified and rebuilt in a reproducible fashion. Sarah Johnson created the original intermediate functions in \inlinecode{p3functions.py} \href{https://github.com/nadavtadelis/Reproducible_Metrics/blob/master/p3functions.py}{\textcolor{cyan}{\inlinecode{p3functions.py}}}, and the associated tests and Travis integration. Chitwan Kaudan created the original Makefile for running the individual Jupyter Notebooks. All aspects of those original analyses have been altered significantly, and the history of the alterations is fully documented in the commit history of the git repo.
 
-\textcolor{BrickRed}{[Maybe more stuff needs to go here before we dive in]}
+\textcolor{BrickRed}{[Maybe more background here before we dive in?]}
 
 
 %*******************************************************************************************************************
@@ -134,35 +134,36 @@ The rough idea for the econometric analysis in the paper is adapted from an inde
 \section{Data}
 The \href{https://archive.ics.uci.edu/ml/datasets/Student+Performance#}{\textcolor{cyan}{data}} being used are from the public archive of UCI's machine learning repository and were collected by Paulo Cortez of the University of Minho, Portugal in the 2005 - 2006 academic year (\cite{data_paper}). The data were collected in two secondary schools in the Alentejo region of Portugal, using school reports and questionnaires. The data were cleaned to only include students for which all the variables are known - and a further 111 students were discarded because of mismatched information between the surveys and the school reports. The data come with a file containing attribute information which can be found \href{https://archive.ics.uci.edu/ml/datasets/Student+Performance#}{\textcolor{cyan}{here}}; these include school, course, and many individual level characteristics. The data include 649 students from a Portuguese Language course of study, and 395 students from a Mathematics course. 
 
-\textcolor{BrickRed}{[Need more background here?]}
+\textcolor{BrickRed}{[Need more about data collection methods here? There isn't much description in the original paper, maybe this is enough?]}
 
 %~~~~~~~~~~~~~~~~~~
 \subsection{Data Exploration}
-There is some pre-analysis data cleaning and exploration that we run, which can be found in the data exploration notebook - \href{https://nbviewer.jupyter.org/github/nadavtadelis/Reproducible_Metrics/blob/master/data_exploration.ipynb}{\textcolor{cyan}{nbviewer}}, \href{https://github.com/nadavtadelis/Reproducible_Metrics/blob/master/data_exploration.ipynb}{\textcolor{cyan}{git}}; some figures from this notebook are included in the Appendix \textcolor{BrickRed}{[MAKE SURE TO INCLUDE THESE]}. The notebook contains the full data exploration process, as well as explanations and commentary detailing the figure generation process.
+\textcolor{BrickRed}{[This section is very rough, needs work!]}
+
+There is some pre-analysis data cleaning and exploration that we run, which can be found in the data exploration notebook - \href{https://nbviewer.jupyter.org/github/nadavtadelis/Reproducible_Metrics/blob/master/data_exploration.ipynb}{\textcolor{cyan}{nbviewer}}, \href{https://github.com/nadavtadelis/Reproducible_Metrics/blob/master/data_exploration.ipynb}{\textcolor{cyan}{git}}; some figures from this notebook are included in appendix \ref{appendix_figs} \textcolor{BrickRed}{[MAKE SURE TO INCLUDE THESE]}. The notebook contains the full data exploration process, as well as explanations and commentary detailing the figure generation process.
 
 We draw attention to two attributes of special import: there are stark differences in the distributions of the data between the two schools, and across the two courses of study. The school level differences seem to be fairly consistent; perhaps the two schools have slightly different grading policies. However, the within school course level differences are highly variable; this is perhaps capturing the heterogeneity between students who choose Portuguese Language and Mathematics. This strongly suggests that even our simplest models should include controls for school to account for different policies, and should estimate the two courses as separate entities to account for different types of students.
 
-\textcolor{BrickRed}{[Very Rough]}
 
 %~~~~~~~~~~~~~~~~~~
 \subsection{Data Issues}
+\textcolor{BrickRed}{[Very Rough, needs a lot of work]}
+
 As is often the case in the education space, the data have some large issues that must be considered. As any undergraduate taking their first econometrics course would point out, much of the data are stated preferences (as opposed to observed). Happily, the test scores and number of absences are provided by the schools, so we can be certain in their accuracy. The issue with self-reported data is the potential for inaccuracy. Even if a student is not maliciously providing misinformation, it is likely that personal biases are affecting the response. With variables like weekly hours of free time, this self reported data might actually be a benefit, as we are getting information about the student's perception of reality rather than the truth. If a student reports that they have very little free time then that tells us something about how they view their current time allocations. As such, these variables might be useful as controls for student level heterogeneity, but should be considered with a healthy dose of skepticism, and estimated coefficients should be interpreted with care. \textcolor{BrickRed}{[Think about this more.]} The issue of self reported data becomes more problematic when it comes to our variable of interest - hours of studying per week. While our central research goal is identifying a relationship between hours of studying and academic success, our data on hours of studying cannot be trusted as accurate \textcolor{BrickRed}{[expand more here]}.
 
 In addition to the issue of self reporting, our data on studying time (and other variables) suffers from another issue; categorical mappings of quantitive measures. Many of the quantitive variables in the data are reported as categorical bins. For example, weekly studying time is coded as four distinct levels (0-2 hours, 2-5 hours, 5-10 hours, and 10+ hours). In the case of studying time, we explore two different re-mapping schemes\footnote{Mapping both as discrete and continuous, detailed in the data exploration notebook - \href{https://nbviewer.jupyter.org/github/nadavtadelis/Reproducible_Metrics/blob/master/data_exploration.ipynb}{\textcolor{cyan}{nbviewer}}, \href{https://github.com/nadavtadelis/Reproducible_Metrics/blob/master/data_exploration.ipynb}{\textcolor{cyan}{git}}}. But for the other variables with this format we treat them as categorical variables and include indicators for each level (thus allowing for some nonlinearity). \textcolor{BrickRed}{[expand more here]}
 
 Lastly, the data are cross-sectional rather than longitudinal, and the specific sampling time is unspecified. \textcolor{BrickRed}{[Expand more here, talk about why this is bad when studytime changes through the academic year. This might be a good place to include the simultaneous causality issue, or at least allude to it so that it is more familiar when we go over it later (?)]}
 
-\textcolor{BrickRed}{[Very Rough]}
-
 
 %*******************************************************************************************************************
 \newpage
 \section{Models}
-We need to first set up our structural equation \textcolor{BrickRed}{[Maybe this isn't actually a structural equation? Need to double check this terminology]} defining the relationship between grades and studying (\cite{CardKrueger}). Let an individual's grade be $g_i$ and weekly hours of studying be $s_i$ and their ``ability" be $a_i$. Then our model is:
+We need to first set up our structural equation defining the relationship between grades and studying (\cite{CardKrueger}). Let an individual's grade be $g_i$ and weekly hours of studying be $s_i$ and their ``ability" be $a_i$. Then our model is:
 $$
-g_i = \beta_0 + \beta_1 s_i + \beta_2 s_i^2  + \beta_3 a_i + \boldsymbol{\beta}_{4:k}X_i + \varepsilon_i
+g_i = \beta_0 + \beta_1 s_i + \beta_2 s_i^2  + \beta_3 a_i + \bm{x}_{i,4:k}\bm{\beta}_{4:k} + \varepsilon_i
 $$
-Where X$_i$ is a matrix of school and course level characteristics and $\varepsilon_i$ captures some unobserved heterogeneity and disturbances. Note that grades are nonlinear in weekly study time. While this nonlinearity complicates our model, it seems necessary because assuming that marginal returns to studying must vary depending on the initial level of studying.
+Where $\bm{x}_{i,4:k}$ is a vector of school and course level characteristics and $\varepsilon_i$ captures some unobserved heterogeneity and disturbances. Note that grades are nonlinear in weekly study time. While this nonlinearity complicates our model, it seems necessary because assuming that marginal returns to studying must vary depending on the initial level of studying.
 
 Clearly, there are issues with this model. How are we defining grades? The ideal set up would have a course specific set of simultaneous equations, where the number of equations is equal to the number of classes. The next best set up would involve estimating one equation for each type of class (quantitative, literary, historical, etc.) within each course. Another alternative would be to define grades as cumulative GPA. In this analysis, due to the limitations of the data, we define $g_i$ as the student's score on the final test for their course of study (\inlinecode{G3} in the data).
 
@@ -176,7 +177,9 @@ Establishing this utility function gives motivation for including variables that
 \subsection{Naive OLS}
 \textcolor{BrickRed}{[Report the four fits from the naive OLS - first one with only `studytime` and school level characteristics, then one with individual level characteristics (for each course of study)]}
 
-\textcolor{BrickRed}{[Maybe include plot of estimated relationship between `studytime` and `G3` (nonlinear, one line for math, one for Portuguese, line type can denote individual level controls - or will that make the graph to crowded?)]}
+\textcolor{BrickRed}{[Plots need finishing (better labels, axis names, titles for with/without controls, choose line type and color, etc.]} when explaining the plots, maybe call the y axis study time's contribution to the predicted G3 percent? Currently the leftmost plots are from the models without individual level controls, the right plots are from models with controls (maybe call them proxies here instead of controls because we call point out later that they are proxies?)
+
+\textcolor{BrickRed}{[Maybe only include the first two plots in this section, and include the discontinuous mapping only in appendix?]}
 
 \begin{tikzpicture}
 % Axis
@@ -262,28 +265,22 @@ Establishing this utility function gives motivation for including variables that
 \end{scope}
 \end{tikzpicture}
 
-\textcolor{BrickRed}{[Plots need finishing (better labels, axis names, titles for with/without controls, choose line type and color, etc.]} when explaining the plots, maybe call the y axis studytime's contribution to the predicted G3 percent?)
-
-\textcolor{BrickRed}{[Maybe only include the first two plots in this section, and include the discontinuous mapping only in appendix?]}
-
 
 %~~~~~~~~~~~~~~~~~~
 \subsubsection{Additional Analysis}
 
 \textcolor{BrickRed}{[Lasso-flavor penalization and VIF discussion here (maybe no numbers, just general take-aways and link to the relevant notebook), point out that Lasso keeps the variable of interest and also explore the other variables that it weights highly]} \\
 note: in lasso section cite: (\cite{MLmetrics})  \\
-note: in VIF section cite: (\cite{VIF}) and (\cite{detecting}) \\
-Make sure to include discussion of why it seems okay to include parental education even though it is a bit collinear - because they are considered good proxies for ability
+note: in VIF section cite: (\cite{VIF, detecting}) \\
+Include discussion of why it seems okay to include parental education even though it is a bit collinear - because they are considered good proxies for ability
 
 %~~~~~~~~~~~~~~~~~~
 \subsubsection{Simultaneous Causality}
+\textcolor{BrickRed}{[Need to edit this section, right now its messy and not detailed enough]}
+
+\textcolor{BrickRed}{[Maybe move this to right before the Naive OLS section? Or move this to the Data Issues as its own subsection?]}
+
 There is an additional issue with this model specification that we did not explore in the original discussion. The data include three test scores: G1, G2, and G3. G1 and G2 are midterms, and G3 is the final. It is plausible that part of how students inform their study allocation decision comes from how well they did on their previous exam and how many hours they studied in the time leading up to the exam. The data is taken at a single undefined point in time, so it is unclear at what point the students are reporting their weekly amount of studying. This complicates things because if the survey was administered after the midterms, then there is clear simultaneous causality between study time, G1 and G2. This is the motivation for excluding G1 and G2 from the model estimation. There may be a novel way of 
-
-\textcolor{BrickRed}{[Need to edit this section, right now its really rough]}
-
-\textcolor{BrickRed}{[Maybe move this to right before the Naive OLS section?]}
-
-Actually: \textcolor{BrickRed}{[Maybe move this to the Data Issues as its own subsection?]}
 
 %~~~~~~~~~~~~~~~~~~
 \subsubsection{Endogeneity} \label{endogeneity}
@@ -291,7 +288,7 @@ In the second run of naive regressions we add many covariates as proxies represe
 $$
 g_i = \beta_0 + \beta_1 s_i + \beta_2 s_i^2 + \beta_3 school_i + \beta_4 course_i + \beta_5 x_{i,5} + \cdots + \beta_k x_{i,k} + \gamma q_i + \nu_i
 $$
-Where $x_{i,5}, ..., x_{i,k}$ are proxies and $\nu_i$ is the structural error term. Let $x_{i,j}$ be the j'th covariate in the design matrix ($x_{1 i} = 1$, $x_{2 i} = s_i$, etc.) and let $\bm{x}_i$ be the vector of covariates for $i$. We are mainly interested in $\beta_1$ and $\beta_2$ the coefficients on studying. It is reasonable to assume that $\E[\nu_i | \bm{x}_i, q_i] = 0$ unfortunately we have no choice but to stick $q_i$ into the error term which gives us the new structural equation:
+Where $x_{i,5}, ..., x_{i,k}$ are proxies and $\nu_i$ is the structural error term. Let $x_{i,j}$ be the j'th covariate in the design matrix ($x_{i,1} = 1$, $x_{i,2} = s_i$, etc.) and let $\bm{x}_i$ be the vector of covariates for $i$. We are mainly interested in $\beta_1$ and $\beta_2$ the coefficients on studying. It is reasonable to assume that $\E[\nu_i | \bm{x}_i, q_i] = 0$ unfortunately we have no choice but to stick $q_i$ into the error term which gives us the new structural equation:
 $$
 g_i = \beta_0 + \beta_1 s_i + \beta_2 s_i^2 + \beta_3 school_i + \beta_4 course_i + \beta_5 x_{i,5} + \cdots + \beta_k x_{i,k} + \varepsilon_i
 $$
@@ -306,7 +303,7 @@ Where (1) and (2) follow from the definition of linear projections. Now we can r
 g_i &= {}&&\beta_0 + \beta_1 s_i + \beta_2 s_i^2 + \beta_3 school_i + \beta_4 course_i + \beta_5 x_{i,5} + \cdots + \beta_k x_{i,k} \\
       &     &&+ \gamma \delta_0 + \gamma \delta_1 s_i + \cdots + \gamma \delta_k x_{i,k} + \gamma \eta_i + \nu_i \\
 g_i &=   &&(\beta_0 + \gamma\delta_0) + (\beta_1 + \gamma\delta_1)s_i + (\beta_2 + \gamma\delta_2)s_i^2 + \cdots + (\beta_k + \gamma\delta_k)x_{i,k} + \gamma \eta_i + \nu_i \\
-      &\Rightarrow &&{} \E[\gamma\eta_i + \nu_i] = 0 \\
+      &\Rightarrow \ &&{} \E[\gamma\eta_i + \nu_i] = 0 \\
       &                    &&{} \Cov[x_{i,j}, \gamma\eta_i + \nu_i] = 0
 \end{alignat*}
 This shows that we can run OLS and get consistent estimates of $(\beta_j + \gamma\delta_j)$, but we are actually interested in $\bm{\beta}$. OLS does not allow us to recover $\bm{\beta}$ in this case because:
@@ -317,47 +314,53 @@ If $\gamma \ne 0$ and $\delta_j \ne 0$ then we cannot get a consistent estimate 
 
 %~~~~~~~~~~~~~~~~~~
 \subsection{Q2SLS}
-\textcolor{BrickRed}{[Introduce idea of instrumental variables really briefly, maybe just go over the conditions for validity of instruments (see page 45 of 212 notes)]}
-
 Lets first give a brief refresher of the instrumental variables approach to addressing endogeneity. In the last section we showed that for an endogenous variable $x_{i,j}$ OLS is no longer a consistent estimator for $\beta_j$. The instrumental variables approach allows us to solve the endogeneity problem. We require an instrumental variable $z_i$ which is observable and satisfies the following conditions:
 \begin{spacing}{1}
 \begin{enumerate}[label={(\arabic*)}]
 	\item The instrument is uncorrelated with disturbances: $\Cov[z_i, \varepsilon_i] = 0$ \
-	\item In the reduced form of the endogenous variable $x_{i,j} = \phi_0 x_{i,1} + \phi_1 school_i + \cdots + \phi_{k-2}x_{i,k} + \theta_1 z_i + \vartheta_i$ the coefficient on our instrument is nonzero: $\theta_1 \ne 0$
+	\item In the reduced form of $x_{i,j}$: $x_{i,j} = \phi_0 x_{i,1} + \phi_1 school_i + \cdots + \phi_{k-2}x_{i,k} + \theta_1 z_i + \vartheta_i$ the coefficient on our instrument is nonzero: $\theta_1 \ne 0$
 	\item And $z_i$ is not one of our exogenous variables in the original estimation
 \end{enumerate}
 \end{spacing}
-\noindent If $(1)-(3)$ hold, then we call $z_i$ a valid instrument for $x_{i,j}$. In settings with multiple valid instruments $\bm{z_1}, \bm{z}_2, ..., \bm{z}_M$ the standard procedure for identifying $\bm{\beta}$ is 2SLS. In the first stage of 2SLS we regress the endogenous variable $x_{i,j}$ on the exogenous variables and the instruments to get the fitted values $\hat{x}_{i,j} =  \sum_{k \ne j}\hat{\phi}_k x_{i,k} + \hat{\theta}_1 z_{i,1} + \cdots + \hat{\theta}_M z_{i,M}$. We use $\hat{x}_{i,j}$ as an estimate of the exogenous part of $x_{i,j}$ and in the second stage we regress our dependent variable on our exogenous variables and $\hat{x}_{i,j}$ to identify $\hat{\bm{\beta}}$. This approach can be easily extended to cases with multiple endogenous variables (where you would have as many first stage regressions as there are endogenous variables). However, with multiple endogenous variables, you must have at least as many instruments as endogenous variables, otherwise the fitted values would be collinear and the second stage estimators would lose consistency. In the next section we discuss issues with the 2SLS method in our setting.
+\noindent If $(1)-(3)$ hold, then we call $z_i$ a valid instrument for $x_{i,j}$. In settings with multiple valid instruments $\bm{z_1}, \bm{z}_2, ..., \bm{z}_M$ the standard procedure for identifying $\bm{\beta}$ is 2SLS. In the first stage of 2SLS we regress the endogenous variable $x_{i,j}$ on the exogenous variables and the instruments to get the fitted values $\hat{x}_{i,j} =  \sum_{k \ne j}\{\hat{\phi}_k x_{i,k}\} + \hat{\theta}_1 z_{i,1} + \cdots + \hat{\theta}_M z_{i,M}$. We use $\hat{x}_{i,j}$ as an estimate of the exogenous part of $x_{i,j}$ and in the second stage we regress our dependent variable on our exogenous variables and $\hat{x}_{i,j}$ to identify $\hat{\bm{\beta}}$. This approach can be easily extended to cases with multiple endogenous variables (where you would have as many first stage regressions as there are endogenous variables). However, with multiple endogenous variables, you must have at least as many instruments as endogenous variables, otherwise the fitted values would be collinear and the second stage estimators would lose consistency. In the next section we discuss issues with the 2SLS method in our setting.
 
 %~~~~~~~~~~~~~~~~~~
 \subsubsection{Motivation}
-\textcolor{BrickRed}{[Point out issue with trying to use 2SLS when you want to account for diminishing marginal returns in the endogenous variable, especially when the instruments are binary (so squaring them does nothing). Lead to discussion of Q2SLS procedure from Wooldridge]}
-
-In section \ref{endogeneity} we established that the causal relationship between our grades and studying time is quadratic. \textcolor{BrickRed}{[NOTE: for now I'm going to assume we only end up using the 'good' binary instrument, but even if we end up using more binary instruments, the procedure still holds but it is less clear that its the right approach.]} This would usually not be a barrier to using 2SLS; the standard approach\footnote{Assuming only one instrument is available.} is to use the original instrument and its square as instruments in the two first stage equations (\cite{harmless}). However, this approach is unusable when the only instrument available is binary. In fact, even if we have multiple binary instruments it is not convincing to think that the exogenous portion of the squared endogenous variable will be correctly identified because interacting the binary instruments gives very little additional variation \textcolor{BrickRed}{[THINK ABOUT THIS MORE]}. 
+In section \ref{endogeneity} we established that the causal relationship between our grades and studying time is quadratic. This would usually not be a barrier to using 2SLS; the standard approach\footnote{Assuming only one instrument is available.} is to use the original instrument and its square as instruments in the two first stage equations (\cite{harmless}). However, this approach is unusable when the only instrument available is binary. In fact, even if we have multiple binary instruments it is not convincing to think that the exogenous portion of the squared endogenous variable will be correctly identified because interacting the binary instruments gives very little additional variation \textcolor{BrickRed}{[THINK ABOUT THIS MORE]}. Happily, Wooldridge suggests a variant of 2SLS that seems to address this issue of identifying a nonlinearly transformed variable with linear projection on binary variables.
 
 %~~~~~~~~~~~~~~~~~~
 \subsubsection{Estimation Procedure}
-\textcolor{BrickRed}{[describe how to for q2sls]} or maybe this should be in above section?
+\textcolor{BrickRed}{[Or maybe this procedure section should be in merged into the above section? 'Motivation and Estimation']}
+
+ The procedure that Wooldridge suggests is as follows (\cite{wooldridge}):
+\begin{spacing}{1}
+\begin{enumerate}[label={(\arabic*)}]
+	\item \textit{First Stage:}
+	\begin{enumerate}
+		\item Regress the endogenous variable\footnote{In our model specification this is $s_i = x_{i,2}$} $x_{i,j}$ on the exogenous variables and the instruments to get fitted values $\hat{x}_{i,j}$
+		\item Regress the endogenous variable squared\footnote{In our model specification this is $s_i^2 = x_{i,3}$} $x_{i,j}^2$ on the exogenous variables, the instruments, and the squared fitted values $(\hat{x}_{i,j})^2$. This gives fitted values for ${\wedge \atop x_{i,j}^2}$ 
+	\end{enumerate} 
+	\item \textit{Second Stage:} \\
+	Regress the dependent variable on the exogenous variables and the two fitted values from the first stage ($\hat{x}_{i,j}$, ${\wedge \atop x_{i,j}^2}$)
+\end{enumerate}
+\end{spacing}
+\noindent The intuition behind this model is that while using $(\hat{x}_{i,j})^2$ will not produce consistent coefficient estimates\footnote{Because the linear projection of the square is not the square of the linear projection, this mistake is known as the forbidden regression} for $\beta_j$; $(\hat{x}_{i,j})^2$ is still a square of the exogenous portion extracted from $x_{i,j}$ in part a of the first stage, and as such can be used as a valid instrument for $x_{i,j}^2$ \textcolor{BrickRed}{[NEED TO MAKE THIS MORE CLEAR]}. This should allow us to identify $\bm{\beta}$ even with the quadratic endogeneity and binary instrumentation.
 
 %~~~~~~~~~~~~~~~~~~
 \subsubsection{Properties of Q2SLS}
-\textcolor{BrickRed}{[Explain the testing that I did for Q2SLS, mention that it looks like the coeff.s on endog\_sq\_hat and the exog vars are consistent and unbiased, but that the coeff on endog\_hat is consistent but biased. Point out the oddness of this behavior and note that I plan on researching this further.]} Note: pretty sure my instruments are weak (need to check), and the simulation seems to suggest that in the case of weak instruments the estimates are still okay (maybe) but that the SE's are going to be too large for the endogenous vars.
-
-\textcolor{BrickRed}{[Question:]} Since both fitted values from the first stage are linear combinations of the instruments (albeit the second part being built with an added instrument), could there by collinearity between them? The only reason I'm skeptical is that it doesn't seem like we have a collinearity issue in the simulation (if they were collinear then wouldnt we expect to see the range of the coefficient to be very wide, and include the true coefficient within it? not the consistent bias that we see?). I think perhaps the inclusion of the new instrument in the second part actually means that there isn't collinearity. Mostly Harmless (p.192) suggests that in the case of squared endogenous vars, you can use the two part first stage set up, and then in the second part just use the instrument and the instrument squared, which should mean that as long as there is a new instrument in the second part \emph{that is a nonlinear transformation} of the first part, collinearity shouldn't be an issue (this also fits with the intuition I have).
+\textcolor{BrickRed}{[Explain the testing that I did for Q2SLS, mention that it looks like the coeff.s on endog\_sq\_hat and the exog vars are consistent and unbiased, but that the coeff on endog\_hat is consistent but biased. Point out the oddness of this behavior and note that I plan on researching this further.]} Note: pretty sure my instruments are weak (need to check), the simulation suggests that in the case of weak instruments the estimates are good but that the SE's are going to be large for the endogenous vars.
 
 \textcolor{BrickRed}{[Discuss difficulty with finding the asymptotically consistent estimator for variance in Q2SLS because of the nested generated regressors]}
 
 \textcolor{BrickRed}{[Give brief overview of bootstrapping and explain how its being used here to estimate variance of coeff. estimates in 2nd stage]} Also add note about future integration of a wild bootstrap approach to variance estimation (stricter assumptions, but some really nice properties for endogenous models - see slide 15 from the link below)
 
-\textcolor{BrickRed}{FOR BOOTSTRAPPING COV MATRIX:} See 8th slide of \textcolor{cyan}{https://www.math.kth.se/matstat/gru/sf2930/papers/wild.bootstrap.pdf}. It also has notes on hypothesis testing and p values for bootstrapping with regression coefficients. SLIDE 14 HAS DISCUSSION OF BOOTSTRAPPING WITH ENDOGENOUS VARS!!
+\textcolor{BrickRed}{FOR BOOTSTRAPPING COV MATRIX:} See 8th slide of \href{https://www.math.kth.se/matstat/gru/sf2930/papers/wild.bootstrap.pdf}{\textcolor{cyan}{LINK}}. It also has notes on hypothesis testing and p values for bootstrapping with regression coefficients. SLIDE 14 HAS DISCUSSION OF BOOTSTRAPPING WITH ENDOGENOUS VARS!!
 
 \textcolor{Red}{NOTE: this procedure only requires one instrument because the fitted vals from part a act as a second instrument so theres for sure no collinearity, this  means we could potentially only use one binary instrument!!! maybe this is the direction we should take rather than using a less than stellar second instrument. If this is the direction we go then I should repeat the function testing using binary instruments.}
 
 %~~~~~~~~~~~~~~~~~~
 \subsubsection{Application}
-\textcolor{BrickRed}{[Discuss chosen instruments and give motivation for why they might be okay to use, give strong disclaimer that even if they are valid, they are probably weak instruments]}
-
-Note: Include discussion of validity of exclusion restriction - \url{http://econ.lse.ac.uk/staff/spischke/ec533/Weak\%20IV.pdf}
+\textcolor{BrickRed}{[Discuss chosen instruments and give motivation for why they might be okay to use, give strong disclaimer that even if they are valid, they are probably weak instruments]} Justification for using 'going out' as instrument is stronger if we explain that we have controls for weekly and daily alcohol consumption (which is one thing that could affect grades through going out independently of studying time) so its a semi reasonable claim to say that going out is exogenous variation in available studying time once the detrimental effects of going out (namely drinking) are controlled for. not a super strong argument, but at least a little justification.
 
 \textcolor{BrickRed}{[Report results]}
 
@@ -369,12 +372,11 @@ Maybe: \textcolor{BrickRed}{[Reference appendix, and in the appendix include the
 %*******************************************************************************************************************
 \newpage
 \section{Reproducibility}
+\textcolor{BrickRed}{[Need to clean up this section a lot]}
+
 The importance of reproducible research has been understood for many years. In 1980 Thomas Mayer said ``Neither originality, logical rigor or any other criterion is ranked as `essential' by so many natural scientists as is replicability". Mayer was focusing on replicable research; unfortunately in the social science replicability is often far harder than reproducibility. When it takes five years and tens of thousands of dollars to collect the data for a single study, it is a difficult proposition to attempt to replicate the study from scratch. Additionally, it is unlikely that Mayer could have foreseen the degree to which data wrangling and programming would penetrate into academic research. This reliance on complex data pipelines and analysis with hundreds of dependencies makes replication a beast of a whole new nature. In the current state of empirical research, reproducing the results is half the battle. This opaqueness has led to many published papers that included results that were `p-hacked' or just included mistakes. Ensuring reproducibility would help alleviate many of these issues, and is a big step on the road to replicability.
 
 Reproducibility has become especially important in the current political environment. The National Association for Scholars' recently published a report in which they advocate for use of the Secret Science Reformation Act (renamed the HONEST Act), which would forbid the Environmental Protection Agency from using any research that is not ``substantially reproducible" \cite{wired}. The NAS report goes even further and suggests that the bill should encompass all federal agencies and courts. Putting aside the various issues with the act\footnote{The act does not define ``substantially reproducible" with any rigor. It is possible that the flexibility of the act could lead to climate change deniers (and others) to call almost any study not substantially reproducible and bar federal agencies from acting on good research.}, if HONEST were to be expanded to other federal agencies, then policy-oriented research in the social sciences would be forced to adapt. Policy makers would need to see ``substantial reproducibility" before allowing a study to influence their policy decisions. Currently, very few empirical papers could be labeled as even somewhat reproducible, and part of the reason why might be that researchers believe implementing reproducible methods into their projects would be too costly in time and resources \cite{irreproducible}. Hopefully this paper provides a strong argument showing that conducting empirical research using reproducible methods is not only easy, but beneficial. And that were HONEST to be implemented to a wide degree, research need not be impeded\footnote{Ignoring the issue of data confidentiality.}.
-
-
-\textcolor{BrickRed}{[Need to clean up this section a lot]}
 
 %~~~~~~~~~~~~~~~~~~
 \subsection{Current Resources}
@@ -385,13 +387,13 @@ Reproducibility has become especially important in the current political environ
 %~~~~~~~~~~~~~~~~~~
 \subsection{Basic Workflow}
 \textcolor{BrickRed}{[Discuss git version control, environments, makefiles, using notebooks as a way to document any analysis that was not included in the final paper, but had an impact on the direction of the results (this increases confidence that there is not any unintentional p-hacking style things going on)]}
-\textcolor{BrickRed}{[Definitely link to the stat 159 page because we don't want to go into the nitty gritty details of everything, just an overarching view of the tools and how they're used together. also explain the benefits of all of these tools (ability to see edit history, ease of remote collaboration, ensuring compatibility on multiple machines, automatic function testing, etc.)]}
+\textcolor{BrickRed}{[Definitely link to the stat 159 page because we don't want to go into the details of everything, just an overarching view of the tools and how they're used together. also summarize the benefits of some tools (ability to see edit history, ease of remote collaboration, ensuring compatibility on multiple machines, automatic function testing, etc.)]}
 
 %~~~~~~~~~~~~~~~~~~
 \subsection{Custom Functions}
 \textcolor{BrickRed}{[Discuss the process of creating your own function in a way that other people can also use it without hassle: docstrings, comments, readability, etc.]}
 
-\textcolor{BrickRed}{[Cover the long process of testing a new function that isn't necessarily included in the final tests.py script (function\_testing.ipynb)]}
+\textcolor{BrickRed}{[Cover the process of testing a new function that isn't necessarily included in the final tests.py script (function\_testing.ipynb)]}
 
 \textcolor{BrickRed}{[Explain Travis and CI]}
 
@@ -412,7 +414,8 @@ Maybe include a conclusion in the Q2SLS section, but not here.
 \section{Appendix}
 
 %~~~~~~~~~~~~~~~~~~
-\subsection{Data Exploration Figures}
+\subsection{Data Exploration Figures} \label{appendix_figs}
+\textcolor{BrickRed}{[ONLY ONE FIGURE INCLUDED FOR NOW, NEED TO ADD OTHER FIGURES AND SCALE NICELY]}
 
 \includegraphics[scale=0.5]{figures/quantvar_hist_math.png}
 
@@ -426,7 +429,7 @@ Maybe include a conclusion in the Q2SLS section, but not here.
 %\end{figure}
 
 %~~~~~~~~~~~~~~~~~~
-\subsection{Naive OLS Extra Models}
+\subsection{Naive OLS Extra Models} \label{appendix_naive}
 
 \textcolor{BrickRed}{[PUTTING ALL TABLES HERE FOR NOW BECAUSE HAVING TROUBLE PUTTING THEM IN SPECIFIC SECTION]}
 
@@ -508,14 +511,14 @@ F Statistic & 30.11^{***}      & 30.61^{***}       & 1.41         & 7.09^{***}  
 \newpage %%%% REMOVE THIS NEWPAGE AFTER FIGURE OUT HOW TO PUT TABLES WHERE WANTED %%%%
 
 %~~~~~~~~~~~~~~~~~~
-\subsection{Q2SLS Function Testing Procedure}
+\subsection{Q2SLS Function Testing Procedure} \label{appendix_function_testing}
 \textcolor{BrickRed}{[Can use some of the markdown from the functions testing notebook here, and obv.s link to the notebook as well]}
 
 %~~~~~~~~~~~~~~~~~~
-\subsection{Q2SLS Extra Models}
+\subsection{Q2SLS Extra Models} \label{appendix_q2sls}
 
 %~~~~~~~~~~~~~~~~~~
-\subsection{Miscellanea}
+\subsection{Miscellanea (?)}
 
 %*******************************************************************************************************************
 \newpage
