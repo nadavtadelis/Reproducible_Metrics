@@ -272,6 +272,9 @@ class Results_wrap(object):
         self.beta_hat_boots = bootstrap_coeffs
 
     def summary(self, title=None):
+        '''
+        TO DO: PRINTABLE SUMMARY RESULTS LIKE STATSMODELS
+        '''
         if title is None:
             title = self.model + ' ' + "Regression Results"
         return print(title)
