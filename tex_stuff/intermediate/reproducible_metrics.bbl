@@ -6,6 +6,11 @@ Angrist, J.~D., Imbens, G.~W. \harvardand\ Rubin, D.~B.  \harvardyearleft
   variables', {\em Journal of the American Statistical Association} {\bf
   91},~444--455.
 
+\harvarditem{Angrist \harvardand\ Pischke}{2009}{harmless}
+Angrist, J.~D. \harvardand\ Pischke, J.-S.  \harvardyearleft
+  2009\harvardyearright , {\em Mostly Harmless Econometrics: An Empiricist's
+  Companion}, Princeton University Press.
+
 \harvarditem{Cameron}{2017}{MLmetrics}
 Cameron, A.~C.  \harvardyearleft 2017\harvardyearright , `Machine learning for
   microeconometrics'.

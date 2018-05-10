@@ -2,8 +2,12 @@
 \usepackage[labelfont=bf,textfont=bf]{caption}
 \usepackage{graphicx}
 \usepackage{epstopdf}
-\usepackage{natbib, microtype, color, amsmath, graphics, dcolumn, booktabs, multicol}
+\usepackage{microtype, color, amsmath, graphics, dcolumn, booktabs, multicol}
+%\usepackage{natbib}
+\usepackage[authoryear,square]{natbib}
+\setcitestyle{citesep={,},aysep={}}
 \usepackage{multirow}
+\usepackage{enumitem}
 \usepackage{bm}
 \usepackage{MnSymbol}
 \usepackage{amsfonts,dsfont}
@@ -128,7 +132,7 @@ The rough idea for the econometric analysis in the paper is adapted from an inde
 %*******************************************************************************************************************
 \newpage
 \section{Data}
-The \href{https://archive.ics.uci.edu/ml/datasets/Student+Performance#}{\textcolor{cyan}{data}} being used are from the public archive of UCI's machine learning repository and were collected by Paulo Cortez of the University of Minho, Portugal in the 2005 - 2006 academic year \citep{data_paper}. The data were collected in two secondary schools in the Alentejo region of Portugal, using school reports and questionnaires. The data were cleaned to only include students for which all the variables are known - and a further 111 students were discarded because of mismatched information between the surveys and the school reports. The data come with a file containing attribute information which can be found \href{https://archive.ics.uci.edu/ml/datasets/Student+Performance#}{\textcolor{cyan}{here}}; these include school, course, and many individual level characteristics. The data include 649 students from a Portuguese Language course of study, and 395 students from a Mathematics course. 
+The \href{https://archive.ics.uci.edu/ml/datasets/Student+Performance#}{\textcolor{cyan}{data}} being used are from the public archive of UCI's machine learning repository and were collected by Paulo Cortez of the University of Minho, Portugal in the 2005 - 2006 academic year (\cite{data_paper}). The data were collected in two secondary schools in the Alentejo region of Portugal, using school reports and questionnaires. The data were cleaned to only include students for which all the variables are known - and a further 111 students were discarded because of mismatched information between the surveys and the school reports. The data come with a file containing attribute information which can be found \href{https://archive.ics.uci.edu/ml/datasets/Student+Performance#}{\textcolor{cyan}{here}}; these include school, course, and many individual level characteristics. The data include 649 students from a Portuguese Language course of study, and 395 students from a Mathematics course. 
 
 \textcolor{BrickRed}{[Need more background here?]}
 
@@ -154,13 +158,13 @@ Lastly, the data are cross-sectional rather than longitudinal, and the specific 
 %*******************************************************************************************************************
 \newpage
 \section{Models}
-We need to first set up our structural equation \textcolor{BrickRed}{[Maybe this isn't actually a structural equation? Need to double check this terminology]} defining the relationship between grades and studying \citep{CardKrueger}. Let an individual's grade be $\mathrm{g}_i$ and weekly hours of studying be $\mathrm{s}_i$ and their ``ability" be $\mathrm{a}_i$. Then our model is:
+We need to first set up our structural equation \textcolor{BrickRed}{[Maybe this isn't actually a structural equation? Need to double check this terminology]} defining the relationship between grades and studying (\cite{CardKrueger}). Let an individual's grade be $g_i$ and weekly hours of studying be $s_i$ and their ``ability" be $a_i$. Then our model is:
 $$
-\mathrm{g}_i = \beta_0 + \beta_1 \mathrm{s}_i + \beta_2 \mathrm{s}_i^2  + \beta_3 \mathrm{a}_i + \boldsymbol{\beta}_{4:k}\mathrm{X}_i + \varepsilon_i
+g_i = \beta_0 + \beta_1 s_i + \beta_2 s_i^2  + \beta_3 a_i + \boldsymbol{\beta}_{4:k}X_i + \varepsilon_i
 $$
 Where X$_i$ is a matrix of school and course level characteristics and $\varepsilon_i$ captures some unobserved heterogeneity and disturbances. Note that grades are nonlinear in weekly study time. While this nonlinearity complicates our model, it seems necessary because assuming that marginal returns to studying must vary depending on the initial level of studying.
 
-Clearly, there are issues with this model. How are we defining grades? The ideal set up would have a course specific set of simultaneous equations, where the number of equations is equal to the number of classes. The next best set up would involve estimating one equation for each type of class (quantitative, literary, historical, etc.) within each course. Another alternative would be to define grades as cumulative GPA. In this analysis, due to the limitations of the data, we define $\mathrm{g}_i$ as the student's score on the final test for their course of study (\inlinecode{G3} in the data).
+Clearly, there are issues with this model. How are we defining grades? The ideal set up would have a course specific set of simultaneous equations, where the number of equations is equal to the number of classes. The next best set up would involve estimating one equation for each type of class (quantitative, literary, historical, etc.) within each course. Another alternative would be to define grades as cumulative GPA. In this analysis, due to the limitations of the data, we define $g_i$ as the student's score on the final test for their course of study (\inlinecode{G3} in the data).
 
 Another issue with this model is: how are we defining ability? By its very nature, ability is unobserved. We can proxy for ability using other individual level characteristics (intelligence, age, parents' education, etc.) but we cannot fully capture ability because it does not have a clear measurable meaning. Hence, we must keep in mind that the model is never going to be fully specified.
 
@@ -258,17 +262,18 @@ Establishing this utility function gives motivation for including variables that
 \end{scope}
 \end{tikzpicture}
 
-\textcolor{BrickRed}{[Plots need finishing (better labels, axis names, titles for with/without controls, choose line type and color, etc.]} when explaining the plots, maybe call the y axis studytime's contribution to the predicted G3 percent?
+\textcolor{BrickRed}{[Plots need finishing (better labels, axis names, titles for with/without controls, choose line type and color, etc.]} when explaining the plots, maybe call the y axis studytime's contribution to the predicted G3 percent?)
 
 \textcolor{BrickRed}{[Maybe only include the first two plots in this section, and include the discontinuous mapping only in appendix?]}
 
 
 %~~~~~~~~~~~~~~~~~~
 \subsubsection{Additional Analysis}
-\textcolor{BrickRed}{[Note that the model fitting 1 notebook includes running the model on both mapping schemes for `studytime`]}
 
-\textcolor{BrickRed}{[Lasso-flavor penalization and VIF discussion here (maybe no numbers, just general take-aways and link to the relevant notebook), point out that Lasso keeps the variable of interest and also explore the other variables that it weights highly]}, note: in lasso section cite: \cite{MLmetrics}  
-note: in VIF section cite: \cite{VIF} and \cite{detecting}
+\textcolor{BrickRed}{[Lasso-flavor penalization and VIF discussion here (maybe no numbers, just general take-aways and link to the relevant notebook), point out that Lasso keeps the variable of interest and also explore the other variables that it weights highly]} \\
+note: in lasso section cite: (\cite{MLmetrics})  \\
+note: in VIF section cite: (\cite{VIF}) and (\cite{detecting}) \\
+Make sure to include discussion of why it seems okay to include parental education even though it is a bit collinear - because they are considered good proxies for ability
 
 %~~~~~~~~~~~~~~~~~~
 \subsubsection{Simultaneous Causality}
@@ -281,16 +286,16 @@ There is an additional issue with this model specification that we did not explo
 Actually: \textcolor{BrickRed}{[Maybe move this to the Data Issues as its own subsection?]}
 
 %~~~~~~~~~~~~~~~~~~
-\subsubsection{Endogeneity}
+\subsubsection{Endogeneity} \label{endogeneity}
 In the second run of naive regressions we add many covariates as proxies representing unobserved ability (parental education, individual characteristics, and others detailed in the model fitting 1 notebook - \href{https://nbviewer.jupyter.org/github/nadavtadelis/Reproducible_Metrics/blob/master/model_fitting_1.ipynb}{\textcolor{cyan}{nbviewer}}, \href{https://github.com/nadavtadelis/Reproducible_Metrics/blob/master/model_fitting_1.ipynb}{\textcolor{cyan}{git}}). We pointed out that since ability is unobservable and undefinable we cannot expect to fully capture it through our proxies. Let $q_i$ be the unobserved portion of ability that we are not capturing through our imperfect proxies. Then we have:
 $$
-g_i = \beta_0 + \beta_1 s_i + \beta_2 s_i^2 + \beta_3 school_i + \beta_4 course_i + \beta_5 x_{i,5} + \cdots + \beta_k x_{i,k} + \gamma q_i + \vartheta_i
+g_i = \beta_0 + \beta_1 s_i + \beta_2 s_i^2 + \beta_3 school_i + \beta_4 course_i + \beta_5 x_{i,5} + \cdots + \beta_k x_{i,k} + \gamma q_i + \nu_i
 $$
-Where $x_{i,5}, \cdots, x_{i,k}$ are proxies and $\vartheta_i$ is the structural error term. Let $x_{i,j}$ be the j'th covariate in the design matrix ($x_{1 i} = 1$, $x_{2 i} = s_i$, etc.) and let $\bm{x}_i$ be the vector of covariates for $i$. We are mainly interested in $\beta_1$ and $\beta_2$ the coefficients on studying. It is reasonable to assume that $\E[\vartheta_i | \bm{x}_i, q_i] = 0$ unfortunately we have no choice but to stick $q_i$ into the error term which gives us the new structural equation:
+Where $x_{i,5}, ..., x_{i,k}$ are proxies and $\nu_i$ is the structural error term. Let $x_{i,j}$ be the j'th covariate in the design matrix ($x_{1 i} = 1$, $x_{2 i} = s_i$, etc.) and let $\bm{x}_i$ be the vector of covariates for $i$. We are mainly interested in $\beta_1$ and $\beta_2$ the coefficients on studying. It is reasonable to assume that $\E[\nu_i | \bm{x}_i, q_i] = 0$ unfortunately we have no choice but to stick $q_i$ into the error term which gives us the new structural equation:
 $$
 g_i = \beta_0 + \beta_1 s_i + \beta_2 s_i^2 + \beta_3 school_i + \beta_4 course_i + \beta_5 x_{i,5} + \cdots + \beta_k x_{i,k} + \varepsilon_i
 $$
-Where $\varepsilon_i = \gamma q_i + \vartheta_i$. We know that $\vartheta_i$ is well behaved (uncorrelated with $x_{i,j} \forall j \in \{1,k\}$) but $\varepsilon_i$ is uncorrelated with the covariates iff $q_i$ is uncorrelated with the covariates. Lets look at the consistency of this set up (starting with the linear projection of $q_i$ onto $\bm{x}_i$):
+Where $\varepsilon_i = \gamma q_i + \nu_i$. We know that $\nu_i$ is well behaved (uncorrelated with $x_{i,j} \forall j \in \{1,k\}$) but $\varepsilon_i$ is uncorrelated with the covariates iff $q_i$ is uncorrelated with the covariates. Lets look at the consistency of this set up (starting with the linear projection of $q_i$ onto $\bm{x}_i$):
 \begin{align}
 &g_i = \delta_0 + \delta_1 s_i + \delta_2 s_i^2 + \delta_3 school_i + \delta_4 course_i + \delta_5 x_{i,5} + \cdots + \delta_k x_{i,k} + \eta_i  \nonumber \\
 &\E[\eta_i] = 0 \\
@@ -299,24 +304,40 @@ Where $\varepsilon_i = \gamma q_i + \vartheta_i$. We know that $\vartheta_i$ is 
 Where (1) and (2) follow from the definition of linear projections. Now we can represent our original model in terms of this linear projection:
 \begin{alignat*}{2}
 g_i &= {}&&\beta_0 + \beta_1 s_i + \beta_2 s_i^2 + \beta_3 school_i + \beta_4 course_i + \beta_5 x_{i,5} + \cdots + \beta_k x_{i,k} \\
-      &     &&+ \gamma \delta_0 + \gamma \delta_1 s_i + \cdots + \gamma \delta_k x_{i,k} + \gamma \eta_i + \vartheta_i \\
-g_i &=   &&(\beta_0 + \gamma\delta_0) + (\beta_1 + \gamma\delta_1)s_i + (\beta_2 + \gamma\delta_2)s_i^2 + \cdots + (\beta_k + \gamma\delta_k)x_{i,k} + \gamma \eta_i + \vartheta_i \\
-      &\Rightarrow &&{} \E[\gamma\eta_i + \vartheta_i] = 0 \\
-      &                    &&{} \Cov[x_{i,j}, \gamma\eta_i + \vartheta_i] = 0
+      &     &&+ \gamma \delta_0 + \gamma \delta_1 s_i + \cdots + \gamma \delta_k x_{i,k} + \gamma \eta_i + \nu_i \\
+g_i &=   &&(\beta_0 + \gamma\delta_0) + (\beta_1 + \gamma\delta_1)s_i + (\beta_2 + \gamma\delta_2)s_i^2 + \cdots + (\beta_k + \gamma\delta_k)x_{i,k} + \gamma \eta_i + \nu_i \\
+      &\Rightarrow &&{} \E[\gamma\eta_i + \nu_i] = 0 \\
+      &                    &&{} \Cov[x_{i,j}, \gamma\eta_i + \nu_i] = 0
 \end{alignat*}
 This shows that we can run OLS and get consistent estimates of $(\beta_j + \gamma\delta_j)$, but we are actually interested in $\bm{\beta}$. OLS does not allow us to recover $\bm{\beta}$ in this case because:
 $$
 \hat{\beta}_j \stackrel{p}{\longrightarrow} \beta_j + \underbrace{\gamma\delta_j}_{ \mathclap{\text{omitted variable bias}} }
 $$
-If $\gamma \ne 0$ and $\delta_j \ne 0$ then we cannot get a consistent estimate of $\beta_j$ using OLS. Rather, we get an endogenous estimator with a bias of $\gamma\delta_j$ (notice that the better our proxies identify ability, the smaller the bias term will be). Often times in practice researchers will assume that all $\delta_j$'s are zero except for the ones on the variables of interest. The implicit assumption behind setting $\delta_j = 0$ is that the unobserved $q_i$ and $x_{i,j}$ are independent (i.e. $\Cov[x_{i,j}, q_i] = 0$). In our setting this is actually a very reasonable assumption; we have already defined $x_{i,5}, \cdots, k x_{i,k}$ as proxies for ability, meaning that the unobserved portion of ability should be orthogonal to each of these variables. It  is also reasonable to assume that there is independence between school and course level characteristics and the unobserved $q_i$. This simplifies\footnote{If we had only one endogenous variable we could simplify further because $\hat{\beta}_j \stackrel{p}{\longrightarrow} \beta_j + \gamma\frac{\Cov[x_j, q]}{\Var[x_j]}$. In this case we would be able to make some guesses about the direction of the bias.} our endogeneity problem so that the only endogenous variables are $s_i$ and $s_i^2$ ($\Cov[s_i, \varepsilon], \ \Cov[s_i^2, \varepsilon] \ne 0$). 
+If $\gamma \ne 0$ and $\delta_j \ne 0$ then we cannot get a consistent estimate of $\beta_j$ using OLS. Rather, we get an endogenous estimator with a bias of $\gamma\delta_j$ (notice that the better our proxies identify ability, the smaller the bias term will be). Often times in practice researchers will assume that all $\delta_j$'s are zero except for the ones on the variables of interest. The implicit assumption behind setting $\delta_j = 0$ is that the unobserved $q_i$ and $x_{i,j}$ are independent (i.e. $\Cov[x_{i,j}, q_i] = 0$). In our setting this is actually a very reasonable assumption; we have already defined $x_{i,5}, ..., x_{i,k}$ as proxies for ability, meaning that the unobserved portion of ability should be orthogonal to each of these variables. It  is also reasonable to assume that there is independence between school and course level characteristics and the unobserved $q_i$. This simplifies\footnote{If we had only one endogenous variable we could simplify further because $\hat{\beta}_j \stackrel{p}{\longrightarrow} \beta_j + \gamma\frac{\Cov[x_j, q]}{\Var[x_j]}$. In this case we would be able to make some guesses about the direction of the bias.} our endogeneity problem so that the only endogenous variables are $s_i$ and $s_i^2$ ($\Cov[s_i, \varepsilon_i], \ \Cov[s_i^2, \varepsilon_i] \ne 0$). In the next sections we first give a brief overview of the instrumental variables approach to addressing endogeneity, and explain why standard two stage least squares is intractable in our setting. We then explore an instrumentation approach with nested generated regressors that may solve the problem.
 
 %~~~~~~~~~~~~~~~~~~
 \subsection{Q2SLS}
-\textcolor{BrickRed}{[Continue discussion of 2SLS theory if needed]} Introduce idea of instrumental variables really briefly, maybe just go over the conditions for validity of instruments (see page 45 of 212 notes)
+\textcolor{BrickRed}{[Introduce idea of instrumental variables really briefly, maybe just go over the conditions for validity of instruments (see page 45 of 212 notes)]}
+
+Lets first give a brief refresher of the instrumental variables approach to addressing endogeneity. In the last section we showed that for an endogenous variable $x_{i,j}$ OLS is no longer a consistent estimator for $\beta_j$. The instrumental variables approach allows us to solve the endogeneity problem. We require an instrumental variable $z_i$ which is observable and satisfies the following conditions:
+\begin{spacing}{1}
+\begin{enumerate}[label={(\arabic*)}]
+	\item The instrument is uncorrelated with disturbances: $\Cov[z_i, \varepsilon_i] = 0$ \
+	\item In the reduced form of the endogenous variable $x_{i,j} = \phi_0 x_{i,1} + \phi_1 school_i + \cdots + \phi_{k-2}x_{i,k} + \theta_1 z_i + \vartheta_i$ the coefficient on our instrument is nonzero: $\theta_1 \ne 0$
+	\item And $z_i$ is not one of our exogenous variables in the original estimation
+\end{enumerate}
+\end{spacing}
+\noindent If $(1)-(3)$ hold, then we call $z_i$ a valid instrument for $x_{i,j}$. In settings with multiple valid instruments $\bm{z_1}, \bm{z}_2, ..., \bm{z}_M$ the standard procedure for identifying $\bm{\beta}$ is 2SLS. In the first stage of 2SLS we regress the endogenous variable $x_{i,j}$ on the exogenous variables and the instruments to get the fitted values $\hat{x}_{i,j} =  \sum_{k \ne j}\hat{\phi}_k x_{i,k} + \hat{\theta}_1 z_{i,1} + \cdots + \hat{\theta}_M z_{i,M}$. We use $\hat{x}_{i,j}$ as an estimate of the exogenous part of $x_{i,j}$ and in the second stage we regress our dependent variable on our exogenous variables and $\hat{x}_{i,j}$ to identify $\hat{\bm{\beta}}$. This approach can be easily extended to cases with multiple endogenous variables (where you would have as many first stage regressions as there are endogenous variables). However, with multiple endogenous variables, you must have at least as many instruments as endogenous variables, otherwise the fitted values would be collinear and the second stage estimators would lose consistency. In the next section we discuss issues with the 2SLS method in our setting.
 
 %~~~~~~~~~~~~~~~~~~
 \subsubsection{Motivation}
-\textcolor{BrickRed}{[Point out issue with trying to use 2SLS when you want to account for diminishing marginal returns in the endogenous variable, especially when the instruments are binary (so squaring them does nothing). Lead to discussion of Q2SLS procedure from Wooldridge]} Mostly Harmless briefly points out that with binary instruments you can't square them, so you need to find different instruments for the second part of the first stage (p. 192).
+\textcolor{BrickRed}{[Point out issue with trying to use 2SLS when you want to account for diminishing marginal returns in the endogenous variable, especially when the instruments are binary (so squaring them does nothing). Lead to discussion of Q2SLS procedure from Wooldridge]}
+
+In section \ref{endogeneity} we established that the causal relationship between our grades and studying time is quadratic. \textcolor{BrickRed}{[NOTE: for now I'm going to assume we only end up using the 'good' binary instrument, but even if we end up using more binary instruments, the procedure still holds but it is less clear that its the right approach.]} This would usually not be a barrier to using 2SLS; the standard approach\footnote{Assuming only one instrument is available.} is to use the original instrument and its square as instruments in the two first stage equations (\cite{harmless}). However, this approach is unusable when the only instrument available is binary. In fact, even if we have multiple binary instruments it is not convincing to think that the exogenous portion of the squared endogenous variable will be correctly identified because interacting the binary instruments gives very little additional variation \textcolor{BrickRed}{[THINK ABOUT THIS MORE]}. 
+
+%~~~~~~~~~~~~~~~~~~
+\subsubsection{Estimation Procedure}
+\textcolor{BrickRed}{[describe how to for q2sls]} or maybe this should be in above section?
 
 %~~~~~~~~~~~~~~~~~~
 \subsubsection{Properties of Q2SLS}
@@ -329,6 +350,8 @@ If $\gamma \ne 0$ and $\delta_j \ne 0$ then we cannot get a consistent estimate 
 \textcolor{BrickRed}{[Give brief overview of bootstrapping and explain how its being used here to estimate variance of coeff. estimates in 2nd stage]} Also add note about future integration of a wild bootstrap approach to variance estimation (stricter assumptions, but some really nice properties for endogenous models - see slide 15 from the link below)
 
 \textcolor{BrickRed}{FOR BOOTSTRAPPING COV MATRIX:} See 8th slide of \textcolor{cyan}{https://www.math.kth.se/matstat/gru/sf2930/papers/wild.bootstrap.pdf}. It also has notes on hypothesis testing and p values for bootstrapping with regression coefficients. SLIDE 14 HAS DISCUSSION OF BOOTSTRAPPING WITH ENDOGENOUS VARS!!
+
+\textcolor{Red}{NOTE: this procedure only requires one instrument because the fitted vals from part a act as a second instrument so theres for sure no collinearity, this  means we could potentially only use one binary instrument!!! maybe this is the direction we should take rather than using a less than stellar second instrument. If this is the direction we go then I should repeat the function testing using binary instruments.}
 
 %~~~~~~~~~~~~~~~~~~
 \subsubsection{Application}

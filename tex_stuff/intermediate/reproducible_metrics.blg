@@ -3,44 +3,44 @@ Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: tex_stuff/intermediate/reproducible_metrics.aux
 The style file: agsm.bst
 Database file #1: tex_stuff/RM_bibliography.bib
-You've used 12 entries,
+You've used 13 entries,
             2909 wiz_defined-function locations,
-            724 strings with 6802 characters,
-and the built_in function-call counts, 36947 in all, are:
-= -- 5913
-> -- 449
+            729 strings with 6939 characters,
+and the built_in function-call counts, 40893 in all, are:
+= -- 6562
+> -- 496
 < -- 0
-+ -- 2703
-- -- 133
-* -- 3093
-:= -- 7640
-add.period$ -- 12
-call.type$ -- 12
-change.case$ -- 168
-chr.to.int$ -- 12
-cite$ -- 12
-duplicate$ -- 190
-empty$ -- 394
-format.name$ -- 178
-if$ -- 6596
++ -- 3011
+- -- 147
+* -- 3427
+:= -- 8438
+add.period$ -- 13
+call.type$ -- 13
+change.case$ -- 181
+chr.to.int$ -- 13
+cite$ -- 13
+duplicate$ -- 206
+empty$ -- 423
+format.name$ -- 198
+if$ -- 7306
 int.to.chr$ -- 5
 int.to.str$ -- 0
-missing$ -- 13
-newline$ -- 42
-num.names$ -- 121
-pop$ -- 58
+missing$ -- 15
+newline$ -- 45
+num.names$ -- 131
+pop$ -- 67
 preamble$ -- 1
-purify$ -- 180
+purify$ -- 195
 quote$ -- 0
-skip$ -- 150
+skip$ -- 159
 stack$ -- 0
-substring$ -- 8209
-swap$ -- 31
-text.length$ -- 168
+substring$ -- 9115
+swap$ -- 32
+text.length$ -- 182
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 44
+type$ -- 46
 warning$ -- 0
-while$ -- 268
+while$ -- 289
 width$ -- 0
-write$ -- 152
+write$ -- 164
