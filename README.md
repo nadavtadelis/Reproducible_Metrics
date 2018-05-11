@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/nadavtadelis/Reproducible_Metrics.svg?branch=master)](https://travis-ci.org/nadavtadelis/Reproducible_Metrics) [![Binder](https://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/nadavtadelis/Reproducible_Metrics/master) [![Project Status: WIP – Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](http://www.repostatus.org/badges/latest/wip.svg)](http://www.repostatus.org/#wip)
 
-This is a work in progress attempting to provide a framework for a responsible and reproducible econometric paper.
+This is a work in progress attempting to provide a framework for a responsibly researched and reproducible econometric paper.
 
 This repository holds all the material for "Reproducibility and Applied Econometrics - The Effect of Studying on Grades
 ". The main paper is [reproducible_metrics.pdf](https://github.com/nadavtadelis/Reproducible_Metrics/blob/master/reproducible_metrics.pdf) and all additional analaysis and intermediate steps can be found in the Jupyter Notebooks.
@@ -37,4 +37,4 @@ After all your notebooks have run you should see new files in the results, fig, 
 
 ## Licensing
 
-In an effort to enable reproducible, collaborative reserach our project is subject to the MIT License which allows you to modify and distribute the above code for both private and commercial usage. See LICENSE to learn more.
+In an effort to enable reproducible, collaborative reserach this project is subject to the MIT License which allows you to modify and distribute the above code for both private and commercial usage. See LICENSE to learn more.
