@@ -37,4 +37,4 @@ After all your notebooks have run you should see new files in the results, fig, 
 
 ## Licensing
 
-In an effort to enable reproducible, collaborative reserach this project is subject to the MIT License which allows you to modify and distribute the above code for both private and commercial usage. See LICENSE to learn more.
+In an effort to enable reproducible and collaborative research, this project is subject to the MIT License which allows you to modify and distribute the above code for both private and commercial usage. See LICENSE to learn more.
