@@ -41,15 +41,10 @@ class Quadratic2SLS(object):
     weights : array-like, optional
         Observation weights used in estimation
 
-    Notes
+    To-Do
     -----
-    The 2SLS estimator is defined
-
-    .. math::
-
-      \hat{\beta}_{2SLS} & =(X'Z(Z'Z)^{-1}Z'X)^{-1}X'Z(Z'Z)^{-1}Z'Y\\
-                         & =(\hat{X}'\hat{X})^{-1}\hat{X}'Y\\
-                 \hat{X} & =Z(Z'Z)^{-1}Z'X
+    1) Implement bootstrapping to estimate coefficient SE's
+    2) Replace Results_wrap() object with an actually functional results output, like statsmodels has
 
     '''
 
