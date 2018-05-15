@@ -91,7 +91,7 @@
 
 \begin{document}
 
-\title{Reproducibility and Applied Econometrics - The Effect of Studying on Grades}
+\title{Reproducibility and Applied Econometrics - The Effect of Studying on Grades\footnote{I would like to thank my thesis advisor, Professor Fernando P\'erez, for his support and insights, and Professor Maximilian Auffhammer for his generosity with his time.}}
 
 \author{Nadav Tadelis}
 
@@ -122,7 +122,7 @@ In this paper we establish a framework for reproducible empirical research. We u
 \label{sec_intro}
 In recent years there has been a strong push to increase the reproducibility and replicability of scientific research. Unfortunately this movement seems to have been centered on the hard sciences and has not yet become standard practice in the social sciences. It is possible that this is partly due to a lack of reproducibly researched papers in these fields. This paper explores what responsible and reproducible research practices look like in applied econometrics. We present an instrumental variables approach to estimating the causal effect of studying on grades and develop custom python scripts to implement an unusual 2SLS set up that allows for nonlinearity in our endogenous predictor. The latter part of this work discusses the current state of reproducibility in econometric research, and explains in detail the techniques implemented in the analysis.
 
-This paper was written as my honors thesis for undergraduate studies in statistics at UC Berkeley. I would like to thank my thesis advisor, Professor Fernando P\'erez, for his support and insights. Due to deadlines for submission I was unable to spend an appropriate amount of time on the econometric analysis, and will point out some of the weak points in my models (specifically the instruments). Any comments or suggestions would be greatly appreciated. 
+This paper was written as my honors thesis for undergraduate studies in statistics at UC Berkeley. \textcolor{BrickRed}{[Need to decide whether to keep this here or in the footnote] I would like to thank my thesis advisor, Professor Fernando P\'erez, for his support and insights, and Professor Maximilian Auffhammer for his generosity with his time}. Due to deadlines for submission I was unable to spend an appropriate amount of time on the econometric analysis, and will point out some of the weak points in my models (specifically the instruments). Any comments or suggestions would be greatly appreciated. 
 
 The rough idea for the econometric analysis in the paper is adapted from an independent project I completed during my Junior year. In a subsequent class the project was modified and rebuilt in a reproducible fashion. Sarah Johnson created the original intermediate functions in \inlinecode{p3functions.py} \href{https://github.com/nadavtadelis/Reproducible_Metrics/blob/master/p3functions.py}{\textcolor{cyan}{\inlinecode{p3functions.py}}}, and the associated tests and Travis integration. Chitwan Kaudan created the original Makefile for running the individual Jupyter Notebooks. All aspects of those original analyses have been altered significantly, and the history of the alterations is fully documented in the commit history of the git repo.
 
