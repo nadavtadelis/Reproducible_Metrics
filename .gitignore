@@ -4,3 +4,4 @@ _configtest.o.d
 .cache/
 __pycache__/
 .vscode/
+.nbconvert.ipynb
