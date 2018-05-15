@@ -179,11 +179,9 @@ Establishing this utility function gives motivation for including variables that
 
 %~~~~~~~~~~~~~~~~~~
 \subsection{Naive OLS}
-\textcolor{BrickRed}{[Report the four fits from the naive OLS - first one with only `studytime` and school level characteristics, then one with individual level characteristics (for each course of study)]}
+\textcolor{BrickRed}{[Plots need finishing (better labels, axis names, titles for with/without controls, choose line type and color, etc.]} (maybe call them proxies here instead of controls because we call point out that they are proxies?) \textcolor{BrickRed}{[Maybe only include the first two plots in this section, and include the discontinuous mapping only in appendix?]}
 
-\textcolor{BrickRed}{[Plots need finishing (better labels, axis names, titles for with/without controls, choose line type and color, etc.]} when explaining the plots, maybe call the y axis study time's contribution to the predicted G3 percent? Currently the leftmost plots are from the models without individual level controls, the right plots are from models with controls (maybe call them proxies here instead of controls because we call point out later that they are proxies?)
-
-\textcolor{BrickRed}{[Maybe only include the first two plots in this section, and include the discontinuous mapping only in appendix?]}
+Below we plot studying time's estimated contribution to the final score (in percent).
 
 \begin{tikzpicture}
 % Axis
@@ -199,12 +197,16 @@ Establishing this utility function gives motivation for including variables that
 		(0,6) node[anchor=east] {0.12};
 
 % Functions - WITHOUT CONTROLS
-\draw[smooth, samples=200, color=black, domain=0:6] plot ({\x},{50*(0.022*2*(\x) - 0.001*2*(\x)*2*(\x))}) 
-        node at (5,5.5) {Both}; %{$f(x) = t$};
-\draw[smooth, solid, samples=200, color=blue, domain=0:6] plot ({\x},{50*(0.0268*2*(\x) - 0.0013*2*(\x)*2*(\x))}) 
-        node at (5.1, 6.4) {Port.};
-\draw[smooth, solid, samples=200, color=red, domain=0:6] plot ({\x},{50*(0.0128*2*(\x) - 0.0005*2*(\x)*2*(\x))}) 
-        node[below left] {Math};                  
+\draw[smooth, samples=500, color=black, domain=0:6] plot ({\x},{50*(0.022*2*(\x) - 0.001*2*(\x)*2*(\x))}) 
+        node[below] {Both}; %{$f(x) = t$};
+\draw[smooth, solid, samples=250, color=blue, domain=0:6] plot ({\x},{50*(0.0268*2*(\x) - 0.0013*2*(\x)*2*(\x))}) 
+        node[below] {Port.};
+\draw[smooth, solid, samples=250, color=red, domain=0:6] plot ({\x},{50*(0.0128*2*(\x) - 0.0005*2*(\x)*2*(\x))}) 
+        node[below] {Math};                  
+% Title
+\node[anchor=center] at (3, 7.5) {No Controls};
+% Caption
+%\node[anchor=center] at (3, -1) {Sub caption I};
 
 \begin{scope}[xshift=8cm]
 	% Axis
@@ -220,20 +222,26 @@ Establishing this utility function gives motivation for including variables that
 			(0,6) node[anchor=east] {0.12};
 
 	% Functions - WITH CONTROLS
-\draw[smooth, samples=200, color=black, domain=0:6] plot ({\x},{50*(0.016*2*(\x) - 0.0008*2*(\x)*2*(\x))}) 
-        node[below left] {Both};
-\draw[smooth, dotted, samples=200, color=blue, domain=0:6] plot ({\x},{50*(0.0110*2*(\x) - 0.0005*2*(\x)*2*(\x))}) 
-        node[below left] {Port.}; %node[below] {$f(x) = t$ P};
-\draw[smooth, dashed, samples=200, color=red, domain=0:6] plot ({\x},{50*(0.0229*2*(\x) - 0.0012*2*(\x)*2*(\x))}) 
-        node[below left] {Math}; 
+\draw[smooth, samples=500, color=black, domain=0:6] plot ({\x},{50*(0.016*2*(\x) - 0.0008*2*(\x)*2*(\x))}) 
+        node[below] {Both};
+\draw[smooth, solid, samples=250, color=blue, domain=0:6] plot ({\x},{50*(0.0110*2*(\x) - 0.0005*2*(\x)*2*(\x))}) 
+        node[below] {Port.};
+\draw[smooth, solid, samples=250, color=red, domain=0:6] plot ({\x},{50*(0.0229*2*(\x) - 0.0012*2*(\x)*2*(\x))}) 
+        node[below] {Math};
+% Titles
+\node[above,font=\large\bfseries] at (current bounding box.north) {Contribution of studytime (continuous)};
+\node[anchor=center] at (3, 7.5) {With Controls/Proxies};
+% Caption
+%\node[anchor=center] at (3, -1) {Sub caption II};        
 \end{scope}
 \end{tikzpicture}
 
+\vspace{10pt} % REMOVE AFTER FORMATTING IS NICE AND FINALIZED
 
 \begin{tikzpicture}
 % Axis
 \draw[->] (-0.3,0) -- (6,0) node[anchor=north] {studytime};
-\draw[->] (0,-0.3) -- (0,5.5) node[anchor=east] {$\hat{\mathrm{G3}\%}$};
+\draw[->] (0,-0.3) -- (0,5.5) node[anchor=east] {$\Delta\hat{\mathrm{G3}\%}$};
 
 % labels
 \draw	(-0.2,0) node[anchor=north] {0}
@@ -245,14 +253,18 @@ Establishing this utility function gives motivation for including variables that
 
 % Connected Segments - WITHOUT CONTROLS
 \draw [color = black] (1,0) -- (1,50*0.0361) -- (2.5,50*0.0361) -- (2.5,50*0.0924) -- (5,50*0.0924) -- (5,50*0.0787) -- (6,50*0.0787)
-	node[above left] {Both}; 
-\draw [color = blue, dashed] (1,0) -- (1,50*0.0526) -- (2.5,50*0.0526) -- (2.5,50*0.1045) -- (5,50*0.1045) -- (5,50*0.0927) -- (6,50*0.0927); 
-\draw [color = red, dashed] (1,0) -- (1,50*0.005) -- (2.5,50*0.005) -- (2.5,50*0.0668) -- (5,50*0.0668) -- (5,50*0.0563) -- (6,50*0.0563);                 
+	node[above] {Both}; 
+\draw [color = blue, dashed] (1,0) -- (1,50*0.0526) -- (2.5,50*0.0526) -- (2.5,50*0.1045) -- (5,50*0.1045) -- (5,50*0.0927) -- (6,50*0.0927)
+	node[above] {Port.}; 
+\draw [color = red, dashed] (1,0) -- (1,50*0.005) -- (2.5,50*0.005) -- (2.5,50*0.0668) -- (5,50*0.0668) -- (5,50*0.0563) -- (6,50*0.0563)
+	node[above] {Math};               
+% Title
+\node[anchor=center] at (3, 6) {No Controls};
 
 \begin{scope}[xshift=8cm]
 	% Axis
         \draw[->] (-0.3,0) -- (6,0) node[anchor=north] {studytime};
-        \draw[->] (0,-0.3) -- (0,5.5) node[anchor=east] {$\hat{\mathrm{G3}\%}$};
+        \draw[->] (0,-0.3) -- (0,5.5) node[anchor=east] {$\Delta\hat{\mathrm{G3}\%}$};
 
 	% labels
 	\draw	(-0.2,0) node[anchor=north] {0}
@@ -263,12 +275,17 @@ Establishing this utility function gives motivation for including variables that
 			(0,4.5) node[anchor=east] {0.09};
 
 	% Connected Segments - WITH CONTROLS
-	\draw [color = black] (1,0) -- (1,50*0.0224) -- (2.5,50*0.0224) -- (2.5,50*0.0646) -- (5,50*0.0646) -- (5,50*0.0381) -- (6,50*0.0381); 
-	\draw [color = blue, dashed] (1,0) -- (1,50*0.0186) -- (2.5,50*0.0186) -- (2.5,50*0.0483) -- (5,50*0.0483) -- (5,50*0.0476) -- (6,50*0.0476); 
-	\draw [color = red, dashed] (1,0) -- (1,50*0.0252) -- (2.5,50*0.0252) -- (2.5,50*0.0903) -- (5,50*0.0903) -- (5,50*0.0339) -- (6,50*0.0339);              
+	\draw [color = black] (1,0) -- (1,50*0.0224) -- (2.5,50*0.0224) -- (2.5,50*0.0646) -- (5,50*0.0646) -- (5,50*0.0381) -- (6,50*0.0381)
+		node[right] {Both};
+	\draw [color = blue, dashed] (1,0) -- (1,50*0.0186) -- (2.5,50*0.0186) -- (2.5,50*0.0483) -- (5,50*0.0483) -- (5,50*0.0476) -- (6,50*0.0476)
+		node[right] {Port.};
+	\draw [color = red, dashed] (1,0) -- (1,50*0.0252) -- (2.5,50*0.0252) -- (2.5,50*0.0903) -- (5,50*0.0903) -- (5,50*0.0339) -- (6,50*0.0339)
+		node[below right] {Math};        
+% Titles
+\node[above,font=\large\bfseries] at (current bounding box.north) {Contribution of studytime (discrete)};
+\node[anchor=center] at (3, 6) {With Controls/Proxies};
 \end{scope}
 \end{tikzpicture}
-
 
 %~~~~~~~~~~~~~~~~~~
 \subsubsection{Additional Analysis}
