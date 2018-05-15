@@ -303,7 +303,7 @@ In the second run of naive regressions we add many covariates as proxies represe
 $$
 g_i = \beta_0 + \beta_1 s_i + \beta_2 s_i^2 + \beta_3 school_i + \beta_4 course_i + \beta_5 x_{i,5} + \cdots + \beta_k x_{i,k} + \gamma q_i + \nu_i
 $$
-Where $x_{i,5}, ..., x_{i,k}$ are proxies and $\nu_i$ is the structural error term. Let $x_{i,j}$ be the j'th covariate in the design matrix ($x_{i,1} = 1$, $x_{i,2} = s_i$, etc.) and let $\bm{x}_i$ be the vector of covariates for $i$. We are mainly interested in $\beta_1$ and $\beta_2$ the coefficients on studying. It is reasonable to assume that $\E[\nu_i | \bm{x}_i, q_i] = 0$ unfortunately we have no choice but to stick $q_i$ into the error term which gives us the new structural equation:
+Where $x_{i,5}, ..., x_{i,k}$ are proxies for ability and $\nu_i$ is the structural error term. Let $x_{i,j}$ be the $j$'th covariate in the design matrix ($x_{i,1} = 1$, $x_{i,2} = s_i$, etc.) and let $\bm{x}_i$ be the vector of covariates for $i$. We are mainly interested in $\beta_1$ and $\beta_2$ the coefficients on studying. It is reasonable to assume that $\E[\nu_i | \bm{x}_i, q_i] = 0$ unfortunately we have no choice but to stick $q_i$ into the error term which gives us the new structural equation:
 $$
 g_i = \beta_0 + \beta_1 s_i + \beta_2 s_i^2 + \beta_3 school_i + \beta_4 course_i + \beta_5 x_{i,5} + \cdots + \beta_k x_{i,k} + \varepsilon_i
 $$
@@ -533,6 +533,44 @@ F Statistic & 30.11^{***}      & 30.61^{***}       & 1.41         & 7.29^{***}  
 
 %~~~~~~~~~~~~~~~~~~
 \subsection{Q2SLS Extra Models} \label{appendix_q2sls}
+
+\textcolor{BrickRed}{[PUTTING ALL TABLE HERE FOR NOW BECAUSE HAVING TROUBLE PUTTING THEM IN SPECIFIC SECTION]} Note: this Q2SLS table does not have the correct coefficient values, it is just here as a placeholder and to set up the formatting.
+
+\begin{table}[!h] \centering
+  \caption{Addressing Endogeneity}  
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{@{\extracolsep{0pt}}lD{.}{.}{-3} D{.}{.}{-3} D{.}{.}{-3}D{.}{.}{-3} D{.}{.}{-3} D{.}{.}{-3} } 
+\\[-4ex]\hline 
+\hline \\[-1.8ex] 
+ & \multicolumn{6}{c}{\textit{Dependent variable:} G3 Grade (Percent)} \\%& \multicolumn{3}{c}{\textit{Dependent variable:} Screening2} \\ 
+\cline{2-4} \cline{5-7}
+\\[-1.8ex] & \multicolumn{1}{c}{\textit{Both}} & \multicolumn{1}{c}{\textit{Portuguese}} & \multicolumn{1}{c}{\textit{Mathematics}} & \multicolumn{1}{c}{\textit{Both}} & \multicolumn{1}{c}{\textit{Portuguese}} & \multicolumn{1}{c}{\textit{Mathematics}} \\ \ 
+\\[-1.8ex] & \multicolumn{1}{c}{(1)} & \multicolumn{1}{c}{(2)} & \multicolumn{1}{c}{(3)} & \multicolumn{1}{c}{(4)} & \multicolumn{1}{c}{(5)} & \multicolumn{1}{c}{(6)} \\ 
+\hline \\[-1.8ex] 
+  Constant          & 0.4879^{***}  & 0.4686^{***}   & 0.4572^{***}    & 0.4378^{***}    & 0.3049^{***}       & 0.7802^{***}         \\
+                          & (0.0161)   & (0.0165)    & (0.0402)     & (0.1103)      & (0.1091)       & (0.2819)         \\[1ex]
+  Studytime\_continuous     & 0.0220^{***}  & 0.0268^{***}   & 0.0128       & 0.0155^{***}     & 0.0107^{*}       & 0.0232^{*}          \\
+                          & (0.0053)   & (0.0052)    & (0.0113)     & (0.0055)      & (0.0055)       & (0.0126)         \\[1ex]
+  Studytime\_continuous\_sq & -0.0010^{***} & -0.0013^{***}  & -0.0005      & -0.0008^{**}     & -0.0004        & -0.0012          \\
+                          & (0.0004)   & (0.0004)    & (0.0007)     & (0.0004)      & (0.0003)       & (0.0008)         \\[1ex]
+  School\_GP                & 0.0737^{***}  & 0.0856^{***}   & 0.0262       & 0.0371^{**}      & 0.0603^{***}      & -0.0270         \\
+                          & (0.0133)   & (0.0142)    & (0.0335)     & (0.0150)      & (0.0160)       & (0.0445)         \\[1ex]
+  Course\_math              & -0.0956^{***} &             &              & -0.0959^{***}    &                &                  \\
+                          & (0.0128)   &             &              & (0.0150)      &                &                  \\[1ex]
+\hline \\[-1.8ex] 
+ Model & \textit{2SLS} & \textit{2SLS} & \textit{2SLS} & \textit{Q2SLS} & \textit{Q2SLS} & \textit{Q2SLS} \\[0.2ex]  
+\hline \\[-1.8ex] 
+Observations & \multicolumn{1}{c}{1,044} & \multicolumn{1}{c}{649} & \multicolumn{1}{c}{395} & \multicolumn{1}{c}{1,044} & \multicolumn{1}{c}{649} & \multicolumn{1}{c}{395} \\
+Df & \multicolumn{1}{c}{5} & \multicolumn{1}{c}{4} & \multicolumn{1}{c}{4} & \multicolumn{1}{c}{68} & \multicolumn{1}{c}{67} & \multicolumn{1}{c}{67} \\ 
+R$^{2}$ & 0.09       & 0.13        & 0.01         & 0.33          & 0.41           & 0.34             \\ 
+Adjusted R$^{2}$ & 0.09       & 0.13        & 0.00         & 0.28          & 0.34           & 0.22             \\ 
+F Statistic & 30.11^{***}      & 30.61^{***}       & 1.41         & 7.29^{***}          & 6.03^{***}           & 2.97^{***} \\ 
+\hline 
+\hline \\[-1.8ex] 
+\textit{Note: SE's for Q2SLS are bootstrapped.}  & & & & \multicolumn{3}{r}{$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\ 
+\end{tabular} 
+}
+\end{table}
 
 %~~~~~~~~~~~~~~~~~~
 \subsection{Miscellanea (?)}
