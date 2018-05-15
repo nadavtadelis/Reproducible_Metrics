@@ -44,7 +44,7 @@ class Quadratic2SLS(object):
     To-Do
     -----
     1) Implement bootstrapping to estimate coefficient SE's
-    2) Replace Results_wrap() object with an actually functional results output, like statsmodels has
+    2) Replace Results_wrap()'s summary() function with an actually functional results output, like statsmodels has
 
     '''
 
@@ -159,9 +159,13 @@ class Quadratic2SLS(object):
                 # Saving coefficient estimates from second stage
                 beta_hat_boots[b_iter] = b_result2.params
             
+            # Estimated coefficients from bootstrapping
             beta_hat_boots = pd.DataFrame(beta_hat_boots)
             beta_hat_boots.index.name = 'boot_iter'
             beta_hat_boots.columns = X_hat.columns.values.tolist()
+
+            # Bootstrapped variance of coefficient estimates
+            beta_hat_boot_var = beta_hat_boots.var(axis=0)
 
             # ~~~~~~ TESTING ~~~~~~
             return Results_wrap(model = 'Q2SLS_bootstrap', 
@@ -175,7 +179,8 @@ class Quadratic2SLS(object):
                                 model2 = model2,
                                 result2 = result2, 
                                 cov_type = self.cov_type,
-                                bootstrap_coeffs = beta_hat_boots)
+                                bootstrap_coeffs = beta_hat_boots,
+                                bootstrap_coeffs_var = beta_hat_boot_var)
 
 
 
@@ -252,7 +257,7 @@ class Results_wrap(object):
         this holds the summary tables and text, which can be printed or
         converted to various output formats.
     '''
-    def __init__(self, model, coefficients, VarCovMatrix, model1A, result1A, model1B, result1B, X_hat, model2, result2, cov_type='nonrobust', bootstrap_coeffs=None):
+    def __init__(self, model, coefficients, VarCovMatrix, model1A, result1A, model1B, result1B, X_hat, model2, result2, cov_type='nonrobust', bootstrap_coeffs=None, bootstrap_coeffs_var=None):
         self.model = model
         self.coefficients = coefficients
         self.VarCovMatrix = VarCovMatrix
@@ -265,11 +270,13 @@ class Results_wrap(object):
         self.result2 = result2
         self.cov_type = cov_type
         self.beta_hat_boots = bootstrap_coeffs
+        self.beta_hat_boots_var = bootstrap_coeffs_var
 
     def summary(self, title=None):
         '''
         TO DO: PRINTABLE SUMMARY RESULTS LIKE STATSMODELS
         '''
+        # testing that summary is callable
         if title is None:
             title = self.model + ' ' + "Regression Results"
         return print(title)
