@@ -155,7 +155,7 @@ In addition to the issue of self reporting, our data on studying time (and other
 \textcolor{BrickRed}{[expand more here]}
 
 Lastly, the data are cross-sectional rather than longitudinal, and the specific sampling time is unspecified. This is especially troubling in this setting because we are provided no information on when the student surveys were administered. Weekly studying time may change throughout the year, and may be partially determined by grades of previous examinations. If this is the case, and students update their studying allocation based on exam results, there is clear simultaneous causality between studying time and exam grades\footnote{A point explored more in section \ref{simul_caus}}. 
-\textcolor{BrickRed}{[Do I need more here? Or is this enough of a brief intro to the later section?]}
+\textcolor{BrickRed}{[Do I need more here? Or is this enough of a brief intro to the later section?] - or should i just move the simultaneous causality section to here?}
 
 
 %*******************************************************************************************************************
@@ -181,7 +181,7 @@ Establishing this utility function gives motivation for including variables that
 \subsection{Naive OLS}
 \textcolor{BrickRed}{[Plots need finishing (better labels, axis names, titles for with/without controls, choose line type and color, etc.]} (maybe call them proxies here instead of controls because we call point out that they are proxies?) \textcolor{BrickRed}{[Maybe only include the first two plots in this section, and include the discontinuous mapping only in appendix?]}
 
-Below we plot studying time's estimated contribution to the final score (in percent).
+In this section we discuss results from the naive model specifications we estimate in the model fitting 1 notebook -  \href{https://nbviewer.jupyter.org/github/nadavtadelis/Reproducible_Metrics/blob/master/model_fitting_1.ipynb}{\textcolor{cyan}{nbviewer}}, \href{https://github.com/nadavtadelis/Reproducible_Metrics/blob/master/model_fitting_1.ipynb}{\textcolor{cyan}{git}}. Below we plot studying time's estimated contribution to the final score (in percent).
 
 \begin{tikzpicture}
 % Axis
@@ -197,11 +197,11 @@ Below we plot studying time's estimated contribution to the final score (in perc
 		(0,6) node[anchor=east] {0.12};
 
 % Functions - WITHOUT CONTROLS
-\draw[smooth, samples=500, color=black, domain=0:6] plot ({\x},{50*(0.022*2*(\x) - 0.001*2*(\x)*2*(\x))}) 
+\draw[smooth, samples=1000, color=black, domain=0:6] plot ({\x},{50*(0.022*2*(\x) - 0.001*2*(\x)*2*(\x))}) 
         node[below] {Both}; %{$f(x) = t$};
-\draw[smooth, solid, samples=250, color=blue, domain=0:6] plot ({\x},{50*(0.0268*2*(\x) - 0.0013*2*(\x)*2*(\x))}) 
+\draw[smooth, solid, samples=1000, color=blue, domain=0:6] plot ({\x},{50*(0.0268*2*(\x) - 0.0013*2*(\x)*2*(\x))}) 
         node[below] {Port.};
-\draw[smooth, solid, samples=250, color=red, domain=0:6] plot ({\x},{50*(0.0128*2*(\x) - 0.0005*2*(\x)*2*(\x))}) 
+\draw[smooth, solid, samples=1000, color=red, domain=0:6] plot ({\x},{50*(0.0128*2*(\x) - 0.0005*2*(\x)*2*(\x))}) 
         node[below] {Math};                  
 % Title
 \node[anchor=center] at (3, 7.5) {No Controls};
@@ -222,11 +222,11 @@ Below we plot studying time's estimated contribution to the final score (in perc
 			(0,6) node[anchor=east] {0.12};
 
 	% Functions - WITH CONTROLS
-\draw[smooth, samples=500, color=black, domain=0:6] plot ({\x},{50*(0.016*2*(\x) - 0.0008*2*(\x)*2*(\x))}) 
+\draw[smooth, samples=1000, color=black, domain=0:6] plot ({\x},{50*(0.016*2*(\x) - 0.0008*2*(\x)*2*(\x))}) 
         node[below] {Both};
-\draw[smooth, solid, samples=250, color=blue, domain=0:6] plot ({\x},{50*(0.0110*2*(\x) - 0.0005*2*(\x)*2*(\x))}) 
+\draw[smooth, solid, samples=1000, color=blue, domain=0:6] plot ({\x},{50*(0.0110*2*(\x) - 0.0005*2*(\x)*2*(\x))}) 
         node[below] {Port.};
-\draw[smooth, solid, samples=250, color=red, domain=0:6] plot ({\x},{50*(0.0229*2*(\x) - 0.0012*2*(\x)*2*(\x))}) 
+\draw[smooth, solid, samples=1000, color=red, domain=0:6] plot ({\x},{50*(0.0229*2*(\x) - 0.0012*2*(\x)*2*(\x))}) 
         node[below] {Math};
 % Titles
 \node[above,font=\large\bfseries] at (current bounding box.north) {Contribution of studytime (continuous)};
@@ -289,19 +289,13 @@ Below we plot studying time's estimated contribution to the final score (in perc
 
 %~~~~~~~~~~~~~~~~~~
 \subsubsection{Additional Analysis}
+In the model fitting 1 notebook we also include some additional explorations of the estimated models. We compute the variance inflation factor to check for multicollinearity. We find that the most collinear variables are parental education with VIF's of 20-30. While this might normally suggest that we omit these variables (or use their principal components to get isolate the sources of variance), in this case we actually want to retain these slightly collinear variables (\cite{VIF, detecting}). We keep parental education because it has historically been considered an exceptionally good proxy for ability, and we can assume that its contribution to controlling for ability outweighs any multicollinearity it contributes. We also find slight collinearity between studying time and its square, but we are less interested in this collinearity because it is on our variable of interest, and the VIF is low enough to ignore.
 
-\textcolor{BrickRed}{[Lasso-flavor penalization and VIF discussion here (maybe no numbers, just general take-aways and link to the relevant notebook), point out that Lasso keeps the variable of interest and also explore the other variables that it weights highly]} \\
-note: in lasso section cite: (\cite{MLmetrics})  \\
-note: in VIF section cite: (\cite{VIF, detecting}) \\
-Include discussion of why it seems okay to include parental education even though it is a bit collinear - because they are considered good proxies for ability
+Additionally, we include a brief exploration of a LASSO-flavored penalization for variable selection (\cite{MLmetrics}) . We find that if we select a penalization parameter that shrinks all but seven of the coefficients to zero, the remaining coefficients are on studying time, school, course of study, number of failures, interest in higher education, mother's education, and whether the student is in the lowest bin of alcohol consumption. It is reassuring to see that the coefficient on studying time is not shrunk to zero. It is also nice to see that lasso shrinkage still retains mother's education, as this supports our previous discussion of including parental education despite some multicollinearity. We discuss the implications of the other non-zero coefficients in more detail in the model fitting 1 notebook -  \href{https://nbviewer.jupyter.org/github/nadavtadelis/Reproducible_Metrics/blob/master/model_fitting_1.ipynb}{\textcolor{cyan}{nbviewer}}, \href{https://github.com/nadavtadelis/Reproducible_Metrics/blob/master/model_fitting_1.ipynb}{\textcolor{cyan}{git}}.
 
 %~~~~~~~~~~~~~~~~~~
 \subsubsection{Simultaneous Causality} \label{simul_caus}
-\textcolor{BrickRed}{[Is there enough detail here?]}
-
-\textcolor{BrickRed}{[Maybe move this to right before the Naive OLS section? Or move this to the Data Issues as its own subsection?]}
-
-There is an additional issue with this model specification that was alluded to in section \ref{data_issues}. The data include three test scores: G1, G2, and G3. G1 and G2 are midterms, and G3 is the final. It is plausible that part of how students inform their study allocation decision comes from their results previous exams, and the how much time they studied for those exams\footnote{If they studied 5 hours a week leading up to the exam and received a 70\% they may choose to study for longer in the future in the hopes of increasing their grades.}. The data is taken at a single undefined point in time, so it is unclear when the students are reporting their weekly amount of studying. This complicates things; if the survey was administered after both midterms, then we may not expect their studying decision to change between the survey and the final, but if the survey was administered before either of the midterms then there is clear simultaneous causality between studying time, G1 and G2. Since we have only the single survey results with no time stamp, determining this relationship is intractable. With this limited information we must move forward either assuming that the reported studying times do not vary with mid term test results, or that the students were surveyed after both mid term results were released. These assumptions motivate the decision to exclude G1 and G2 from the model estimation.
+There is an additional issue with this model specification that was alluded to in section \ref{data_issues}. The data include three test scores: G1, G2, and G3. G1 and G2 are midterms, and G3 is the final. It is plausible that part of how students inform their study allocation decision comes from their results previous exams, and the how much time they studied for those exams\footnote{For example, if a student studied 5 hours a week leading up to the exam and received an 80\% she may choose to study for longer in the future in the hopes of increasing her grades.}. The data is taken at a single undefined point in time, so it is unclear when the students are reporting their weekly amount of studying. This complicates things; if the survey was administered after both midterms, then we may not expect their studying decision to change between the survey and the final, but if the survey was administered before either of the midterms then there is clear simultaneous causality between studying time, G1 and G2. Since we have only the single survey results with no time stamp, determining this relationship is intractable. With this limited information we must move forward either assuming that the reported studying times do not vary with mid term test results, or that the students were surveyed after both mid term results were released. These assumptions motivate the decision to exclude G1 and G2 from the model estimation.
 
 %~~~~~~~~~~~~~~~~~~
 \subsubsection{Endogeneity} \label{endogeneity}
