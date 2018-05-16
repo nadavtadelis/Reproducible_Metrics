@@ -167,6 +167,9 @@ class Quadratic2SLS(object):
             # Bootstrapped variance of coefficient estimates
             beta_hat_boot_var = beta_hat_boots.var(axis=0)
 
+            # Bootstrapped SE of coefficient estimates
+            beta_hat_boot_SE = np.sqrt(beta_hat_boot_var)
+
             # ~~~~~~ TESTING ~~~~~~
             return Results_wrap(model = 'Q2SLS_bootstrap', 
                                 coefficients = np.zeros(K), 
@@ -180,7 +183,8 @@ class Quadratic2SLS(object):
                                 result2 = result2, 
                                 cov_type = self.cov_type,
                                 bootstrap_coeffs = beta_hat_boots,
-                                bootstrap_coeffs_var = beta_hat_boot_var)
+                                bootstrap_coeffs_var = beta_hat_boot_var,
+                                bootstrap_coeffs_SE = beta_hat_boot_SE)
 
 
 
@@ -257,7 +261,8 @@ class Results_wrap(object):
         this holds the summary tables and text, which can be printed or
         converted to various output formats.
     '''
-    def __init__(self, model, coefficients, VarCovMatrix, model1A, result1A, model1B, result1B, X_hat, model2, result2, cov_type='nonrobust', bootstrap_coeffs=None, bootstrap_coeffs_var=None):
+    def __init__(self, model, coefficients, VarCovMatrix, model1A, result1A, model1B, result1B, X_hat, model2, result2, 
+        cov_type='nonrobust', bootstrap_coeffs=None, bootstrap_coeffs_var=None, bootstrap_coeffs_SE=None):
         self.model = model
         self.coefficients = coefficients
         self.VarCovMatrix = VarCovMatrix
@@ -271,6 +276,7 @@ class Results_wrap(object):
         self.cov_type = cov_type
         self.beta_hat_boots = bootstrap_coeffs
         self.beta_hat_boots_var = bootstrap_coeffs_var
+        self.beta_hat_boots_SE = bootstrap_coeffs_SE
 
     def summary(self, title=None):
         '''
