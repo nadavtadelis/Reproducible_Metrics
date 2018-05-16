@@ -33,6 +33,8 @@ all :
 clean:
 	rm -f figures/*.png
 	rm -f results/*.pickle
+	rm -f results/*.pkl
+	rm -f data/*.pkl
 	rm -rf tex_stuff/intermediate/
 	rm -f *.pdf
 
