@@ -291,7 +291,7 @@ In this section we discuss results from the naive model specifications we estima
 \subsubsection{Additional Analysis}
 In the model fitting 1 notebook we also include some additional explorations of the estimated models. We compute the variance inflation factor to check for multicollinearity (\cite{VIF, detecting}). We find slight collinearity between studying time and its square, but we are not worried about this collinearity because it is on our variable of interest, and the VIF is low enough to ignore. The rest of the collinearity that the VIF detects is so low that we don't need to consider it.
 
-Additionally, we include a brief exploration of a LASSO-flavored penalization for variable selection (\cite{MLmetrics}) . We find that if we select a penalization parameter that shrinks all but seven of the coefficients to zero, the remaining coefficients are on studying time, school, course of study, number of failures, interest in higher education, mother's education, and whether the student is in the lowest bin of alcohol consumption. It is reassuring to see that the coefficient on studying time is not shrunk to zero. It is also nice to see that lasso shrinkage still retains mother's education, as this supports our previous discussion of including parental education despite some multicollinearity. We discuss the implications of the other non-zero coefficients in more detail in the model fitting 1 notebook -  \href{https://nbviewer.jupyter.org/github/nadavtadelis/Reproducible_Metrics/blob/master/model_fitting_1.ipynb}{\textcolor{cyan}{nbviewer}}, \href{https://github.com/nadavtadelis/Reproducible_Metrics/blob/master/model_fitting_1.ipynb}{\textcolor{cyan}{git}}.
+Additionally, we include a brief exploration of a LASSO-flavored penalization for variable selection (\cite{MLmetrics}) . We find that if we select a penalization parameter that shrinks all but seven of the coefficients to zero, the remaining coefficients are on studying time, school, course of study, number of failures, interest in higher education, mother's education, and whether the student is in the lowest bin of alcohol consumption. It is reassuring to see that the coefficient on studying time is not shrunk to zero. It is also nice to see that lasso shrinkage retains mother's education, as mother's education is often used as a proxy for ability, and this result seems to support it's importance. We discuss the implications of the other non-zero coefficients in more detail in the model fitting 1 notebook -  \href{https://nbviewer.jupyter.org/github/nadavtadelis/Reproducible_Metrics/blob/master/model_fitting_1.ipynb}{\textcolor{cyan}{nbviewer}}, \href{https://github.com/nadavtadelis/Reproducible_Metrics/blob/master/model_fitting_1.ipynb}{\textcolor{cyan}{git}}.
 
 %~~~~~~~~~~~~~~~~~~
 \subsubsection{Simultaneous Causality} \label{simul_caus}
@@ -369,13 +369,15 @@ In section \ref{endogeneity} we established that the causal relationship between
 
 \textcolor{BrickRed}{[Give brief overview of bootstrapping and explain how its being used here to estimate variance of coeff. estimates in 2nd stage]} I think I'll need to explain that we report the coefficient estimates built on the full sample, rather than the average coefficients from the bootstrapping step - maybe link this back to the question of why the coefficient estimates are biased in the simulation, its not the same thing because here we are re-drawing and in simulation they are new draws, but it seems like there may be some connection here (maybe). Also add note about future integration of a wild bootstrap approach to variance estimation (stricter assumptions, but some really nice properties for endogenous models - see slide 15 from the link below)
 
+Mention that the current method of bootstrapping is called ``pairs bootstrap" in regression setting, and ``nonparametric bootstrap" more generally.
+
 \textcolor{BrickRed}{FOR BOOTSTRAPPING COV MATRIX:} See 8th slide of \href{https://www.math.kth.se/matstat/gru/sf2930/papers/wild.bootstrap.pdf}{\textcolor{cyan}{LINK}}. It also has notes on hypothesis testing and p values for bootstrapping with regression coefficients. SLIDE 14 HAS DISCUSSION OF BOOTSTRAPPING WITH ENDOGENOUS VARS!!
 
 \textcolor{Red}{NOTE: this procedure only requires one instrument because the fitted vals from part a act as a second instrument so theres for sure no collinearity, this  means we could potentially only use one binary instrument!!! maybe this is the direction we should take rather than using a less than stellar second instrument. If this is the direction we go then I should repeat the function testing using binary instruments.}
 
 %~~~~~~~~~~~~~~~~~~
 \subsubsection{Application}
-\textcolor{BrickRed}{[Discuss chosen instruments and give motivation for why they might be okay to use, give strong disclaimer that even if they are valid, they are probably weak instruments]} Justification for using 'going out' as instrument is stronger if we explain that we have controls for weekly and daily alcohol consumption (which is one thing that could affect grades through going out independently of studying time) so its a semi reasonable claim to say that going out is exogenous variation in available studying time once the detrimental effects of going out (namely drinking) are controlled for. not a super strong argument, but at least a little justification.
+\textcolor{BrickRed}{[Discuss chosen instruments and give motivation for why they might be okay to use, give strong disclaimer that even if they are valid, they are probably weak instruments]} Justification for using 'going out' as instrument is stronger if we explain that we have controls for weekly and daily alcohol consumption (which is one thing that could affect grades through going out independently of studying time) so its a semi reasonable claim to say that going out is exogenous variation in available studying time once the detrimental effects of going out (namely drinking) are controlled for. not a super strong argument, but at least a little justification. Point out that in the monte carlo simulation, weak instruments resulted in (seemingly) unbiased consistent estimates for the true coeff, but that the variance was massive - which suggests that we should expect a massive variance on our coeff.s because we have weak instruments.
 
 \textcolor{BrickRed}{[Report results]}
 
@@ -571,6 +573,8 @@ F Statistic & 30.11^{***}      & 30.61^{***}       & 1.41         & 7.29^{***}  
 \end{tabular} 
 }
 \end{table}
+
+\newpage %%%% REMOVE THIS NEWPAGE AFTER FIGURE OUT HOW TO PUT TABLES WHERE WANTED %%%%
 
 %~~~~~~~~~~~~~~~~~~
 \subsection{Miscellanea (?)}
