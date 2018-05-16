@@ -16,6 +16,7 @@ import statsmodels.api as sm
 import pandas as pd
 import numpy as np
 from tqdm import tqdm
+from scipy.stats import t
 
 class Quadratic2SLS(object):
     r'''   
@@ -170,6 +171,14 @@ class Quadratic2SLS(object):
             # Bootstrapped SE of coefficient estimates
             beta_hat_boot_SE = np.sqrt(beta_hat_boot_var)
 
+            # Bootstrapped t-stats for null that coefficient = 0
+            ## note that we use the coefficient estimates from the full sample 
+            ## but the variance from the bootstrapping procedure
+            beta_hat_boot_t = result2.params / beta_hat_boot_SE
+
+            # Bootstrapped p values from t test (two-sided)
+            beta_hat_boot_p = 2 * (1- t.cdf(beta_hat_boot_t, df = self.nobs - K))
+
             # ~~~~~~ TESTING ~~~~~~
             return Results_wrap(model = 'Q2SLS_bootstrap', 
                                 coefficients = np.zeros(K), 
@@ -184,7 +193,9 @@ class Quadratic2SLS(object):
                                 cov_type = self.cov_type,
                                 bootstrap_coeffs = beta_hat_boots,
                                 bootstrap_coeffs_var = beta_hat_boot_var,
-                                bootstrap_coeffs_SE = beta_hat_boot_SE)
+                                bootstrap_coeffs_SE = beta_hat_boot_SE,
+                                bootstrap_coeffs_t = beta_hat_boot_t,
+                                bootstrap_coeffs_p = beta_hat_boot_p)
 
 
 
@@ -262,7 +273,7 @@ class Results_wrap(object):
         converted to various output formats.
     '''
     def __init__(self, model, coefficients, VarCovMatrix, model1A, result1A, model1B, result1B, X_hat, model2, result2, 
-        cov_type='nonrobust', bootstrap_coeffs=None, bootstrap_coeffs_var=None, bootstrap_coeffs_SE=None):
+        cov_type='nonrobust', bootstrap_coeffs=None, bootstrap_coeffs_var=None, bootstrap_coeffs_SE=None, bootstrap_coeffs_t=None, bootstrap_coeffs_p=None):
         self.model = model
         self.coefficients = coefficients
         self.VarCovMatrix = VarCovMatrix
@@ -277,6 +288,8 @@ class Results_wrap(object):
         self.beta_hat_boots = bootstrap_coeffs
         self.beta_hat_boots_var = bootstrap_coeffs_var
         self.beta_hat_boots_SE = bootstrap_coeffs_SE
+        self.beta_hat_boots_t = bootstrap_coeffs_t
+        self.beta_hat_boots_p = bootstrap_coeffs_p
 
     def summary(self, title=None):
         '''
