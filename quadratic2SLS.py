@@ -177,7 +177,7 @@ class Quadratic2SLS(object):
             beta_hat_boot_t = result2.params / beta_hat_boot_SE
 
             # Bootstrapped p values from t test (two-sided)
-            beta_hat_boot_p = 2 * (1- t.cdf(beta_hat_boot_t, df = self.nobs - K))
+            beta_hat_boot_p = pd.Series(2 * (1- t.cdf(np.abs(beta_hat_boot_t), df = self.nobs - K)), beta_hat_boot_t.index)
 
             # ~~~~~~ TESTING ~~~~~~
             return Results_wrap(model = 'Q2SLS_bootstrap', 
