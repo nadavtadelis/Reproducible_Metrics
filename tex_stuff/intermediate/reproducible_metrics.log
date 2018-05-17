@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.99992 (TeX Live 2015) (preloaded format=xelatex 2015.5.24)  17 MAY 2018 15:20
+This is XeTeX, Version 3.14159265-2.6-0.99992 (TeX Live 2015) (preloaded format=xelatex 2015.5.24)  17 MAY 2018 16:54
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1170,17 +1170,13 @@ Overfull \hbox (24.6891pt too wide) in paragraph at lines 288--289
 
 Package amsmath Warning: Foreign command \atop;
 (amsmath)                \frac or \genfrac should be used instead
-(amsmath)                 on input line 356.
-
-
-Overfull \vbox (1.06032pt too high) has occurred while \output is active []
-
+(amsmath)                 on input line 354.
 
 [10] [11] [12] [13] [14] [15] [16] [17] [18]
 File: figures/quantvar_hist_math.png Graphic file (type QTm)
 
 <use  "figures/quantvar_hist_math.png" >
-Overfull \hbox (13.21277pt too wide) in paragraph at lines 446--447
+Overfull \hbox (13.21277pt too wide) in paragraph at lines 442--443
 [][] 
  []
 
@@ -1199,22 +1195,22 @@ roducibility-crisis-is-being-used-as-
  []
 
 [23]) [24]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 601.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 601.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 597.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 597.
  (tex_stuff/intermediate/reproducible_metrics.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 601.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 601.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 597.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 597.
 
 
 LaTeX Font Warning: Size substitutions with differences
 (Font)              up to 117.38377pt have occurred.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 601.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 597.
  ) 
 Here is how much of TeX's memory you used:
  27608 strings out of 493706
  487800 string characters out of 6145769
- 1185159 words of memory out of 5000000
+ 1185076 words of memory out of 5000000
  30465 multiletter control sequences out of 15000+600000
  39856 words of font info for 138 fonts, out of 8000000 for 9000
  1328 hyphenation exceptions out of 8191
