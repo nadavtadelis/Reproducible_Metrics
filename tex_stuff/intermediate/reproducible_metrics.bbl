@@ -49,6 +49,11 @@ Mansfield, E.~R. \harvardand\ Helms, B.~P.  \harvardyearleft
   1982\harvardyearright , `Detecting multicollinearity', {\em The American
   Statistician} {\bf 36}(3a),~158--160.
 
+\harvarditem{Matthew~Gentzkow}{2017}{GSlab}
+Matthew~Gentzkow, Jesse~Shapiro, A.~R.  \harvardyearleft 2017\harvardyearright
+  , `Gslab ra manual'.
+\newline\harvardurl{https://github.com/gslab-econ/ra-manual/wiki/Getting-Started}
+
 \harvarditem{O'brien}{2007}{VIF}
 O'brien, R.~M.  \harvardyearleft 2007\harvardyearright , `A caution regarding
   rules of thumb for variance inflation factors', {\em Quality \& Quantity}
