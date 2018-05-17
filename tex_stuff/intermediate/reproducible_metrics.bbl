@@ -11,6 +11,11 @@ Angrist, J.~D. \harvardand\ Pischke, J.-S.  \harvardyearleft
   2009\harvardyearright , {\em Mostly Harmless Econometrics: An Empiricist's
   Companion}, Princeton University Press.
 
+\harvarditem{Athey \harvardand\ Imbens}{2016}{causalTree}
+Athey, S. \harvardand\ Imbens, G.  \harvardyearleft 2016\harvardyearright ,
+  `Recursive partitioning for heterogeneous causal effects', {\em Proceedings
+  of the National Academy of Sciences} {\bf 113}(27),~7353--7360.
+
 \harvarditem{Cameron}{2017}{MLmetrics}
 Cameron, A.~C.  \harvardyearleft 2017\harvardyearright , `Machine learning for
   microeconometrics'.
@@ -58,6 +63,11 @@ Matthew~Gentzkow, Jesse~Shapiro, A.~R.  \harvardyearleft 2017\harvardyearright
 O'brien, R.~M.  \harvardyearleft 2007\harvardyearright , `A caution regarding
   rules of thumb for variance inflation factors', {\em Quality \& Quantity}
   {\bf 41},~673--690.
+
+\harvarditem{P\'erez}{2017}{stat159}
+P\'erez, F.  \harvardyearleft 2017\harvardyearright , `Reproducible and
+  collaborative data science'.
+\newline\harvardurl{https://berkeley-stat159-f17.github.io/stat159-f17/}
 
 \harvarditem{Schulson}{2018}{wired}
 Schulson, M.  \harvardyearleft 2018\harvardyearright , `Science's
