@@ -5,11 +5,11 @@
 This is a work in progress attempting to provide a framework for a responsibly researched and reproducible econometric paper.
 
 This repository holds all the material for "Reproducibility and Applied Econometrics - The Effect of Studying on Grades
-". The main paper is [reproducible_metrics.pdf](https://github.com/nadavtadelis/Reproducible_Metrics/blob/master/reproducible_metrics.pdf) and all additional analaysis and intermediate steps can be found in the Jupyter Notebooks.
+". The main paper is [reproducible_metrics.pdf](https://github.com/nadavtadelis/Reproducible_Metrics/blob/master/reproducible_metrics.pdf) and all additional analysis and intermediate steps can be found in the Jupyter Notebooks.
 
 ## Notebook Descriptions
 
-* [`data_exploration.ipynb`](https://github.com/nadavtadelis/Reproducible_Metrics/blob/master/data_exploration.ipynb) - Numerical and visual representations of the data. Mapping studytime variable.
+* [`data_exploration.ipynb`](https://github.com/nadavtadelis/Reproducible_Metrics/blob/master/data_exploration.ipynb) - Numeric and visual representations of the data. Mapping studytime variable.
 * [`model_fitting_1.ipynb`](https://github.com/nadavtadelis/Reproducible_Metrics/blob/master/model_fitting_1.ipynb) - Naive OLS model fitting. Multicollinearity exploration (VIF, LASSO).
 * [`model_fitting_2.ipynb`](https://github.com/nadavtadelis/Reproducible_Metrics/blob/master/model_fitting_2.ipynb) - Q2SLS model fitting.
 * [`function_testing.ipynb`](https://github.com/nadavtadelis/Reproducible_Metrics/blob/master/function_testing.ipynb) - Testing Q2SLS script and exploring asymptotic properties of Q2SLS procedure.
@@ -20,11 +20,11 @@ The only installation needed to run this repo is Anaconda. Click [here](https://
 
 ## Using Binder
 
-We've enabled Binder for this project which allows you to view and edit jupyter notebooks in an executable environment. Feel free to click the badge at the top of this README to launch the binder.
+We've enabled Binder for this project which allows you to view and edit Jupyter Notebooks in an executable environment. Feel free to click the badge at the top of this README to launch the binder.
 
 ## Getting Started
 
-Download the repo onto your local machine and open your command prompt to the Reproducible_Metrics directory. Simply type in the following commands to run the analysis:
+Download/clone the repo onto your local machine and open your command prompt to the Reproducible_Metrics directory. Simply type in the following commands to run the analysis:
 
 ```
 make clean
@@ -33,8 +33,12 @@ source activate study_env
 make all
 ```
 
-After all your notebooks have run you should see new files in the results, fig, and data directories. Read about our approach and results in main.ipynb. All the figures from our analysis are saved in the fig directory and our regressions are saved in the results directory as dataframes. You can load in these dataframes and work with them as regression instances (i.e. you can call `.summary()`, `.params()` etc. click [here](http://www.statsmodels.org/dev/generated/statsmodels.regression.linear_model.OLS.html) for OLS documentation)
+After all your notebooks have run you should see new files in the results, figures, and data directories. Read about our approach and results in [reproducible_metrics.pdf](https://github.com/nadavtadelis/Reproducible_Metrics/blob/master/reproducible_metrics.pdf). All the figures from our analysis are saved in the figures directory and regression objects are saved in the results directory. You can load in these objects and work with them as regression instances (i.e. you can call `.summary()`, `.params()` etc. click [here](http://www.statsmodels.org/dev/generated/statsmodels.regression.linear_model.OLS.html) for OLS documentation).
 
 ## Licensing
 
 In an effort to enable reproducible and collaborative research, this project is subject to the MIT License which allows you to modify and distribute the above code for both private and commercial usage. See LICENSE to learn more.
+
+## Contact
+
+Please email \<ntadelis [at] berkeley [dot] edu\> with any comments or questions.
