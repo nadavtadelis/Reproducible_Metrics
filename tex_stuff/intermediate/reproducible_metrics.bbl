@@ -18,7 +18,7 @@ Athey, S. \harvardand\ Imbens, G.  \harvardyearleft 2016\harvardyearright ,
 
 \harvarditem{Cameron}{2017}{MLmetrics}
 Cameron, A.~C.  \harvardyearleft 2017\harvardyearright , `Machine learning for
-  microeconometrics'.
+  microeconometrics (slides)'.
 \newline\harvardurl{http://cameron.econ.ucdavis.edu/e240f/trmachinelearningseminar.pdf}
 
 \harvarditem{Card \harvardand\ Krueger}{1992}{CardKrueger}
@@ -39,9 +39,14 @@ Feigenbaum, S. \harvardand\ Levy, D.~M.  \harvardyearleft 1993\harvardyearright
   , `The market for (ir)reproducible econometrics', {\em Social Epistemology}
   {\bf 7}(3),~215--232.
 
-\harvarditem{Greene}{2011}{green}
+\harvarditem{Greene}{2011}{greene}
 Greene, W.~H.  \harvardyearleft 2011\harvardyearright , {\em {Econometric
   Analysis}}, 7 edn, Prentice Hall.
+
+\harvarditem{MacKinnon}{2012}{wild_boot}
+MacKinnon, J.~G.  \harvardyearleft 2012\harvardyearright , `Inference based on
+  the wild bootstrap (slides)'.
+\newline\harvardurl{https://www.math.kth.se/matstat/gru/sf2930/papers/wild.bootstrap.pdf}
 
 \harvarditem{MacKinnon \harvardand\ White}{1985}{robust_se}
 MacKinnon, J.~G. \harvardand\ White, H.  \harvardyearleft 1985\harvardyearright

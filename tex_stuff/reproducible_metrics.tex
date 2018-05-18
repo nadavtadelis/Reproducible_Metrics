@@ -3,6 +3,7 @@
 \usepackage{graphicx}
 \usepackage{epstopdf}
 \usepackage{microtype, color, amsmath, graphics, dcolumn, booktabs, multicol}
+\usepackage{float}
 %\usepackage{natbib}
 \usepackage[authoryear,square]{natbib}
 \setcitestyle{citesep={,},aysep={}}
@@ -83,6 +84,19 @@
 
 % For plotting functions
 \usepackage{tikz}
+\usepackage{environ}
+\makeatletter
+\newsavebox{\measure@tikzpicture}
+\NewEnviron{scaletikzpicturetowidth}[1]{%
+  \def\tikz@width{#1}%
+  \def\tikzscale{1}\begin{lrbox}{\measure@tikzpicture}%
+  \BODY
+  \end{lrbox}%
+  \pgfmathparse{#1/\wd\measure@tikzpicture}%
+  \edef\tikzscale{\pgfmathresult}%
+  \BODY
+}
+\makeatother
 
 % Custom functions for easy stats
 \newcommand{\E}{\mathrm{E}}
@@ -124,7 +138,7 @@ In recent years there has been a strong push to increase the reproducibility and
 
 This paper was written as my honors thesis for undergraduate studies in statistics at UC Berkeley. Due to deadlines for submission I have been unable to spend an appropriate amount of time on the econometric analysis, and will point out some of the weak points in my models and assumptions. Any comments or suggestions would be greatly appreciated. 
 
-The rough idea for the econometric analysis in the paper is adapted from an independent project I completed in Spring 2017. In a subsequent class the project was modified and rebuilt in a reproducible fashion. Sarah Johnson created the original intermediate functions in \href{https://github.com/nadavtadelis/Reproducible_Metrics/blob/master/p3functions.py}{\textcolor{cyan}{\inlinecode{p3functions.py}}}, and the associated tests and Travis CI. Chitwan Kaudan created the original Makefile for running the individual Jupyter Notebooks. All aspects of those original analyses have been altered significantly, and the history of the alterations is fully documented in the commit history of the git repo.
+The basic idea for the econometric analysis in the paper is adapted from an independent project I completed in Spring 2017. In a subsequent class the project was modified and rebuilt in a reproducible fashion. Sarah Johnson created the original intermediate functions in \href{https://github.com/nadavtadelis/Reproducible_Metrics/blob/master/p3functions.py}{\textcolor{cyan}{\inlinecode{p3functions.py}}}, and the associated tests and Travis CI. Chitwan Kaudan created the original Makefile for running the individual Jupyter Notebooks. All aspects of those original analyses have been altered significantly, and the history of the changes is fully documented in the commit history of the git repo.
 
 \textcolor{BrickRed}{[Maybe more background here before we dive in?]}
 
@@ -138,7 +152,7 @@ The \href{https://archive.ics.uci.edu/ml/datasets/Student+Performance#}{\textcol
 
 %~~~~~~~~~~~~~~~~~~
 \subsection{Data Exploration}
-\textcolor{BrickRed}{[This section is very rough, needs work!]}
+\textcolor{BrickRed}{[This section is very rough, needs work. not sure how much to include here vs just linking to data exploration notebook]}
 
 There is some pre-analysis data cleaning and exploration that we run, which can be found in the data exploration notebook - \href{https://nbviewer.jupyter.org/github/nadavtadelis/Reproducible_Metrics/blob/master/data_exploration.ipynb}{\textcolor{cyan}{nbviewer}}, \href{https://github.com/nadavtadelis/Reproducible_Metrics/blob/master/data_exploration.ipynb}{\textcolor{cyan}{git}}; some figures from this notebook are included in appendix \ref{appendix_figs} \textcolor{BrickRed}{[MAKE SURE TO INCLUDE THESE]}. The notebook contains the full data exploration process, as well as explanations and commentary detailing the figure generation process.
 
@@ -147,12 +161,9 @@ We draw attention to two attributes of special import: there are stark differenc
 
 %~~~~~~~~~~~~~~~~~~
 \subsection{Data Issues} \label{data_issues}
-\textcolor{BrickRed}{[Very Rough, needs a lot of work]}
-
-As is often the case with education data, the data have some large issues that must be considered. As any undergraduate taking their first econometrics course would point out, much of the data are stated preferences (as opposed to observed). Happily, the test scores and number of absences are provided by the schools, so we can be certain in their accuracy. The issue with self-reported data is the potential for inaccuracy. Even if a student is not maliciously providing misinformation, it is likely that personal biases are affecting the response. With variables like weekly hours of free time, this self reported data might actually be a benefit, as we are getting information about the student's perception of reality rather than the truth. If a student reports that they have very little free time then that tells us something about how they view their current time allocations. As such, these variables might be useful as controls for student level heterogeneity, but should be considered with a healthy dose of skepticism, and estimated coefficients should be interpreted with care. \textcolor{BrickRed}{[Think about this more.]} The issue of self reported data becomes more problematic when it comes to our variable of interest - hours of studying per week. While our central research goal is identifying a relationship between hours of studying and academic success, our data on hours of studying cannot be trusted as accurate \textcolor{BrickRed}{[expand more here]}.
+As is often the case with education data, the data have some large issues that must be considered. As any undergraduate taking their first econometrics course would point out, much of the data are stated preferences (as opposed to observed). Happily, the test scores and number of absences are provided by the schools, so we can be certain in their accuracy. The issue with self-reported data is the potential for inaccuracy. Even if a student is not maliciously providing misinformation, it is likely that personal biases are affecting the response. With variables like weekly hours of free time, this self reported data might actually be a benefit, as we are getting information about the student's perception of reality rather than the truth. If a student reports that they have very little free time then that tells us something about how they view their current time allocations. As such, these variables might be useful as controls for student level heterogeneity, but should be considered with a healthy dose of skepticism, and estimated coefficients should be interpreted with care. \textcolor{BrickRed}{[Think about this more.]} The issue of self reported data becomes more problematic when it comes to our variable of interest - hours of studying per week. While our central research goal is identifying a relationship between hours of studying and academic success, our data on hours of studying cannot be trusted as accurate. One approach could be to interpret this research as an analysis on the returns to perceived studying time rather than actual studying time. In the rest of the paper we choose to assume that the students are accurately reporting their average weekly studying times for the sake of clarity and simplicity.
 
 In addition to the issue of self reporting, our data on studying time (and other variables) suffers from another issue; categorical mappings of quantitive measures. Many of the quantitive variables in the data are reported as categorical bins. For example, weekly studying time is coded as four distinct levels (0-2 hours, 2-5 hours, 5-10 hours, and 10+ hours). In the case of studying time, we explore two different re-mapping schemes\footnote{Mapping both as discrete and continuous, detailed in the data exploration notebook - \href{https://nbviewer.jupyter.org/github/nadavtadelis/Reproducible_Metrics/blob/master/data_exploration.ipynb}{\textcolor{cyan}{nbviewer}}, \href{https://github.com/nadavtadelis/Reproducible_Metrics/blob/master/data_exploration.ipynb}{\textcolor{cyan}{git}}}. But for the other variables with this format we treat them as categorical variables and include indicators for each level (thus allowing for some nonlinearity).
-\textcolor{BrickRed}{[expand more here]}
 
 Lastly, the data are cross-sectional rather than longitudinal, and the specific sampling time is unspecified. This is especially troubling in this setting because we are provided no information on when the student surveys were administered. Weekly studying time may change throughout the year, and may be partially determined by grades of previous examinations. If this is the case, and students update their studying allocation based on exam results, there is clear simultaneous causality between studying time and exam grades\footnote{A point explored more in section \ref{simul_caus}}. 
 \textcolor{BrickRed}{[Do I need more here? Or is this enough of a brief intro to the later section?] - or should i just move the simultaneous causality section to here?}
@@ -160,14 +171,14 @@ Lastly, the data are cross-sectional rather than longitudinal, and the specific 
 
 %*******************************************************************************************************************
 \newpage
-\section{Models}
+\section{Models} \label{models}
 \textcolor{BrickRed}{[Do I need to focus more on the proxy model here?]}
 
 We need to first set up our structural equation defining the relationship between grades and studying (\cite{CardKrueger}). Let an individual's grade be $g_i$ and weekly hours of studying be $s_i$ and their ``ability" be $a_i$. Then our model is:
 $$
-g_i = \beta_0 + \beta_1 s_i + \beta_2 s_i^2  + \beta_3 a_i + \bm{x}_{i,4:k}\bm{\beta}_{4:k} + \varepsilon_i
+g_i = \beta_0 + \beta_1 s_i + \beta_2 s_i^2  + \bm{x}_{i,3:k-1}\bm{\beta}_{3:k-1} + \beta_k a_i + \varepsilon_i
 $$
-Where $\bm{x}_{i,4:k}$ is a vector of school and course level characteristics and $\varepsilon_i$ captures some unobserved heterogeneity and disturbances. Note that grades are nonlinear in weekly study time. While this nonlinearity complicates our model, it seems necessary because assuming that marginal returns to studying must vary depending on the initial level of studying.
+Where $\bm{x}_{i,3:k-1}$ is a vector of school and course level characteristics and $\varepsilon_i$ captures some unobserved heterogeneity and disturbances. Note that grades are nonlinear in weekly study time. While this nonlinearity complicates our model, it seems necessary because assuming that marginal returns to studying must vary depending on the initial level of studying.
 
 Clearly, there are issues with this model. How are we defining grades? The ideal set up would have a course specific set of simultaneous equations, where the number of equations is equal to the number of classes. The next best set up would involve estimating one equation for each type of class (quantitative, literary, historical, etc.) within each course. Another alternative would be to define grades as cumulative GPA. In this analysis, due to the limitations of the data, we define $g_i$ as the student's score on the final test for their course of study (G3 in the data).
 
@@ -179,11 +190,94 @@ Establishing this utility function gives motivation for including variables that
 
 %~~~~~~~~~~~~~~~~~~
 \subsection{Naive OLS}
-\textcolor{BrickRed}{[Plots need finishing (better labels, axis names, titles for with/without controls, choose line type and color, etc.]} \textcolor{BrickRed}{[Maybe only include the first two plots in this section, and include the discontinuous mapping only in appendix?]}
+\textcolor{BrickRed}{[Rough]}
 
-In this section we discuss results from the naive model specifications we estimate in the model fitting 1 notebook -  \href{https://nbviewer.jupyter.org/github/nadavtadelis/Reproducible_Metrics/blob/master/model_fitting_1.ipynb}{\textcolor{cyan}{nbviewer}}, \href{https://github.com/nadavtadelis/Reproducible_Metrics/blob/master/model_fitting_1.ipynb}{\textcolor{cyan}{git}}. Below we plot studying time's estimated contribution to the final score (in percent).
+\textcolor{BrickRed}{[Are the plots good enough? specifically are they clear?]} \textcolor{BrickRed}{[Maybe only include continuous results section, and include the discontinuous mapping only in appendix?]}
 
-\begin{tikzpicture}
+In this section we discuss results from the naive model specifications we estimate in the model fitting 1 notebook -  \href{https://nbviewer.jupyter.org/github/nadavtadelis/Reproducible_Metrics/blob/master/model_fitting_1.ipynb}{\textcolor{cyan}{nbviewer}}, \href{https://github.com/nadavtadelis/Reproducible_Metrics/blob/master/model_fitting_1.ipynb}{\textcolor{cyan}{git}}. This analysis explores simple models based on the structural equation we defined in section \ref{models}. We include results for both discrete (\hyperref[tab:naive_discrete]{Table:~\ref*{tab:naive_discrete}}) and continuous (\hyperref[tab:naive_continuous]{Table:~\ref*{tab:naive_continuous}}) mappings of studying time, with the continuous mapping including a squared term. For both mappings we run six OLS regressions. We first split the data into three samples: one including the full dataset with all students, one with only students studying the Portuguese Language Course, and one with only students studying the Mathematics Course. For each of these groups we run two regressions, one with only school and course level characteristics, and one including proxies for ability. Note that in both of these models we include an extra indicator for the sample that includes students from both classes: Course\_math is a binary variable indicating whether the student is in the Mathematics Course. School\_GP is an indicator for which of the two schools the student is enrolled in. These two variables make up our school and course level controls ($\bm{x}_{i,3:k-1}$ in our structural equation). For more information on which variables are included as proxies, see the model fitting 1 notebook linked to above. We report the results in the tables below.
+
+\begin{table}[H] \centering
+  \caption{Naive OLS, Discrete Mapping}  
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{@{\extracolsep{0pt}}lD{.}{.}{-3} D{.}{.}{-3} D{.}{.}{-3}D{.}{.}{-3} D{.}{.}{-3} D{.}{.}{-3} } 
+\\[-4ex]\hline 
+\hline \\[-1.8ex] 
+ & \multicolumn{6}{c}{\textit{Dependent variable:} G3 Grade (Percent)} \\%& \multicolumn{3}{c}{\textit{Dependent variable:} Screening2} \\ 
+\cline{2-4} \cline{5-7}
+\\[-1.8ex] & \multicolumn{1}{c}{\textit{Both}} & \multicolumn{1}{c}{\textit{Portuguese}} & \multicolumn{1}{c}{\textit{Mathematics}} & \multicolumn{1}{c}{\textit{Both}} & \multicolumn{1}{c}{\textit{Portuguese}} & \multicolumn{1}{c}{\textit{Mathematics}} \\ \ 
+\\[-1.8ex] & \multicolumn{1}{c}{(1)} & \multicolumn{1}{c}{(2)} & \multicolumn{1}{c}{(3)} & \multicolumn{1}{c}{(4)} & \multicolumn{1}{c}{(5)} & \multicolumn{1}{c}{(6)} \\ 
+\hline \\[-1.8ex] 
+  Constant               & 0.5120^{***}  & 0.4942^{*** }  & 0.4784^{***}   & 0.4492^{***}     & 0.3136^{***}       & 0.8002^{***}         \\
+                     	      & (0.0137)   & (0.0143)    & (0.0366)     & (0.1106)      & (0.1099)       & (0.2827)          \\ [1ex]  
+  Studytime\_2     & 0.0361^{***}  & 0.0526^{***}   & 0.0050       & 0.0213        & 0.0181         & 0.0264           \\
+                     & (0.0136)   & (0.0143)    & (0.0285)     & (0.0142)      & (0.0147)       & (0.0382)         \\[1ex]
+ Studytime\_3     & 0.0924^{***}  & 0.1045^{***}   & 0.0668^{*}      & 0.0631^{***}     & 0.0474^{***}      & 0.0923^{**}         \\
+                     & (0.0177)   & (0.0166)    & (0.0380)     & (0.0182)      & (0.0180)       & (0.0424)         \\[1ex]
+ Studytime\_4     & 0.0787^{***}  & 0.0927^{***}   & 0.0563       & 0.0384        & 0.0481^{*}        & 0.0383           \\
+                     & (0.0285)   & (0.0278)    & (0.0575)     & (0.0290)      & (0.0264)       & (0.0623)         \\[1ex]
+ School\_GP           & 0.0742^{***}  & 0.0856^{***}   & 0.0283       & 0.0371^{**}      & 0.0602^{***}      & -0.0267          \\
+                     & (0.0133)   & (0.0142)    & (0.0337)     & (0.0150)      & (0.0160)       & (0.0445)         \\[1ex]
+ Course\_math         & -0.0954^{***} &             &              & -0.0958^{***}    &                &                  \\
+                     		& (0.0128)   &             &              & (0.0150)      &                &                  \\[1ex] 
+\hline \\[-1.8ex] 
+ Proxies/Controls & \multicolumn{1}{c}{\textit{no}} &  \multicolumn{1}{c}{\textit{no}} &  \multicolumn{1}{c}{\textit{no}} &  \multicolumn{1}{c}{\textit{yes}} & \multicolumn{1}{c}{\textit{yes}} & \multicolumn{1}{c}{\textit{yes}} \\[0.2ex]  
+\hline \\[-1.8ex] 
+Observations & \multicolumn{1}{c}{1,044} & \multicolumn{1}{c}{649} & \multicolumn{1}{c}{395} & \multicolumn{1}{c}{1,044} & \multicolumn{1}{c}{649} & \multicolumn{1}{c}{395} \\ 
+Df & \multicolumn{1}{c}{5} & \multicolumn{1}{c}{4} & \multicolumn{1}{c}{4} & \multicolumn{1}{c}{68} & \multicolumn{1}{c}{67} & \multicolumn{1}{c}{67} \\
+R$^{2}$ & 0.09 & 0.13 & 0.02 & 0.33 & 0.410 & 0.35 \\ 
+Adjusted R$^{2}$ & 0.09 & 0.13 & 0.01 & 0.28 & 0.34 & 0.22 \\  
+F Statistic & 24.62^{***} & 22.95^{***} & 1.47 & 7.23^{***} & 5.91^{***} & 2.74^{***} \\ 
+\hline 
+\hline \\[-1.8ex] 
+\textit{Note:}  & & & & \multicolumn{3}{r}{$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\ 
+\end{tabular} 
+}
+\label{tab:naive_discrete}
+\end{table}
+
+
+\begin{table}[H] \centering
+  \caption{Naive OLS, Continuous Mapping}  
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{@{\extracolsep{0pt}}lD{.}{.}{-3} D{.}{.}{-3} D{.}{.}{-3}D{.}{.}{-3} D{.}{.}{-3} D{.}{.}{-3} } 
+\\[-4ex]\hline 
+\hline \\[-1.8ex] 
+ & \multicolumn{6}{c}{\textit{Dependent variable:} G3 Grade (Percent)} \\%& \multicolumn{3}{c}{\textit{Dependent variable:} Screening2} \\ 
+\cline{2-4} \cline{5-7}
+\\[-1.8ex] & \multicolumn{1}{c}{\textit{Both}} & \multicolumn{1}{c}{\textit{Portuguese}} & \multicolumn{1}{c}{\textit{Mathematics}} & \multicolumn{1}{c}{\textit{Both}} & \multicolumn{1}{c}{\textit{Portuguese}} & \multicolumn{1}{c}{\textit{Mathematics}} \\ \ 
+\\[-1.8ex] & \multicolumn{1}{c}{(1)} & \multicolumn{1}{c}{(2)} & \multicolumn{1}{c}{(3)} & \multicolumn{1}{c}{(4)} & \multicolumn{1}{c}{(5)} & \multicolumn{1}{c}{(6)} \\ 
+\hline \\[-1.8ex] 
+  Constant          & 0.4879^{***}  & 0.4686^{***}   & 0.4572^{***}    & 0.4378^{***}    & 0.3049^{***}       & 0.7802^{***}         \\
+                          & (0.0161)   & (0.0165)    & (0.0402)     & (0.1103)      & (0.1091)       & (0.2819)         \\[1ex]
+  Studytime\_continuous     & 0.0220^{***}  & 0.0268^{***}   & 0.0128       & 0.0155^{***}     & 0.0107^{*}       & 0.0232^{*}          \\
+                          & (0.0053)   & (0.0052)    & (0.0113)     & (0.0055)      & (0.0055)       & (0.0126)         \\[1ex]
+  Studytime\_continuous\_sq & -0.0010^{***} & -0.0013^{***}  & -0.0005      & -0.0008^{**}     & -0.0004        & -0.0012          \\
+                          & (0.0004)   & (0.0004)    & (0.0007)     & (0.0004)      & (0.0003)       & (0.0008)         \\[1ex]
+  School\_GP                & 0.0737^{***}  & 0.0856^{***}   & 0.0262       & 0.0371^{**}      & 0.0603^{***}      & -0.0270         \\
+                          & (0.0133)   & (0.0142)    & (0.0335)     & (0.0150)      & (0.0160)       & (0.0445)         \\[1ex]
+  Course\_math              & -0.0956^{***} &             &              & -0.0959^{***}    &                &                  \\
+                          & (0.0128)   &             &              & (0.0150)      &                &                  \\[1ex]
+\hline \\[-1.8ex] 
+ Proxies/Controls & \multicolumn{1}{c}{\textit{no}} &  \multicolumn{1}{c}{\textit{no}} &  \multicolumn{1}{c}{\textit{no}} &  \multicolumn{1}{c}{\textit{yes}} & \multicolumn{1}{c}{\textit{yes}} & \multicolumn{1}{c}{\textit{yes}} \\[0.2ex]  
+\hline \\[-1.8ex] 
+Observations & \multicolumn{1}{c}{1,044} & \multicolumn{1}{c}{649} & \multicolumn{1}{c}{395} & \multicolumn{1}{c}{1,044} & \multicolumn{1}{c}{649} & \multicolumn{1}{c}{395} \\
+Df & \multicolumn{1}{c}{5} & \multicolumn{1}{c}{4} & \multicolumn{1}{c}{4} & \multicolumn{1}{c}{68} & \multicolumn{1}{c}{67} & \multicolumn{1}{c}{67} \\ 
+R$^{2}$ & 0.09       & 0.13        & 0.01         & 0.33          & 0.41           & 0.34             \\ 
+Adjusted R$^{2}$ & 0.09       & 0.13        & 0.00         & 0.28          & 0.34           & 0.22             \\ 
+F Statistic & 30.11^{***}      & 30.61^{***}       & 1.41         & 7.29^{***}          & 6.03^{***}           & 2.97^{***} \\ 
+\hline 
+\hline \\[-1.8ex] 
+\textit{Note:}  & & & & \multicolumn{3}{r}{$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\ 
+\end{tabular} 
+}
+\label{tab:naive_continuous}
+\end{table}
+
+We find that in all twelve models the estimated coefficients on weekly study time report decreasing marginal returns. Studying time's estimated contribution to the final score (in percentage points) is plotted below (these plots are simply visual representations of the coefficients on study time in each of the models). 
+
+\begin{center}
+\begin{scaletikzpicturetowidth}{\textwidth}
+\begin{tikzpicture}[scale=\tikzscale]
 % Axis
 \draw[->] (-0.3,0) -- (6,0) node[anchor=north] {studytime};
 \draw[->] (0,-0.3) -- (0,7) node[anchor=east] {$\Delta\hat{\mathrm{G3}\%}$};
@@ -235,10 +329,13 @@ In this section we discuss results from the naive model specifications we estima
 %\node[anchor=center] at (3, -1) {Sub caption II};        
 \end{scope}
 \end{tikzpicture}
+\end{scaletikzpicturetowidth}
+\end{center}
 
-\vspace{10pt} % REMOVE AFTER FORMATTING IS NICE AND FINALIZED
 
-\begin{tikzpicture}
+\begin{center}
+\begin{scaletikzpicturetowidth}{\textwidth}
+\begin{tikzpicture}[scale=\tikzscale]
 % Axis
 \draw[->] (-0.3,0) -- (6,0) node[anchor=north] {studytime};
 \draw[->] (0,-0.3) -- (0,5.5) node[anchor=east] {$\Delta\hat{\mathrm{G3}\%}$};
@@ -286,6 +383,12 @@ In this section we discuss results from the naive model specifications we estima
 \node[anchor=center] at (3, 6) {With Proxies};
 \end{scope}
 \end{tikzpicture}
+\end{scaletikzpicturetowidth}
+\end{center}
+
+These plots allow clearer visual representation of the estimated relationship between studying time and final grade in our naive OLS models. As expected the behavior of the continuous and discrete estimates are similar. The decrease in size of the estimated relationship between studying and grades for the Portuguese Language students suggests\footnote{We would like to emphasize that this discussion does not describe any causal relationships. These models are purely predictive.} that students with higher ability are studying more, and getting better grades, and that once ability is controlled for the predicted returns to studying are smaller. Interestingly the estimated relationship between studying and grades in the Mathematics students is flipped; this seems to suggests that in mathematics, students with higher ability study less to achieve the same grade (i.e. that studying is less important than ability). \textcolor{BrickRed}{[Is it clear enough that these are not causal relationships?] [Also, is the intuition correct here? Are these the actual implications of the results? need to think about this more]}
+
+\textcolor{BrickRed}{[Should I also discuss the actual size of the estimated relationship? Since this is prediction rather than causation the size isn't actually as interesting as the shape and how changes after including proxies. But maybe I should still include something mentioning it?]}
 
 %~~~~~~~~~~~~~~~~~~
 \subsubsection{Additional Analysis}
@@ -361,25 +464,25 @@ The procedure that Wooldridge suggests is as follows (\cite{wooldridge}):
 
 %~~~~~~~~~~~~~~~~~~
 \subsubsection{Properties of Q2SLS}
-\textcolor{BrickRed}{[Explain the testing that I did for Q2SLS, mention that it looks like the coeff.s on endog\_sq\_hat and the exog vars are consistent and unbiased, but that the coeff on endog\_hat is consistent but biased. Point out the oddness of this behavior and note that I plan on researching this further.]} Note: pretty sure my instruments are weak (need to check), the simulation suggests that in the case of weak instruments the estimates are good but that the SE's are going to be large for the endogenous vars.
+\textcolor{BrickRed}{[Explain the testing that I did for Q2SLS, mention that it looks like the coeff.s on endog\_sq\_hat and the exog vars are consistent and unbiased, but that the coeff on endog\_hat is consistent but biased. Point out the oddness of this behavior and note that I plan on researching this further.]} Note: pretty sure my instruments are weak (need to check), the simulation suggests that in the case of weak instruments the estimates are good but that the SE's are going to be large for the endogenous vars. Need to include justification for calling these instruments 'weak' or 'strong', they intuitively are, but because of the nested generated regressor in part (1.b) there is a bit more going on that in standard 2SLS.
 
 \textcolor{BrickRed}{[Discuss difficulty with finding the asymptotically consistent estimator for variance in Q2SLS because of the nested generated regressors]}
 
-\textcolor{BrickRed}{[Give brief overview of bootstrapping and explain how its being used here to estimate variance of coeff. estimates in 2nd stage]} I think I'll need to explain that we report the coefficient estimates built on the full sample, rather than the average coefficients from the bootstrapping step - maybe link this back to the question of why the coefficient estimates are biased in the simulation, its not the same thing because here we are re-drawing and in simulation they are new draws, but it seems like there may be some connection here (maybe). Also add note about future integration of a wild bootstrap approach to variance estimation (stricter assumptions, but some really nice properties for endogenous models - see slide 15 from the link below)
+\textcolor{BrickRed}{[Give brief overview of bootstrapping and explain how its being used here to estimate variance of coeff. estimates in 2nd stage]} If I don't figure out why the average bootstrapped coeff doesn't approach the full sample coeff then I'll need to explain that we report the coefficient estimates built on the full sample, rather than the average coefficients from the bootstrapping step - maybe link this back to the question of why the coefficient estimates are biased in the simulation, its not the same thing because here we are re-drawing and in simulation they are new draws, but it seems like there may be some connection here (maybe). 
 
-Mention that the current method of bootstrapping is called ``pairs bootstrap" in regression setting, and ``nonparametric bootstrap" more generally.
+Mention that the current method of bootstrapping is called ``pairs bootstrap" in regression setting, and ``nonparametric bootstrap" more generally. Also add note about future integration of a WRE bootstrap approach to variance estimation (stricter assumptions, but some really nice properties for endogenous models - see slide 15 from the link below)
 
-\textcolor{BrickRed}{FOR BOOTSTRAPPING COV MATRIX:} See 8th slide of \href{https://www.math.kth.se/matstat/gru/sf2930/papers/wild.bootstrap.pdf}{\textcolor{cyan}{LINK}}. It also has notes on hypothesis testing and p values for bootstrapping with regression coefficients. SLIDE 14 HAS DISCUSSION OF BOOTSTRAPPING WITH ENDOGENOUS VARS!! (Wild Restricted Efficient Bootstrap (Davidson and MacKinnon 2010) is good for endogeneity and is good for hypothesis testing when you have weak instruments)
+\textcolor{BrickRed}{FOR BOOTSTRAPPING COV MATRIX (and endogeneity):} See 8th slide of \href{https://www.math.kth.se/matstat/gru/sf2930/papers/wild.bootstrap.pdf}{\textcolor{cyan}{LINK}}. It also has notes on hypothesis testing and p values for bootstrapping with regression coefficients. SLIDE 14 HAS DISCUSSION OF BOOTSTRAPPING WITH ENDOGENOUS VARS!! --> Wild Restricted Efficient Bootstrap (Davidson and MacKinnon 2010) is good for endogeneity and is good for hypothesis testing when you have weak instruments
 
 %~~~~~~~~~~~~~~~~~~
 \subsubsection{Application}
-\textcolor{BrickRed}{[Discuss chosen instruments and give motivation for why they might be okay to use, give strong disclaimer that even if they are valid, they are probably weak instruments]} Justification for using 'going out' as instrument is stronger if we explain that we have controls for weekly and daily alcohol consumption (which is one thing that could affect grades through going out independently of studying time) so its a semi reasonable claim to say that going out is exogenous variation in available studying time once the detrimental effects of going out (namely drinking) are controlled for. not a super strong argument, but at least a little justification. Point out that in the monte carlo simulation, weak instruments resulted in (seemingly) unbiased consistent estimates for the true coeff, but that the variance was massive - which suggests that we should expect a massive variance on our coeff.s because we have weak instruments.
+\textcolor{BrickRed}{[Discuss chosen instruments and give motivation for why they might be okay to use, give strong disclaimer that even if they are valid, they are probably weak instruments]} Justification for using 'going out' as instrument is stronger if we explain that we have controls for weekly and daily alcohol consumption (which is one thing that could affect grades through going out independently of studying time) so its a semi reasonable claim to say that going out is exogenous variation in available studying time once the detrimental effects of going out (namely drinking) are controlled for. not a super strong argument, but at least a little justification. Also include motivation for creating the artificial instrument instead of just using travel time as an instrument, if we just use travel time then there is still an endogeneity problem because people with higher motivation/ability might be choosing schools further away because of their reputation or course options and they might score higher independently to how much they study (because of their higher ability). Point out that in the monte carlo simulation, weak instruments resulted in (seemingly) unbiased consistent estimates for the true coeff, but that the variance was massive - which suggests that we should expect a massive variance on our coeff.s because we have weak instruments.
 
-\textcolor{BrickRed}{[Report results]} Include plots like the naive ols plots, one for 2SLS and one for Q2SLS
+\textcolor{BrickRed}{[Report results]} Include plots like the naive ols plots, one for 2SLS and one for Q2SLS. Maybe also include fitted values plot with studytime on x axis and predicted grade on y axis.
 
-\textcolor{BrickRed}{[Discuss results]} Note: seems like we should expect that after identifying the causal effect we would see a decrease in the size of the coefficient on studying time because before that coefficient could have been positively biased because people who study more might also have a higher level of motivation of 'ability', so there might be a plausible intuitive argument that the size of the coeff should go down. need to think about this a bit more, but it might be worth mentioning.
+\textcolor{BrickRed}{[Discuss results]} Note: seems like we should expect that after identifying the causal effect we would see a decrease in the size of the coefficient on studying time because before that coefficient \textit{could} have been positively biased because people who study more might also have a higher level of motivation of 'ability', so there might be a plausible intuitive argument that the size of the coeff should go down. need to think about this a bit more, but it might be worth mentioning.
 
-Maybe: \textcolor{BrickRed}{[Reference appendix, and in the appendix include the results from Q2SLS with only 'essential' controls in the extra results subsection. Similar to the approach for the naive OLS at the beginning]}
+Make sure to highlight that these results are not something that I am confident are actually identifying a causal effect, the instruments are too funky and I still am not sure that I fully understand Q2SLS's asymptotic behavior. Mention that this is more meant to be an exploration of a novel analysis using reproducible/responsible research practices.
 
 
 %*******************************************************************************************************************
@@ -429,7 +532,7 @@ One the researcher has created a nicely formatted function script, the next step
 %*******************************************************************************************************************
 \newpage
 \section{Conclusion (? - maybe not needed)}
-Maybe include a conclusion in the Q2SLS section, but not here.
+Maybe include a subsection conclusion in Models after Q2SLS results section, but not here?
 
 %*******************************************************************************************************************
 \newpage
@@ -453,97 +556,18 @@ Maybe include a conclusion in the Q2SLS section, but not here.
 %~~~~~~~~~~~~~~~~~~
 \subsection{Naive OLS Extra Models} \label{appendix_naive}
 
-\textcolor{BrickRed}{[PUTTING ALL TABLES HERE FOR NOW BECAUSE HAVING TROUBLE PUTTING THEM IN SPECIFIC SECTION]}
-
 QUESTION: \textcolor{BrickRed}{[Should we report these tables in the main paper and then report tables with all the covariates in the appendix? These would be extra long, and are viewable in the model fitting 1 notebook, so maybe it'd be better to just link to them?]}
-
-\begin{table}[!h] \centering
-  \caption{Naive OLS, Discrete Mapping}  
-\resizebox{\columnwidth}{!}{%
-\begin{tabular}{@{\extracolsep{0pt}}lD{.}{.}{-3} D{.}{.}{-3} D{.}{.}{-3}D{.}{.}{-3} D{.}{.}{-3} D{.}{.}{-3} } 
-\\[-4ex]\hline 
-\hline \\[-1.8ex] 
- & \multicolumn{6}{c}{\textit{Dependent variable:} G3 Grade (Percent)} \\%& \multicolumn{3}{c}{\textit{Dependent variable:} Screening2} \\ 
-\cline{2-4} \cline{5-7}
-\\[-1.8ex] & \multicolumn{1}{c}{\textit{Both}} & \multicolumn{1}{c}{\textit{Portuguese}} & \multicolumn{1}{c}{\textit{Mathematics}} & \multicolumn{1}{c}{\textit{Both}} & \multicolumn{1}{c}{\textit{Portuguese}} & \multicolumn{1}{c}{\textit{Mathematics}} \\ \ 
-\\[-1.8ex] & \multicolumn{1}{c}{(1)} & \multicolumn{1}{c}{(2)} & \multicolumn{1}{c}{(3)} & \multicolumn{1}{c}{(4)} & \multicolumn{1}{c}{(5)} & \multicolumn{1}{c}{(6)} \\ 
-\hline \\[-1.8ex] 
-  Constant               & 0.5120^{***}  & 0.4942^{*** }  & 0.4784^{***}   & 0.4492^{***}     & 0.3136^{***}       & 0.8002^{***}         \\
-                     	      & (0.0137)   & (0.0143)    & (0.0366)     & (0.1106)      & (0.1099)       & (0.2827)          \\ [1ex]  
-  Studytime\_2     & 0.0361^{***}  & 0.0526^{***}   & 0.0050       & 0.0213        & 0.0181         & 0.0264           \\
-                     & (0.0136)   & (0.0143)    & (0.0285)     & (0.0142)      & (0.0147)       & (0.0382)         \\[1ex]
- Studytime\_3     & 0.0924^{***}  & 0.1045^{***}   & 0.0668^{*}      & 0.0631^{***}     & 0.0474^{***}      & 0.0923^{**}         \\
-                     & (0.0177)   & (0.0166)    & (0.0380)     & (0.0182)      & (0.0180)       & (0.0424)         \\[1ex]
- Studytime\_4     & 0.0787^{***}  & 0.0927^{***}   & 0.0563       & 0.0384        & 0.0481^{*}        & 0.0383           \\
-                     & (0.0285)   & (0.0278)    & (0.0575)     & (0.0290)      & (0.0264)       & (0.0623)         \\[1ex]
- School\_GP           & 0.0742^{***}  & 0.0856^{***}   & 0.0283       & 0.0371^{**}      & 0.0602^{***}      & -0.0267          \\
-                     & (0.0133)   & (0.0142)    & (0.0337)     & (0.0150)      & (0.0160)       & (0.0445)         \\[1ex]
- Course\_math         & -0.0954^{***} &             &              & -0.0958^{***}    &                &                  \\
-                     		& (0.0128)   &             &              & (0.0150)      &                &                  \\[1ex] 
-\hline \\[-1.8ex] 
- Proxies/Controls & \textit{no} & \textit{no} & \textit{no} & \textit{yes} & \textit{yes} & \textit{yes} \\[0.2ex]  
-\hline \\[-1.8ex] 
-Observations & \multicolumn{1}{c}{1,044} & \multicolumn{1}{c}{649} & \multicolumn{1}{c}{395} & \multicolumn{1}{c}{1,044} & \multicolumn{1}{c}{649} & \multicolumn{1}{c}{395} \\ 
-Df & \multicolumn{1}{c}{5} & \multicolumn{1}{c}{4} & \multicolumn{1}{c}{4} & \multicolumn{1}{c}{68} & \multicolumn{1}{c}{67} & \multicolumn{1}{c}{67} \\
-R$^{2}$ & \multicolumn{1}{c}{0.094} & \multicolumn{1}{c}{0.131} & \multicolumn{1}{c}{0.015} & \multicolumn{1}{c}{0.328} & \multicolumn{1}{c}{0.410} & \multicolumn{1}{c}{0.352} \\ 
-Adjusted R$^{2}$ & \multicolumn{1}{c}{0.090} & \multicolumn{1}{c}{0.126} & \multicolumn{1}{c}{0.005} & \multicolumn{1}{c}{0.282} & \multicolumn{1}{c}{0.342} & \multicolumn{1}{c}{0.219} \\  
-F Statistic & \multicolumn{1}{c}{24.62$^{***}$} & \multicolumn{1}{c}{22.95$^{***}$} & \multicolumn{1}{c}{1.469} & \multicolumn{1}{c}{7.23$^{***}$} & \multicolumn{1}{c}{5.91$^{***}$} & \multicolumn{1}{c}{2.74$^{***}$} \\ 
-\hline 
-\hline \\[-1.8ex] 
-\textit{Note:}  & & & & \multicolumn{3}{r}{$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\ 
-\end{tabular} 
-}
-\end{table}
-
-
-\begin{table}[!h] \centering
-  \caption{Naive OLS, Continuous Mapping}  
-\resizebox{\columnwidth}{!}{%
-\begin{tabular}{@{\extracolsep{0pt}}lD{.}{.}{-3} D{.}{.}{-3} D{.}{.}{-3}D{.}{.}{-3} D{.}{.}{-3} D{.}{.}{-3} } 
-\\[-4ex]\hline 
-\hline \\[-1.8ex] 
- & \multicolumn{6}{c}{\textit{Dependent variable:} G3 Grade (Percent)} \\%& \multicolumn{3}{c}{\textit{Dependent variable:} Screening2} \\ 
-\cline{2-4} \cline{5-7}
-\\[-1.8ex] & \multicolumn{1}{c}{\textit{Both}} & \multicolumn{1}{c}{\textit{Portuguese}} & \multicolumn{1}{c}{\textit{Mathematics}} & \multicolumn{1}{c}{\textit{Both}} & \multicolumn{1}{c}{\textit{Portuguese}} & \multicolumn{1}{c}{\textit{Mathematics}} \\ \ 
-\\[-1.8ex] & \multicolumn{1}{c}{(1)} & \multicolumn{1}{c}{(2)} & \multicolumn{1}{c}{(3)} & \multicolumn{1}{c}{(4)} & \multicolumn{1}{c}{(5)} & \multicolumn{1}{c}{(6)} \\ 
-\hline \\[-1.8ex] 
-  Constant          & 0.4879^{***}  & 0.4686^{***}   & 0.4572^{***}    & 0.4378^{***}    & 0.3049^{***}       & 0.7802^{***}         \\
-                          & (0.0161)   & (0.0165)    & (0.0402)     & (0.1103)      & (0.1091)       & (0.2819)         \\[1ex]
-  Studytime\_continuous     & 0.0220^{***}  & 0.0268^{***}   & 0.0128       & 0.0155^{***}     & 0.0107^{*}       & 0.0232^{*}          \\
-                          & (0.0053)   & (0.0052)    & (0.0113)     & (0.0055)      & (0.0055)       & (0.0126)         \\[1ex]
-  Studytime\_continuous\_sq & -0.0010^{***} & -0.0013^{***}  & -0.0005      & -0.0008^{**}     & -0.0004        & -0.0012          \\
-                          & (0.0004)   & (0.0004)    & (0.0007)     & (0.0004)      & (0.0003)       & (0.0008)         \\[1ex]
-  School\_GP                & 0.0737^{***}  & 0.0856^{***}   & 0.0262       & 0.0371^{**}      & 0.0603^{***}      & -0.0270         \\
-                          & (0.0133)   & (0.0142)    & (0.0335)     & (0.0150)      & (0.0160)       & (0.0445)         \\[1ex]
-  Course\_math              & -0.0956^{***} &             &              & -0.0959^{***}    &                &                  \\
-                          & (0.0128)   &             &              & (0.0150)      &                &                  \\[1ex]
-\hline \\[-1.8ex] 
- Proxies/Controls & \textit{no} & \textit{no} & \textit{no} & \textit{yes} & \textit{yes} & \textit{yes} \\[0.2ex]  
-\hline \\[-1.8ex] 
-Observations & \multicolumn{1}{c}{1,044} & \multicolumn{1}{c}{649} & \multicolumn{1}{c}{395} & \multicolumn{1}{c}{1,044} & \multicolumn{1}{c}{649} & \multicolumn{1}{c}{395} \\
-Df & \multicolumn{1}{c}{5} & \multicolumn{1}{c}{4} & \multicolumn{1}{c}{4} & \multicolumn{1}{c}{68} & \multicolumn{1}{c}{67} & \multicolumn{1}{c}{67} \\ 
-R$^{2}$ & 0.09       & 0.13        & 0.01         & 0.33          & 0.41           & 0.34             \\ 
-Adjusted R$^{2}$ & 0.09       & 0.13        & 0.00         & 0.28          & 0.34           & 0.22             \\ 
-F Statistic & 30.11^{***}      & 30.61^{***}       & 1.41         & 7.29^{***}          & 6.03^{***}           & 2.97^{***} \\ 
-\hline 
-\hline \\[-1.8ex] 
-\textit{Note:}  & & & & \multicolumn{3}{r}{$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\ 
-\end{tabular} 
-}
-\end{table}
-
-\newpage %%%% REMOVE THIS NEWPAGE AFTER FIGURE OUT HOW TO PUT TABLES WHERE WANTED %%%%
 
 %~~~~~~~~~~~~~~~~~~
 \subsection{Q2SLS Function Testing Procedure} \label{appendix_function_testing}
-\textcolor{BrickRed}{[Can use some of the markdown from the functions testing notebook here, and obv.s link to the notebook as well]}
+\textcolor{BrickRed}{[Can use some of the markdown from the functions testing notebook here, and link to the notebook as well]} Should I also include some of the plots from the monte carlo results (specifically the plot with the distributions of the strong and weak instrument setting coefficients)?
 
 %~~~~~~~~~~~~~~~~~~
 \subsection{Q2SLS Extra Models} \label{appendix_q2sls}
 
 \textcolor{BrickRed}{[PUTTING ALL TABLE HERE FOR NOW BECAUSE HAVING TROUBLE PUTTING THEM IN SPECIFIC SECTION]} Note: this Q2SLS table does not have the correct coefficient values, it is just here as a placeholder and to set up the formatting.
 
-\begin{table}[!h] \centering
+\begin{table}[H] \centering
   \caption{Addressing Endogeneity - WRONG VALUES (JUST PLACEHOLDER FOR NOW)}  
 \resizebox{\columnwidth}{!}{%
 \begin{tabular}{@{\extracolsep{0pt}}lD{.}{.}{-3} D{.}{.}{-3} D{.}{.}{-3}D{.}{.}{-3} D{.}{.}{-3} D{.}{.}{-3} } 
@@ -579,7 +603,6 @@ F Statistic & 30.11^{***}      & 30.61^{***}       & 1.41         & 7.29^{***}  
 }
 \end{table}
 
-\newpage %%%% REMOVE THIS NEWPAGE AFTER FIGURE OUT HOW TO PUT TABLES WHERE WANTED %%%%
 
 %~~~~~~~~~~~~~~~~~~
 \subsection{Miscellanea (?)}
