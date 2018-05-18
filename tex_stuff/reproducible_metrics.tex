@@ -146,13 +146,11 @@ The basic idea for the econometric analysis in the paper is adapted from an inde
 %*******************************************************************************************************************
 \newpage
 \section{Data}
-The \href{https://archive.ics.uci.edu/ml/datasets/Student+Performance#}{\textcolor{cyan}{data}} being used are from the public archive of UCI's machine learning repository and were collected by Paulo Cortez of the University of Minho, Portugal in the 2005 - 2006 academic year (\cite{data_paper}). The data were collected in two secondary schools in the Alentejo region of Portugal, using school reports and questionnaires. The data were cleaned to only include students for which all the variables are known - and a further 111 students were discarded because of mismatched information between the surveys and the school reports. The data come with a file containing attribute information which can be found \href{https://archive.ics.uci.edu/ml/datasets/Student+Performance#}{\textcolor{cyan}{here}}; these include school, course, and many individual level characteristics. The data include 649 students from a Portuguese Language course of study, and 395 students from a Mathematics course. 
-
-\textcolor{BrickRed}{[Need more about data collection methods here? There isn't much description in the original paper, maybe this is enough?]}
+The \href{https://archive.ics.uci.edu/ml/datasets/Student+Performance#}{\textcolor{cyan}{data}} being used are from the public archive of UCI's machine learning repository and were collected by Paulo Cortez of the University of Minho, Portugal in the 2005 - 2006 academic year (\cite{data_paper}). The data were collected in two secondary schools in the Alentejo region of Portugal, using school reports and questionnaires. The data were cleaned to only include students for which all the variables are known - and a further 111 students were discarded because of mismatched information between the surveys and the school reports. The data come with a file containing attribute information which can be found \href{https://archive.ics.uci.edu/ml/datasets/Student+Performance#}{\textcolor{cyan}{here}}; these include school, course, and many individual level characteristics. The data include 649 students from a Portuguese Language course of study, and 395 students from a Mathematics course. \textcolor{BrickRed}{[Need more about data collection methods here? There isn't much description in the original paper, maybe this is enough?]}
 
 %~~~~~~~~~~~~~~~~~~
 \subsection{Data Exploration}
-\textcolor{BrickRed}{[This section is very rough, needs work. not sure how much to include here vs just linking to data exploration notebook]}
+\textcolor{BrickRed}{[This section is basic. Not sure how much to include here vs just linking to data exploration notebook]}
 
 There is some pre-analysis data cleaning and exploration that we run, which can be found in the data exploration notebook - \href{https://nbviewer.jupyter.org/github/nadavtadelis/Reproducible_Metrics/blob/master/data_exploration.ipynb}{\textcolor{cyan}{nbviewer}}, \href{https://github.com/nadavtadelis/Reproducible_Metrics/blob/master/data_exploration.ipynb}{\textcolor{cyan}{git}}; some figures from this notebook are included in appendix \ref{appendix_figs} \textcolor{BrickRed}{[MAKE SURE TO INCLUDE THESE]}. The notebook contains the full data exploration process, as well as explanations and commentary detailing the figure generation process.
 
@@ -172,7 +170,7 @@ Lastly, the data are cross-sectional rather than longitudinal, and the specific 
 %*******************************************************************************************************************
 \newpage
 \section{Models} \label{models}
-\textcolor{BrickRed}{[Do I need to focus more on the proxy model here?]}
+\textcolor{BrickRed}{[Do I need to add more on the proxy model here?]}
 
 We need to first set up our structural equation defining the relationship between grades and studying (\cite{CardKrueger}). Let an individual's grade be $g_i$ and weekly hours of studying be $s_i$ and their ``ability" be $a_i$. Then our model is:
 $$
@@ -190,9 +188,7 @@ Establishing this utility function gives motivation for including variables that
 
 %~~~~~~~~~~~~~~~~~~
 \subsection{Naive OLS}
-\textcolor{BrickRed}{[Rough]}
-
-\textcolor{BrickRed}{[Are the plots good enough? specifically are they clear?]} \textcolor{BrickRed}{[Maybe only include continuous results section, and include the discontinuous mapping only in appendix?]}
+\textcolor{BrickRed}{[Are the plots clear enough?]} \textcolor{BrickRed}{[Maybe only include continuous results section, and include the discontinuous mapping only in appendix?]}
 
 In this section we discuss results from the naive model specifications we estimate in the model fitting 1 notebook -  \href{https://nbviewer.jupyter.org/github/nadavtadelis/Reproducible_Metrics/blob/master/model_fitting_1.ipynb}{\textcolor{cyan}{nbviewer}}, \href{https://github.com/nadavtadelis/Reproducible_Metrics/blob/master/model_fitting_1.ipynb}{\textcolor{cyan}{git}}. This analysis explores simple models based on the structural equation we defined in section \ref{models}. We include results for both discrete (\hyperref[tab:naive_discrete]{Table:~\ref*{tab:naive_discrete}}) and continuous (\hyperref[tab:naive_continuous]{Table:~\ref*{tab:naive_continuous}}) mappings of studying time, with the continuous mapping including a squared term. For both mappings we run six OLS regressions. We first split the data into three samples: one including the full dataset with all students, one with only students studying the Portuguese Language Course, and one with only students studying the Mathematics Course. For each of these groups we run two regressions, one with only school and course level characteristics, and one including proxies for ability. Note that in both of these models we include an extra indicator for the sample that includes students from both classes: Course\_math is a binary variable indicating whether the student is in the Mathematics Course. School\_GP is an indicator for which of the two schools the student is enrolled in. These two variables make up our school and course level controls ($\bm{x}_{i,3:k-1}$ in our structural equation). For more information on which variables are included as proxies, see the model fitting 1 notebook linked to above. We report the results in the tables below.
 
@@ -390,11 +386,13 @@ These plots allow clearer visual representation of the estimated relationship be
 
 \textcolor{BrickRed}{[Should I also discuss the actual size of the estimated relationship? Since this is prediction rather than causation the size isn't actually as interesting as the shape and how changes after including proxies. But maybe I should still include something mentioning it?]}
 
+In the next section we describe the results from some additional analyses we ran related to these naive regressions.
+
 %~~~~~~~~~~~~~~~~~~
 \subsubsection{Additional Analysis}
-In the model fitting 1 notebook we also include some additional explorations of the estimated models. We compute the variance inflation factor to check for multicollinearity (\cite{VIF, detecting}). We find slight collinearity between studying time and its square, but we are not worried about this collinearity because it is on our variable of interest, and the VIF is low enough to ignore. The rest of the collinearity that the VIF detects is so low that we don't need to consider it.
+In the model fitting 1 notebook we also include some additional explorations of the estimated models. Specifically these analyses use the sample including both courses of study. We compute the variance inflation factor to check for multicollinearity (\cite{VIF, detecting}). We find slight collinearity between studying time and its square, but we are not worried about this collinearity because it is on our variable of interest, and the VIF is low enough to ignore. The rest of the collinearity that the VIF detects is so low that we don't need to consider it.
 
-Additionally, we include a brief exploration of a LASSO-flavored penalization for variable selection (\cite{MLmetrics}) . We find that if we select a penalization parameter that shrinks all but seven of the coefficients to zero, the remaining coefficients are on studying time, school, course of study, number of failures, interest in higher education, mother's education, and whether the student is in the lowest bin of alcohol consumption. It is reassuring to see that the coefficient on studying time is not shrunk to zero. It is also nice to see that lasso shrinkage retains mother's education, as mother's education is often used as a proxy for ability, and this result seems to support it's importance. We discuss the implications of the other non-zero coefficients in more detail in the model fitting 1 notebook - \href{https://nbviewer.jupyter.org/github/nadavtadelis/Reproducible_Metrics/blob/master/model_fitting_1.ipynb}{\textcolor{cyan}{nbviewer}}, \href{https://github.com/nadavtadelis/Reproducible_Metrics/blob/master/model_fitting_1.ipynb}{\textcolor{cyan}{git}}.
+We also include a brief exploration of a LASSO-flavored penalization for variable selection (\cite{MLmetrics}) . We find that if we select a penalization parameter that shrinks all but seven of the coefficients to zero, the remaining coefficients are on studying time, school, course of study, number of failures, interest in higher education, mother's education, and whether the student is in the lowest bin of alcohol consumption. It is reassuring to see that the coefficient on studying time is not shrunk to zero. It is also nice to see that lasso shrinkage retains mother's education, as mother's education is often used as a proxy for ability, and this result seems to support it's importance. We discuss the implications of the other non-zero coefficients in more detail in the model fitting 1 notebook - \href{https://nbviewer.jupyter.org/github/nadavtadelis/Reproducible_Metrics/blob/master/model_fitting_1.ipynb}{\textcolor{cyan}{nbviewer}}, \href{https://github.com/nadavtadelis/Reproducible_Metrics/blob/master/model_fitting_1.ipynb}{\textcolor{cyan}{git}}.
 
 %~~~~~~~~~~~~~~~~~~
 \subsubsection{Simultaneous Causality} \label{simul_caus}
@@ -448,7 +446,7 @@ Lets first give a brief refresher of the instrumental variables approach to addr
 In section \ref{endogeneity} we established that the causal relationship between our grades and studying time is quadratic. This would usually not be a barrier to using 2SLS; the standard approach\footnote{Assuming only one instrument is available.} is to use the original instrument and its square as instruments in the two first stage equations (\cite{harmless}). However, this approach is unusable when the only instrument available is binary. In fact, even if we have multiple binary instruments it is not convincing to think that the exogenous portion of the squared endogenous variable will be correctly identified because interacting the binary instruments gives very little additional variation \textcolor{BrickRed}{[THINK ABOUT THIS MORE]}. Happily, Wooldridge suggests a variant of 2SLS that seems to address this issue of identifying a nonlinearly transformed variable with linear projection on binary variables.
 
 %~~~~~~~~~~~~~~~~~~
-\subsubsection{Estimation Procedure}
+\subsubsection{Estimation Procedure} \label{procedure}
 The procedure that Wooldridge suggests is as follows (\cite{wooldridge}):
 \begin{spacing}{1}
 \begin{enumerate}[label={(\arabic*)}]
@@ -468,24 +466,27 @@ The procedure that Wooldridge suggests is as follows (\cite{wooldridge}):
 Due to the unusual nested regressor set up of the Q2SLS procedure it can be difficult to obtain intuition for the asymptotic behavior of the model. In order to explore some of those asymptotic properties we use a Monte Carlo simulation with a toy model. We run the simulation in the function testing notebook, where we simultaneously test that the custom function \inlinecode{Quadratic2SLS()} from \href{https://github.com/nadavtadelis/Reproducible_Metrics/blob/master/quadratic2SLS.py}{\textcolor{cyan}{\inlinecode{quadratic2SLS.py}}} - \href{https://nbviewer.jupyter.org/github/nadavtadelis/Reproducible_Metrics/blob/master/function_testing.ipynb}{\textcolor{cyan}{nbviewer}}, \href{https://github.com/nadavtadelis/Reproducible_Metrics/blob/master/function_testing.ipynb}{\textcolor{cyan}{git}}. For a more detailed discussion of the simulation set up and results see section \ref{appendix_function_testing}.
 
 The Monte Carlo simulation involved repeatedly drawing from a toy DGP with artificially introduced endogeneity. We drew from two separate DGP's, one with strong instruments, and one with weak instruments. Note that in the Q2SLS setting, the strength of instruments is a bit tricky to think about; in part (1.a) of the Q2SLS procedure instrument strength is determined as usual by looking at how strongly the instruments are correlated with the endogenous variable, in part (1.b) of the procedure we have an additional generated instrument, the strength of which is determined by how well the first instruments identify the endogenous variable. In essence this means that if our instruments are strong in part (1.a) then we will also have a strong instrument in part (1.b) \textcolor{BrickRed}{[Think about this more to make sure it's correct]}. The main results from the simulation are reported in the figure below:
+
+\begin{center}
 \includegraphics[width=1\linewidth]{figures/MC_strong_and_weak.eps}
+\end{center}
 
+We see that the distribution of the estimated coefficients on the exogenous variables X2 and X3 are unbiased and consistent for both strong and weak instruments (as expected). It also looks as though the estimate on `endog\_sq\_hat` (in section \ref{procedure} we call this ${\wedge \atop x_{i,j}^2}$) is unbiased and consistent, although with weak instruments the variance is much larger\footnote{This is unsurprising - the weaker instruments have more noise introduced into the first stage, which would increase the variance of the coefficient estimates on the instrumented regressors.}. The truly baffling behavior is the estimated coefficient on `endog\_hat` (in section \ref{procedure} we call this $\hat{x}_{i,j}$). With strong instruments we achieve consistency, but severe bias - the true coefficient is not even in the support of the estimated coefficients. And yet with weak instruments it appears we achieve unbiasedness and consistency (albeit a much larger variance again). At first it may seem as though there is a funky collinearity problem between the two generated regressors, but in both the strong and weak instruments the Pearson correlation coefficient is around 0.98 (which leads us to question why there isn't a collinearity problem in the weak instruments approach). While this suggests there is collinearity present, it is unreasonable to think that this collinearity is causing the consistent bias because it is present at equal levels in both the strong and weak instrument settings\footnote{Additionally, if the only issue were multicollinearity then it is unlikely that the bias would be consistent and isolated to only of the instrumented regressors under strong instruments}. \textcolor{BrickRed}{[Add a lot more here - need to explain that there wasn't enough time to go deeper into this question, and that i plan to continue exploring this behavior to try to figure out what's going on, etc.]}
 
+An additional issue with this nested generated regressor approach is that computing the variance of the coefficient estimates is nontrivial. Due to submission deadlines, there was not enough time to determine whether a consistent estimator for variance of the coefficient estimates exists. We resort to bootstrapping for variance.
 
+\textcolor{Green}{[BELOW HERE IS OUTLINE FOR REST OF SECTION - unfinished]}
 
-
-\textcolor{BrickRed}{[Explain the testing that I did for Q2SLS, mention that it looks like the coeff.s on endog\_sq\_hat and the exog vars are consistent and unbiased, but that the coeff on endog\_hat is consistent but biased. Point out the oddness of this behavior and note that I plan on researching this further.]} Note: pretty sure my instruments are weak, the simulation suggests that in the case of weak instruments the estimates are unbiased but that the SE's are going to be large for the endogenous vars (? - think about this more).
-
-\textcolor{BrickRed}{[Discuss difficulty with finding the asymptotically consistent estimator for variance in Q2SLS because of the nested generated regressors]}
-
-\textcolor{BrickRed}{[Give brief overview of bootstrapping and explain how its being used here to estimate variance of coeff. estimates in 2nd stage]} If I don't figure out why the average bootstrapped coeff doesn't approach the full sample coeff then I'll need to explain that we report the coefficient estimates built on the full sample, rather than the average coefficients from the bootstrapping step - maybe link this back to the question of why the coefficient estimates are biased in the simulation, its not the same thing because here we are re-drawing and in simulation they are new draws, but it seems like there may be some connection here (maybe). Include note that by using t-test stats we are making the implicit assumption that the coefficients are distributed normally across different samples (which seems okay because the simulated coeff distribution looks close to normally distributed - and we only draw 100 monte carlo samples).
+\textcolor{BrickRed}{[Give brief overview of bootstrapping and explain how its being used here to estimate variance of coeff. estimates in 2nd stage]} If I don't figure out why the average bootstrapped coeff doesn't approach the full sample coeff then I'll need to explain that we report the coefficient estimates built on the full sample, rather than the average coefficients from the bootstrapping step. Include note that by using t-test stats we are making the implicit assumption that the coefficients are distributed normally across different samples (which seems okay because the simulated coeff distribution looks close to normally distributed - and we only draw 100 monte carlo samples).
 
 Mention that the current method of bootstrapping is called ``pairs bootstrap" in regression setting, and ``nonparametric bootstrap" more generally. Also add note about future integration of a WRE bootstrap approach to variance estimation (stricter assumptions, but some really nice properties for endogenous models - see slide 15 from the link below)
 
-\textcolor{BrickRed}{FOR BOOTSTRAPPING COV MATRIX (and endogeneity):} See 8th slide of \href{https://www.math.kth.se/matstat/gru/sf2930/papers/wild.bootstrap.pdf}{\textcolor{cyan}{LINK}}. It also has notes on hypothesis testing and p values for bootstrapping with regression coefficients. SLIDE 14 HAS DISCUSSION OF BOOTSTRAPPING WITH ENDOGENOUS VARS!! --> Wild Restricted Efficient Bootstrap (Davidson and MacKinnon 2010) is good for endogeneity and is good for hypothesis testing when you have weak instruments
+\textcolor{BrickRed}{FOR BOOTSTRAPPING COV MATRIX (and endogeneity):} See 8th slide of \href{https://www.math.kth.se/matstat/gru/sf2930/papers/wild.bootstrap.pdf}{\textcolor{cyan}{LINK}}. It also has notes on hypothesis testing and p values for bootstrapping with regression coefficients. SLIDE 14 HAS DISCUSSION OF BOOTSTRAPPING WITH ENDOGENOUS VARS!! $\longrightarrow$ Wild Restricted Efficient Bootstrap (Davidson and MacKinnon 2010) is good for endogeneity and is good for hypothesis testing when you have weak instruments
 
 %~~~~~~~~~~~~~~~~~~
 \subsubsection{Application}
+\textcolor{Green}{[OUTLINE ONLY]}
+
 \textcolor{BrickRed}{[Discuss chosen instruments and give motivation for why they might be okay to use, give strong disclaimer that even if they are valid, they are probably weak instruments]} Justification for using 'going out' as instrument is stronger if we explain that we have controls for weekly and daily alcohol consumption (which is one thing that could affect grades through going out independently of studying time) so its a semi reasonable claim to say that going out is exogenous variation in available studying time once the detrimental effects of going out (namely drinking) are controlled for. not a super strong argument, but at least a little justification. Also include motivation for creating the artificial instrument instead of just using travel time as an instrument, if we just use travel time then there is still an endogeneity problem because people with higher motivation/ability might be choosing schools further away because of their reputation or course options and they might score higher independently to how much they study (because of their higher ability). Point out that in the monte carlo simulation, weak instruments resulted in (seemingly) unbiased consistent estimates for the true coeff, but that the variance was massive - which suggests that we should expect a massive variance on our coeff.s because we have weak instruments.
 
 \textcolor{BrickRed}{[Report results]} Include plots like the naive ols plots, one for 2SLS and one for Q2SLS. Maybe also include fitted values plot with studytime on x axis and predicted grade on y axis.
@@ -552,13 +553,15 @@ Maybe include a subsection conclusion in Models after Q2SLS results section, but
 \subsection{Data Exploration Figures} \label{appendix_figs}
 \textcolor{BrickRed}{[ONLY ONE FIGURE INCLUDED FOR NOW, NEED TO ADD OTHER FIGURES AND SCALE NICELY]}
 
-\includegraphics[scale=0.5]{figures/quantvar_hist_math.png}
+\begin{center}
+\includegraphics[width=1\linewidth]{figures/distrbyschool.eps}
+\end{center}
 
 %\begin{figure}[h]
 %    \centering
-%    {{\includegraphics[width=10cm]{figures/quantvar_hist_math.png} }}
+%    {{\includegraphics[width=10cm]{figures/quantvar_hist_math.eps} }}
 %    \\
-%    {{\includegraphics[width=7cm]{figures/quantvar_hist_por.png} }}
+%    {{\includegraphics[width=7cm]{figures/quantvar_hist_por.eps} }}
 %    \caption{3 Figures arrayed}
 %    \label{fig:example}
 %\end{figure}
