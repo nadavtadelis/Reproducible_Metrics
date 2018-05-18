@@ -32,6 +32,7 @@ all :
 .PHONY : clean
 clean:
 	rm -f figures/*.png
+	rm -f figures/*.eps
 	rm -f results/*.pickle
 	rm -f results/*.pkl
 	rm -f data/*.pkl
