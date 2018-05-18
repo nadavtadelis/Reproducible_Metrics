@@ -412,7 +412,7 @@ g_i = \beta_0 + \beta_1 s_i + \beta_2 s_i^2 + \beta_3 school_i + \beta_4 course_
 $$
 Where $\varepsilon_i = \gamma q_i + \nu_i$. We know that $\nu_i$ is well behaved (uncorrelated with $x_{i,j} \forall j \in \{1,k\}$) but $\varepsilon_i$ is uncorrelated with the covariates iff $q_i$ is uncorrelated with the covariates. Lets look at the consistency of this set up (starting with the linear projection of $q_i$ onto $\bm{x}_i$):
 \begin{align}
-&g_i = \delta_0 + \delta_1 s_i + \delta_2 s_i^2 + \delta_3 school_i + \delta_4 course_i + \delta_5 x_{i,5} + \cdots + \delta_k x_{i,k} + \eta_i  \nonumber \\
+&q_i = \delta_0 + \delta_1 s_i + \delta_2 s_i^2 + \delta_3 school_i + \delta_4 course_i + \delta_5 x_{i,5} + \cdots + \delta_k x_{i,k} + \eta_i  \nonumber \\
 &\E[\eta_i] = 0 \\
 &\Cov[x_{i,j}, \eta_i] = 0
 \end{align}
@@ -436,11 +436,12 @@ Lets first give a brief refresher of the instrumental variables approach to addr
 \begin{spacing}{1}
 \begin{enumerate}[label={(\arabic*)}]
 	\item The instrument is uncorrelated with disturbances: $\Cov[z_i, \varepsilon_i] = 0$ \
-	\item In the reduced form of $x_{i,j}$: $x_{i,j} = \phi_0 x_{i,1} + \phi_1 school_i + \cdots + \phi_{k-2}x_{i,k} + \theta_1 z_i + \vartheta_i$ the coefficient on our instrument is nonzero: $\theta_1 \ne 0$
-	\item And $z_i$ is not one of our exogenous variables in the original estimation
+	\item In the reduced form of $x_{i,j}$: $x_{i,j} = \phi_0 x_{i,1} + \phi_1 school_i + \cdots + \phi_{k-2}x_{i,k} + \theta_1 z_i + \vartheta_i$ the coefficient on our instrument is nonzero: $\theta_1 \ne 0$ \\
+	Note that this is equivalent to saying: $\Cov[x_{i,j}, z_i] \ne 0$ \
+	\item And $z_i$ is not one of our exogenous variables in the original estimation.
 \end{enumerate}
 \end{spacing}
-\noindent If $(1)-(3)$ hold, then we call $z_i$ a valid instrument for $x_{i,j}$. In settings with multiple valid instruments $\bm{z_1}, \bm{z}_2, ..., \bm{z}_M$ the standard procedure for identifying $\bm{\beta}$ is 2SLS. In the first stage of 2SLS we regress the endogenous variable $x_{i,j}$ on the exogenous variables and the instruments to get the fitted values $\hat{x}_{i,j} =  \sum_{k \ne j}\{\hat{\phi}_k x_{i,k}\} + \hat{\theta}_1 z_{i,1} + \cdots + \hat{\theta}_M z_{i,M}$. We use $\hat{x}_{i,j}$ as an estimate of the exogenous part of $x_{i,j}$ and in the second stage we regress our dependent variable on our exogenous variables and $\hat{x}_{i,j}$ to identify $\hat{\bm{\beta}}$. This approach can be easily extended to cases with multiple endogenous variables (where you would have as many first stage regressions as there are endogenous variables). However, with multiple endogenous variables, you must have at least as many instruments as endogenous variables, otherwise the fitted values would be collinear and the second stage estimators would lose consistency. In the next section we discuss issues with the 2SLS method in our setting.
+\noindent If $(1)-(3)$ hold, then we call $z_i$ a valid instrument for $x_{i,j}$. In settings with multiple valid instruments $\bm{z}_1, \bm{z}_2, ..., \bm{z}_M$ the standard procedure for identifying $\bm{\beta}$ is 2SLS. In the first stage of 2SLS we regress the endogenous variable $x_{i,j}$ on the exogenous variables and the instruments to get the fitted values $\hat{x}_{i,j} =  \sum_{k \ne j}\{\hat{\phi}_k x_{i,k}\} + \hat{\theta}_1 z_{i,1} + \cdots + \hat{\theta}_M z_{i,M}$. We use $\hat{x}_{i,j}$ as an estimate of the exogenous part of $x_{i,j}$ and in the second stage we regress our dependent variable on our exogenous variables and $\hat{x}_{i,j}$ to identify $\hat{\bm{\beta}}$. This approach can be easily extended to cases with multiple endogenous variables (where you would have as many first stage regressions as there are endogenous variables). However, with multiple endogenous variables, you must have at least as many instruments as endogenous variables, otherwise the fitted values would be collinear and the second stage estimators would lose consistency. In the next section we discuss issues with the 2SLS method in our setting.
 
 %~~~~~~~~~~~~~~~~~~
 \subsubsection{Motivation}
@@ -460,15 +461,24 @@ The procedure that Wooldridge suggests is as follows (\cite{wooldridge}):
 	Regress the dependent variable on the exogenous variables and the two fitted values from the first stage ($\hat{x}_{i,j}$, ${\wedge \atop x_{i,j}^2}$)
 \end{enumerate}
 \end{spacing}
-\noindent The intuition behind this model is that while using $(\hat{x}_{i,j})^2$ will not produce consistent coefficient estimates\footnote{Because the linear projection of the square is not the square of the linear projection, this mistake is known as the forbidden regression} for $\beta_j$; $(\hat{x}_{i,j})^2$ is still a square of the exogenous portion extracted from $x_{i,j}$ in part a of the first stage, and as such can be used as a valid instrument for $x_{i,j}^2$ \textcolor{BrickRed}{[NEED TO MAKE THIS MORE CLEAR]}. This should allow us to identify $\bm{\beta}$ even with the quadratic endogeneity and binary instrumentation.
+\noindent The intuition behind this model is that while using $(\hat{x}_{i,j})^2$ will not produce consistent coefficient estimates\footnote{Because the linear projection of the square is not the square of the linear projection, this mistake is known as the forbidden regression} for $\beta_j$; $(\hat{x}_{i,j})^2$ is still a square of the exogenous portion extracted from $x_{i,j}$ in part a of the first stage, and as such can be used as a valid instrument for $x_{i,j}^2$ \textcolor{BrickRed}{[NEED TO MAKE THIS MORE CLEAR]}. This should allow us to identify $\bm{\beta}$ even with the quadratic endogeneity and binary instrumentation; in fact it is possible to achieve identification with a single binary instrument.
 
 %~~~~~~~~~~~~~~~~~~
 \subsubsection{Properties of Q2SLS}
-\textcolor{BrickRed}{[Explain the testing that I did for Q2SLS, mention that it looks like the coeff.s on endog\_sq\_hat and the exog vars are consistent and unbiased, but that the coeff on endog\_hat is consistent but biased. Point out the oddness of this behavior and note that I plan on researching this further.]} Note: pretty sure my instruments are weak (need to check), the simulation suggests that in the case of weak instruments the estimates are good but that the SE's are going to be large for the endogenous vars. Need to include justification for calling these instruments 'weak' or 'strong', they intuitively are, but because of the nested generated regressor in part (1.b) there is a bit more going on that in standard 2SLS.
+Due to the unusual nested regressor set up of the Q2SLS procedure it can be difficult to obtain intuition for the asymptotic behavior of the model. In order to explore some of those asymptotic properties we use a Monte Carlo simulation with a toy model. We run the simulation in the function testing notebook, where we simultaneously test that the custom function \inlinecode{Quadratic2SLS()} from \href{https://github.com/nadavtadelis/Reproducible_Metrics/blob/master/quadratic2SLS.py}{\textcolor{cyan}{\inlinecode{quadratic2SLS.py}}} - \href{https://nbviewer.jupyter.org/github/nadavtadelis/Reproducible_Metrics/blob/master/function_testing.ipynb}{\textcolor{cyan}{nbviewer}}, \href{https://github.com/nadavtadelis/Reproducible_Metrics/blob/master/function_testing.ipynb}{\textcolor{cyan}{git}}. For a more detailed discussion of the simulation set up and results see section \ref{appendix_function_testing}.
+
+The Monte Carlo simulation involved repeatedly drawing from a toy DGP with artificially introduced endogeneity. We drew from two separate DGP's, one with strong instruments, and one with weak instruments. Note that in the Q2SLS setting, the strength of instruments is a bit tricky to think about; in part (1.a) of the Q2SLS procedure instrument strength is determined as usual by looking at how strongly the instruments are correlated with the endogenous variable, in part (1.b) of the procedure we have an additional generated instrument, the strength of which is determined by how well the first instruments identify the endogenous variable. In essence this means that if our instruments are strong in part (1.a) then we will also have a strong instrument in part (1.b) \textcolor{BrickRed}{[Think about this more to make sure it's correct]}. The main results from the simulation are reported in the figure below:
+\includegraphics[width=1\linewidth]{figures/MC_strong_and_weak.eps}
+
+
+
+
+
+\textcolor{BrickRed}{[Explain the testing that I did for Q2SLS, mention that it looks like the coeff.s on endog\_sq\_hat and the exog vars are consistent and unbiased, but that the coeff on endog\_hat is consistent but biased. Point out the oddness of this behavior and note that I plan on researching this further.]} Note: pretty sure my instruments are weak, the simulation suggests that in the case of weak instruments the estimates are unbiased but that the SE's are going to be large for the endogenous vars (? - think about this more).
 
 \textcolor{BrickRed}{[Discuss difficulty with finding the asymptotically consistent estimator for variance in Q2SLS because of the nested generated regressors]}
 
-\textcolor{BrickRed}{[Give brief overview of bootstrapping and explain how its being used here to estimate variance of coeff. estimates in 2nd stage]} If I don't figure out why the average bootstrapped coeff doesn't approach the full sample coeff then I'll need to explain that we report the coefficient estimates built on the full sample, rather than the average coefficients from the bootstrapping step - maybe link this back to the question of why the coefficient estimates are biased in the simulation, its not the same thing because here we are re-drawing and in simulation they are new draws, but it seems like there may be some connection here (maybe). 
+\textcolor{BrickRed}{[Give brief overview of bootstrapping and explain how its being used here to estimate variance of coeff. estimates in 2nd stage]} If I don't figure out why the average bootstrapped coeff doesn't approach the full sample coeff then I'll need to explain that we report the coefficient estimates built on the full sample, rather than the average coefficients from the bootstrapping step - maybe link this back to the question of why the coefficient estimates are biased in the simulation, its not the same thing because here we are re-drawing and in simulation they are new draws, but it seems like there may be some connection here (maybe). Include note that by using t-test stats we are making the implicit assumption that the coefficients are distributed normally across different samples (which seems okay because the simulated coeff distribution looks close to normally distributed - and we only draw 100 monte carlo samples).
 
 Mention that the current method of bootstrapping is called ``pairs bootstrap" in regression setting, and ``nonparametric bootstrap" more generally. Also add note about future integration of a WRE bootstrap approach to variance estimation (stricter assumptions, but some really nice properties for endogenous models - see slide 15 from the link below)
 
@@ -559,7 +569,7 @@ Maybe include a subsection conclusion in Models after Q2SLS results section, but
 QUESTION: \textcolor{BrickRed}{[Should we report these tables in the main paper and then report tables with all the covariates in the appendix? These would be extra long, and are viewable in the model fitting 1 notebook, so maybe it'd be better to just link to them?]}
 
 %~~~~~~~~~~~~~~~~~~
-\subsection{Q2SLS Function Testing Procedure} \label{appendix_function_testing}
+\subsection{Q2SLS Function Testing Procedure and Monte Carlo} \label{appendix_function_testing}
 \textcolor{BrickRed}{[Can use some of the markdown from the functions testing notebook here, and link to the notebook as well]} Should I also include some of the plots from the monte carlo results (specifically the plot with the distributions of the strong and weak instrument setting coefficients)?
 
 %~~~~~~~~~~~~~~~~~~
