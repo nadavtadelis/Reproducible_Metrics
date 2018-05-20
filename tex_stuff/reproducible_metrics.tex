@@ -150,11 +150,11 @@ The \href{https://archive.ics.uci.edu/ml/datasets/Student+Performance#}{\textcol
 
 %~~~~~~~~~~~~~~~~~~
 \subsection{Data Exploration}
-\textcolor{BrickRed}{[This section is basic. Not sure how much to include here vs just linking to data exploration notebook]}
-
 There is some pre-analysis data cleaning and exploration that we run, which can be found in the data exploration notebook - \href{https://nbviewer.jupyter.org/github/nadavtadelis/Reproducible_Metrics/blob/master/data_exploration.ipynb}{\textcolor{cyan}{nbviewer}}, \href{https://github.com/nadavtadelis/Reproducible_Metrics/blob/master/data_exploration.ipynb}{\textcolor{cyan}{git}}; some figures from this notebook are included in appendix \ref{appendix_figs} \textcolor{BrickRed}{[MAKE SURE TO INCLUDE THESE]}. The notebook contains the full data exploration process, as well as explanations and commentary detailing the figure generation process.
 
 We draw attention to two attributes of special import: there are stark differences in the distributions of the data between the two schools, and across the two courses of study. The school level differences seem to be fairly consistent; perhaps the two schools have slightly different grading policies. However, the within school course level differences are highly variable, this is perhaps capturing some heterogeneity between students who choose Portuguese Language and Mathematics. This strongly suggests that even our simplest models should include controls for school to account for different policies, and should estimate the two courses as separate entities to account for different types of students in each course.
+
+For a more detailed description of the data cleaning and exploration process, see the data exploration notebook (linked to above). It explains all the steps taken in the cleaning phase, figures showing distributions across different variable splits, and a discussion of the mapping schemes for the studying time variable.
 
 
 %~~~~~~~~~~~~~~~~~~
