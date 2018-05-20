@@ -136,11 +136,9 @@ In this paper I establish a framework for reproducible empirical research. We us
 \label{sec_intro}
 In recent years there has been a strong push to increase the reproducibility and replicability of scientific research. Unfortunately this movement seems to have been centered on the hard sciences and has not yet become standard practice in the social sciences. It is possible that this is partly due to a lack of reproducibly researched papers in these fields. This paper explores what responsible and reproducible research practices look like in applied econometrics. We present an instrumental variables approach to estimating the causal effect of studying on grades and develop custom python scripts to implement an unusual 2SLS set up that is specialized for nonlinearity in the endogenous predictor. The latter part of this work discusses the current state of reproducibility in econometric research, and explains in detail the techniques implemented in the analysis.
 
-This paper was written as my honors thesis for undergraduate studies in statistics at UC Berkeley. I will point out some of the weak points in my models and assumptions that can be improved upon with more time and effort. Any comments or suggestions would be greatly appreciated. 
+This paper was written as my honors thesis for undergraduate studies in statistics at UC Berkeley. I will point out some of the weak points in my models and assumptions that can be improved upon with more time and effort. Any comments or suggestions would be greatly appreciated and can be directed to <ntadelis [at] berkeley [dot] edu>. 
 
 The basic idea for the econometric analysis in the paper is adapted from an independent project I completed in Spring 2017. In a subsequent class the project was modified and rebuilt in a reproducible fashion. Sarah Johnson created the original intermediate functions in \href{https://github.com/nadavtadelis/Reproducible_Metrics/blob/master/p3functions.py}{\textcolor{cyan}{\inlinecode{p3functions.py}}}, and the associated tests and Travis CI. Chitwan Kaudan created the original Makefile for running the individual Jupyter Notebooks. All aspects of those original analyses have been altered significantly, and the history of the changes is fully documented in the commit history of the git repo.
-
-\textcolor{BrickRed}{[Maybe more background here before we dive in?]}
 
 
 %*******************************************************************************************************************
@@ -150,7 +148,7 @@ The \href{https://archive.ics.uci.edu/ml/datasets/Student+Performance#}{\textcol
 
 %~~~~~~~~~~~~~~~~~~
 \subsection{Data Exploration}
-There is some pre-analysis data cleaning and exploration that we run, which can be found in the data exploration notebook - \href{https://nbviewer.jupyter.org/github/nadavtadelis/Reproducible_Metrics/blob/master/data_exploration.ipynb}{\textcolor{cyan}{nbviewer}}, \href{https://github.com/nadavtadelis/Reproducible_Metrics/blob/master/data_exploration.ipynb}{\textcolor{cyan}{git}}; some figures from this notebook are included in appendix \ref{appendix_figs} \textcolor{BrickRed}{[MAKE SURE TO INCLUDE THESE]}. The notebook contains the full data exploration process, as well as explanations and commentary detailing the figure generation process.
+There is some pre-analysis data cleaning and exploration that we run, which can be found in the data exploration notebook - \href{https://nbviewer.jupyter.org/github/nadavtadelis/Reproducible_Metrics/blob/master/data_exploration.ipynb}{\textcolor{cyan}{nbviewer}}, \href{https://github.com/nadavtadelis/Reproducible_Metrics/blob/master/data_exploration.ipynb}{\textcolor{cyan}{git}}; some figures from this notebook are included in appendix \ref{appendix_figs}. The notebook contains the full data exploration process, as well as explanations and commentary detailing the figure generation process.
 
 We draw attention to two attributes of special import: there are stark differences in the distributions of the data between the two schools, and across the two courses of study. The school level differences seem to be fairly consistent; perhaps the two schools have slightly different grading policies. However, the within school course level differences are highly variable, this is perhaps capturing some heterogeneity between students who choose Portuguese Language and Mathematics. This strongly suggests that even our simplest models should include controls for school to account for different policies, and should estimate the two courses as separate entities to account for different types of students in each course.
 
@@ -181,9 +179,9 @@ Another issue with this model is: how are we defining ability? By its very natur
 
 We can think of a student's utility maximization problem as being some function of grades, free time (let's consider everything that is not studying, sleeping, or class as ``free time"), and studying time. We would expect that the impact of grades and free time on utility would be positive, and the impact of study time would be negative, with magnitudes of coefficients being determined by an individual's preferences. For example, a student who cares very little about grades, enjoys constantly partying, and hates studying, would have a small positive coefficient on grades, a large positive coefficient on free time, and a large negative coefficient on studying time\footnote{Of course, for some people and some subject matters of study, the coefficient on studying time may be positive with a decreasing marginal utility. We simplify the specification here dramatically.}. This student would maximize their utility and choose how to allocate their time, and would probably end up spending very little time studying. Notice that before maximizing their utility, an individual would replace grades with the previously defined model for grades (dependent on studying and ability); so someone who heavily values grades could end up having a positive coefficient on studying after including the model for grades into their utility function, even if they do not intrinsically value studying.
 
-Establishing this utility function gives motivation for including variables that might introduce multicollinearity. For example, weekly amount of free time might not improve our estimate of the marginal effect of studying, and would be collinear with the amount of weekly studying. However, when we think of our observations as realizations of a decision making process that involves utility maximization over unobserved ability, there is an argument for including free time in the model estimation as a proxy for ability. \textcolor{BlueGreen}{[Need to clarify this]}
+Establishing this utility function gives motivation for including variables that might introduce multicollinearity. For example, weekly amount of free time might not improve our estimate of the marginal effect of studying, and would be collinear with the amount of weekly studying. However, when we think of our observations as realizations of a decision making process that involves utility maximization over unobserved ability, there is an argument for including free time in the model estimation as a proxy for ability. \textcolor{RedOrange}{[Need to clarify this]}
 
-\textcolor{BlueGreen}{[The proxy model should be nonlinear somewhere, there has to be some concavity otherwise the optimality solution is a corner solution and students will spend either no time are all their time studying. need to have a diminishing returns assumption here. NEED TO THINK ABOUT THIS MORE]}
+\textcolor{RedOrange}{[The proxy model should be nonlinear somewhere, there has to be some concavity otherwise the optimality solution is a corner solution and students will spend either no time are all their time studying. need to have a diminishing returns assumption here. NEED TO THINK ABOUT THIS MORE]}
 
 
 %~~~~~~~~~~~~~~~~~~
@@ -292,7 +290,7 @@ We find that in all twelve models the estimated coefficients on weekly study tim
 \draw [color = red, dashed] (1,0) -- (1,50*0.005) -- (2.5,50*0.005) -- (2.5,50*0.0668) -- (5,50*0.0668) -- (5,50*0.0563) -- (6,50*0.0563)
 	node[above] {Math};               
 % Title
-\node[anchor=center] at (3, 6) {No Proxies};
+\node[anchor=center] at (3, 6) {No Proxies/Controls};
 
 \begin{scope}[xshift=8cm]
 	% Axis
@@ -316,7 +314,7 @@ We find that in all twelve models the estimated coefficients on weekly study tim
 		node[below right] {Math};        
 % Titles
 \node[above,font=\large\bfseries] at (current bounding box.north) {Contribution of studytime (discrete)};
-\node[anchor=center] at (3, 6) {With Proxies};
+\node[anchor=center] at (3, 6) {With Proxies/Controls};
 \end{scope}
 \end{tikzpicture}
 \end{scaletikzpicturetowidth}
@@ -347,7 +345,7 @@ We find that in all twelve models the estimated coefficients on weekly study tim
 \draw[smooth, solid, samples=1000, color=red, domain=0:6] plot ({\x},{50*(0.0128*2*(\x) - 0.0005*2*(\x)*2*(\x))}) 
         node[below] {Math};                  
 % Title
-\node[anchor=center] at (3, 7.5) {No Proxies};
+\node[anchor=center] at (3, 7.5) {No Proxies/Controls};
 % Caption
 %\node[anchor=center] at (3, -1) {Sub caption I};
 
@@ -373,7 +371,7 @@ We find that in all twelve models the estimated coefficients on weekly study tim
         node[below] {Math};
 % Titles
 \node[above,font=\large\bfseries] at (current bounding box.north) {Contribution of studytime (continuous)};
-\node[anchor=center] at (3, 7.5) {With Proxies};
+\node[anchor=center] at (3, 7.5) {With Proxies/Controls};
 % Caption
 %\node[anchor=center] at (3, -1) {Sub caption II};        
 \end{scope}
@@ -381,7 +379,7 @@ We find that in all twelve models the estimated coefficients on weekly study tim
 \end{scaletikzpicturetowidth}
 \end{center}
 
-These plots allow clearer visual representation of the estimated relationship between studying time and final grade in our naive OLS models. As expected the behavior of the continuous and discrete estimates are similar. The decrease in size of the estimated relationship between studying and grades for the Portuguese Language students suggests that students with higher ability are studying more, and getting better grades, and that once ability is controlled for the predicted returns to studying are smaller. We would like to emphasize that this discussion does not describe any causal relationships. These models are purely predictive. Interestingly the estimated relationship between studying and grades in the Mathematics students is flipped; this seems to suggests that in mathematics, students with higher ability study less to achieve the same grade (i.e. that studying is less important than ability). \textcolor{BlueGreen}{[However, these intuitive conclusions may be invalid for two reasons. First, studying time is endogenous in this set up, and second, we do not know the direction of the bias term on our endogenous variables (see section \ref{endogeneity} for more detail).]}
+These plots allow clearer visual representation of the estimated relationship between studying time and final grade in our naive OLS models. As expected the behavior of the continuous and discrete estimates are similar. The decrease in size of the estimated relationship between studying and grades for the Portuguese Language students suggests that students with higher ability are studying more, and getting better grades, and that once ability is controlled for the predicted returns to studying are smaller. We would like to emphasize that this discussion does not describe any causal relationships. These models are purely predictive. Interestingly the estimated relationship between studying and grades in the Mathematics students is flipped; this seems to suggests that in mathematics, students with higher ability study less to achieve the same grade (i.e. that studying is less important than ability). \textcolor{BlueGreen}{However, these intuitive conclusions may be invalid for two reasons. First, studying time is endogenous in this set up, and second, we do not know the direction of the bias term on our endogenous variables (see section \ref{endogeneity} for more detail).}
 
 In the next section we describe the results from some additional analyses we ran related to these naive regressions.
 
@@ -530,6 +528,7 @@ We would like to point out that even in research that is meant to stand as an ex
 
 
 %*******************************************************************************************************************
+\newpage
 \section{Conclusion}
 Maybe include a subsection conclusion in Models after Q2SLS results section, but not here?
 
@@ -554,7 +553,7 @@ Maybe include a subsection conclusion in Models after Q2SLS results section, but
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=\textwidth,height=0.8\textheight,keepaspectratio]{figures/distrbyschool.eps}
+\includegraphics[width=\textwidth,height=0.7\textheight,keepaspectratio]{figures/distrbyschool.eps}
 \end{figure}
 
 %\begin{center}
