@@ -188,7 +188,7 @@ Establishing this utility function gives motivation for including variables that
 
 %~~~~~~~~~~~~~~~~~~
 \subsection{Naive OLS}
-In this section we discuss results from the naive model specifications we estimate in the model fitting 1 notebook -  \href{https://nbviewer.jupyter.org/github/nadavtadelis/Reproducible_Metrics/blob/master/model_fitting_1.ipynb}{\textcolor{cyan}{nbviewer}}, \href{https://github.com/nadavtadelis/Reproducible_Metrics/blob/master/model_fitting_1.ipynb}{\textcolor{cyan}{git}}. This analysis explores simple models based on the structural equation we defined in section \ref{models}. We include results for both discrete (\hyperref[tab:naive_discrete]{Table:~\ref*{tab:naive_discrete}}) and continuous (\hyperref[tab:naive_continuous]{Table:~\ref*{tab:naive_continuous}}) mappings of studying time, with the continuous mapping including a squared term. For both mappings we run six OLS regressions. We first split the data into three samples: one including the full dataset with all students, one with only students studying the Portuguese Language Course, and one with only students studying the Mathematics Course. For each of these groups we run two regressions, one with only school and course level characteristics, and one including proxies for ability. Note that in both of these models we include an extra indicator for the sample that includes students from both classes: Course\_math is a binary variable indicating whether the student is in the Mathematics Course. School\_GP is an indicator for which of the two schools the student is enrolled in. These two variables make up our school and course level controls\footnote{\textcolor{BlueGreen}{Ideally we would include interaction effects of time and these dummies, but the data are cross-sectional.}} ($\bm{x}_{i,3:k-1}$ in our structural equation). For more information on which variables are included as proxies, see the model fitting 1 notebook linked to above. We report the results in the tables below.
+In this section we discuss results from the naive model specifications we estimate in the model fitting 1 notebook -  \href{https://nbviewer.jupyter.org/github/nadavtadelis/Reproducible_Metrics/blob/master/model_fitting_1.ipynb}{\textcolor{cyan}{nbviewer}}, \href{https://github.com/nadavtadelis/Reproducible_Metrics/blob/master/model_fitting_1.ipynb}{\textcolor{cyan}{git}}. This analysis explores simple models based on the structural equation we defined in section \ref{models}. We include results for both discrete (\hyperref[tab:naive_discrete]{Table:~\ref*{tab:naive_discrete}}) and continuous (\hyperref[tab:naive_continuous]{Table:~\ref*{tab:naive_continuous}}) mappings of studying time, with the continuous mapping including a squared term. For both mappings we run six OLS regressions. We first split the data into three samples: one including the full dataset with all students, one with only students studying the Portuguese Language Course, and one with only students studying the Mathematics Course. For each of these groups we run two regressions, one with only school and course level characteristics, and one including proxies for ability. Note that in both of these models we include an extra indicator for the sample that includes students from both classes: Course\_math is a binary variable indicating whether the student is in the Mathematics Course. School\_GP is an indicator for which of the two schools the student is enrolled in. These two variables make up our school and course level controls\footnote{Ideally we would include interaction effects of time and these dummies, but the data are cross-sectional.} ($\bm{x}_{i,3:k-1}$ in our structural equation). For more information on which variables are included as proxies, see the model fitting 1 notebook linked to above. We report the results in the tables below.
 
 \begin{table}[H] \centering
   \caption{Naive OLS, Discrete Mapping}  
@@ -538,11 +538,11 @@ Maybe include a subsection conclusion in Models after Q2SLS results section, but
 %*******************************************************************************************************************
 \newpage
 
-\begin{SingleSpace}
+\begin{singlespace}
 \bibliographystyle{agsm}
 \nocite{*} % makes sure that all items in .bib are included in bibliography, even if they aren't cited
 \bibliography{tex_stuff/RM_bibliography}
-\end{SingleSpace}
+\end{singlespace}
 
 %*******************************************************************************************************************
 \newpage
