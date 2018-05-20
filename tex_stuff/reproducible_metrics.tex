@@ -274,6 +274,61 @@ We find that in all twelve models the estimated coefficients on weekly study tim
 \begin{tikzpicture}[scale=\tikzscale]
 % Axis
 \draw[->] (-0.3,0) -- (6,0) node[anchor=north] {studytime};
+\draw[->] (0,-0.3) -- (0,5.5) node[anchor=east] {$\Delta\hat{\mathrm{G3}\%}$};
+
+% labels
+\draw	(-0.2,0) node[anchor=north] {0}
+		(2,0) node[anchor=north] {4}
+		(4,0) node[anchor=north] {8}
+		(0,1.5) node[anchor=east] {0.03}
+		(0,3) node[anchor=east] {0.06}
+		(0,4.5) node[anchor=east] {0.09};
+
+% Connected Segments - WITHOUT CONTROLS
+\draw [color = black] (1,0) -- (1,50*0.0361) -- (2.5,50*0.0361) -- (2.5,50*0.0924) -- (5,50*0.0924) -- (5,50*0.0787) -- (6,50*0.0787)
+	node[above] {Both}; 
+\draw [color = blue, dashed] (1,0) -- (1,50*0.0526) -- (2.5,50*0.0526) -- (2.5,50*0.1045) -- (5,50*0.1045) -- (5,50*0.0927) -- (6,50*0.0927)
+	node[above] {Port.}; 
+\draw [color = red, dashed] (1,0) -- (1,50*0.005) -- (2.5,50*0.005) -- (2.5,50*0.0668) -- (5,50*0.0668) -- (5,50*0.0563) -- (6,50*0.0563)
+	node[above] {Math};               
+% Title
+\node[anchor=center] at (3, 6) {No Proxies};
+
+\begin{scope}[xshift=8cm]
+	% Axis
+        \draw[->] (-0.3,0) -- (6,0) node[anchor=north] {studytime};
+        \draw[->] (0,-0.3) -- (0,5.5) node[anchor=east] {$\Delta\hat{\mathrm{G3}\%}$};
+
+	% labels
+	\draw	(-0.2,0) node[anchor=north] {0}
+			(2,0) node[anchor=north] {4}
+			(4,0) node[anchor=north] {8}
+			(0,1.5) node[anchor=east] {0.03}
+			(0,3) node[anchor=east] {0.06}
+			(0,4.5) node[anchor=east] {0.09};
+
+	% Connected Segments - WITH CONTROLS
+	\draw [color = black] (1,0) -- (1,50*0.0224) -- (2.5,50*0.0224) -- (2.5,50*0.0646) -- (5,50*0.0646) -- (5,50*0.0381) -- (6,50*0.0381)
+		node[right] {Both};
+	\draw [color = blue, dashed] (1,0) -- (1,50*0.0186) -- (2.5,50*0.0186) -- (2.5,50*0.0483) -- (5,50*0.0483) -- (5,50*0.0476) -- (6,50*0.0476)
+		node[right] {Port.};
+	\draw [color = red, dashed] (1,0) -- (1,50*0.0252) -- (2.5,50*0.0252) -- (2.5,50*0.0903) -- (5,50*0.0903) -- (5,50*0.0339) -- (6,50*0.0339)
+		node[below right] {Math};        
+% Titles
+\node[above,font=\large\bfseries] at (current bounding box.north) {Contribution of studytime (discrete)};
+\node[anchor=center] at (3, 6) {With Proxies};
+\end{scope}
+\end{tikzpicture}
+\end{scaletikzpicturetowidth}
+\end{center}
+
+% ------ different plots -----
+
+\begin{center}
+\begin{scaletikzpicturetowidth}{\textwidth}
+\begin{tikzpicture}[scale=\tikzscale]
+% Axis
+\draw[->] (-0.3,0) -- (6,0) node[anchor=north] {studytime};
 \draw[->] (0,-0.3) -- (0,7) node[anchor=east] {$\Delta\hat{\mathrm{G3}\%}$};
 
 % labels
@@ -321,60 +376,6 @@ We find that in all twelve models the estimated coefficients on weekly study tim
 \node[anchor=center] at (3, 7.5) {With Proxies};
 % Caption
 %\node[anchor=center] at (3, -1) {Sub caption II};        
-\end{scope}
-\end{tikzpicture}
-\end{scaletikzpicturetowidth}
-\end{center}
-
-
-\begin{center}
-\begin{scaletikzpicturetowidth}{\textwidth}
-\begin{tikzpicture}[scale=\tikzscale]
-% Axis
-\draw[->] (-0.3,0) -- (6,0) node[anchor=north] {studytime};
-\draw[->] (0,-0.3) -- (0,5.5) node[anchor=east] {$\Delta\hat{\mathrm{G3}\%}$};
-
-% labels
-\draw	(-0.2,0) node[anchor=north] {0}
-		(2,0) node[anchor=north] {4}
-		(4,0) node[anchor=north] {8}
-		(0,1.5) node[anchor=east] {0.03}
-		(0,3) node[anchor=east] {0.06}
-		(0,4.5) node[anchor=east] {0.09};
-
-% Connected Segments - WITHOUT CONTROLS
-\draw [color = black] (1,0) -- (1,50*0.0361) -- (2.5,50*0.0361) -- (2.5,50*0.0924) -- (5,50*0.0924) -- (5,50*0.0787) -- (6,50*0.0787)
-	node[above] {Both}; 
-\draw [color = blue, dashed] (1,0) -- (1,50*0.0526) -- (2.5,50*0.0526) -- (2.5,50*0.1045) -- (5,50*0.1045) -- (5,50*0.0927) -- (6,50*0.0927)
-	node[above] {Port.}; 
-\draw [color = red, dashed] (1,0) -- (1,50*0.005) -- (2.5,50*0.005) -- (2.5,50*0.0668) -- (5,50*0.0668) -- (5,50*0.0563) -- (6,50*0.0563)
-	node[above] {Math};               
-% Title
-\node[anchor=center] at (3, 6) {No Proxies};
-
-\begin{scope}[xshift=8cm]
-	% Axis
-        \draw[->] (-0.3,0) -- (6,0) node[anchor=north] {studytime};
-        \draw[->] (0,-0.3) -- (0,5.5) node[anchor=east] {$\Delta\hat{\mathrm{G3}\%}$};
-
-	% labels
-	\draw	(-0.2,0) node[anchor=north] {0}
-			(2,0) node[anchor=north] {4}
-			(4,0) node[anchor=north] {8}
-			(0,1.5) node[anchor=east] {0.03}
-			(0,3) node[anchor=east] {0.06}
-			(0,4.5) node[anchor=east] {0.09};
-
-	% Connected Segments - WITH CONTROLS
-	\draw [color = black] (1,0) -- (1,50*0.0224) -- (2.5,50*0.0224) -- (2.5,50*0.0646) -- (5,50*0.0646) -- (5,50*0.0381) -- (6,50*0.0381)
-		node[right] {Both};
-	\draw [color = blue, dashed] (1,0) -- (1,50*0.0186) -- (2.5,50*0.0186) -- (2.5,50*0.0483) -- (5,50*0.0483) -- (5,50*0.0476) -- (6,50*0.0476)
-		node[right] {Port.};
-	\draw [color = red, dashed] (1,0) -- (1,50*0.0252) -- (2.5,50*0.0252) -- (2.5,50*0.0903) -- (5,50*0.0903) -- (5,50*0.0339) -- (6,50*0.0339)
-		node[below right] {Math};        
-% Titles
-\node[above,font=\large\bfseries] at (current bounding box.north) {Contribution of studytime (discrete)};
-\node[anchor=center] at (3, 6) {With Proxies};
 \end{scope}
 \end{tikzpicture}
 \end{scaletikzpicturetowidth}
@@ -491,17 +492,13 @@ One direction of further development is adding different bootstrapping schemes. 
 %*******************************************************************************************************************
 \newpage
 \section{Reproducibility}
-\textcolor{BrickRed}{[Need to clean up this section a lot]}
-
 The importance of reproducible research has been understood for many years. In 1980 Thomas Mayer said ``Neither originality, logical rigor or any other criterion is ranked as `essential' by so many natural scientists as is replicability". Mayer was focusing on replicable research; unfortunately in the social science replicability is often far harder than reproducibility. When it takes five years and tens of thousands of dollars to collect the data for a single study, it is a difficult proposition to attempt to replicate the study from scratch. Additionally, it is unlikely that Mayer could have foreseen the degree to which data wrangling and programming would penetrate into academic research. This reliance on complex data pipelines and analysis with hundreds of dependencies makes replication a beast of a whole new nature. In the current state of empirical research, reproducing the results is half the battle. This opaqueness has led to many published papers that included results that were `p-hacked' or just included mistakes. Ensuring reproducibility would help alleviate many of these issues, and is a big step on the road to replicability.
 
 Reproducibility has become especially important in the current political environment. The National Association for Scholars' recently published a report in which they advocate for use of the Secret Science Reformation Act (renamed the HONEST Act), which would forbid the Environmental Protection Agency from using any research that is not ``substantially reproducible" (\cite{wired}). The NAS report goes even further and suggests that the bill should encompass all federal agencies and courts. Putting aside the various issues with the act\footnote{The act does not define ``substantially reproducible" with any rigor. It is possible that the flexibility of the act could lead to climate change deniers (and others) to call almost any study not substantially reproducible and bar federal agencies from acting on good research.}, if HONEST were to be expanded to other federal agencies, then policy-oriented research in the social sciences would be forced to adapt. Policy makers would need to see ``substantial reproducibility" before allowing a study to influence their policy decisions. Currently, very few empirical papers could be labeled as even somewhat reproducible, and part of the reason why might be that researchers believe implementing reproducible methods into their projects would be too costly in time and resources (\cite{irreproducible}). Hopefully this paper provides a strong argument showing that conducting empirical research using reproducible methods is not only easy, but beneficial. And that were HONEST to be implemented to a wide degree, research need not be impeded\footnote{Ignoring the issue of data confidentiality.}.
 
 %~~~~~~~~~~~~~~~~~~
 \subsection{Current Resources}
-\textcolor{BrickRed}{[Very Rough]}
-
-There are currently some good sources for empirical researchers looking to set up an organized and scalable workflow. One of the best of these is provided by the Gentzkow \& Shapiro lab (\href{https://github.com/gslab-econ/ra-manual/wiki/Getting-Started}{\textcolor{cyan}{link}}, \cite{GSlab}), it is meant to be an internal reference source for their research assistants, but also serves as an excellent guide for other researchers looking to ensure good internal programming practices (they also provide a more general guide \href{https://web.stanford.edu/~gentzkow/research/CodeAndData.xhtml#magicparlabel-20}{\textcolor{cyan}{here}}). It covers Computing environments, project management, version control (through GitHub), and coding principles. These are all indispensable tools from the researcher's point of view as they allow for smooth and standardized workflows that are easily interpreted and can be reused later with ease. The one omission from this guide is reproducible and open sourced research practices. This omission is not surprising because of the lack of a large reproducibility movement within the empirical social sciences. The next section outlines a couple basic suggestions for establishing a workflow that not only ensure good internal practices, but also includes elements that help with reproducibility/replication and open source access.
+There are currently some good sources for empirical researchers looking to set up an organized and scalable workflow. One of the best of these is provided by the Gentzkow \& Shapiro lab (\href{https://github.com/gslab-econ/ra-manual/wiki/Getting-Started}{\textcolor{cyan}{link}}, \cite{GSlab}), it is meant to be an internal reference source for their research assistants, but also serves as an excellent guide for other researchers looking to ensure good internal programming practices (they also provide a more general guide \href{https://web.stanford.edu/~gentzkow/research/CodeAndData.xhtml#magicparlabel-20}{\textcolor{cyan}{here}}). It covers computing environments, project management, version control (through GitHub), and coding principles. These are all indispensable tools from the researcher's point of view as they allow for smooth and standardized workflows that are easily interpreted and can be reused later with ease. The one omission from this guide is reproducible and open sourced research practices. This omission is not surprising because of the lack of a large reproducibility movement within the empirical social sciences. The next sections outline basic suggestions for establishing a workflow that not only ensure good internal practices, but also includes elements that help with reproducibility/replication and open source access.
 
 %~~~~~~~~~~~~~~~~~~
 \subsection{Basic Workflow}
@@ -541,10 +538,11 @@ Maybe include a subsection conclusion in Models after Q2SLS results section, but
 %*******************************************************************************************************************
 \newpage
 
-\singlespacing
+\begin{SingleSpace}
 \bibliographystyle{agsm}
 \nocite{*} % makes sure that all items in .bib are included in bibliography, even if they aren't cited
 \bibliography{tex_stuff/RM_bibliography}
+\end{SingleSpace}
 
 %*******************************************************************************************************************
 \newpage
