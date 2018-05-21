@@ -37,6 +37,8 @@ clean:
 	rm -f results/*.pkl
 	rm -f data/*.pkl
 	rm -rf tex_stuff/intermediate/
+	rm -rf __pycache__/*
+	rm -rf *.nbconvert.ipynb
 	rm -f *.pdf
 
 
