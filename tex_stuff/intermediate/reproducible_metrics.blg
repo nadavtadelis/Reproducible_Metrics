@@ -1,0 +1,46 @@
+This is BibTeX, Version 0.99d (TeX Live 2015)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: tex_stuff/intermediate/reproducible_metrics.aux
+The style file: agsm.bst
+Database file #1: tex_stuff/RM_bibliography.bib
+You've used 17 entries,
+            2909 wiz_defined-function locations,
+            756 strings with 7597 characters,
+and the built_in function-call counts, 52967 in all, are:
+= -- 8521
+> -- 615
+< -- 0
++ -- 3908
+- -- 182
+* -- 4419
+:= -- 10942
+add.period$ -- 17
+call.type$ -- 17
+change.case$ -- 237
+chr.to.int$ -- 17
+cite$ -- 17
+duplicate$ -- 255
+empty$ -- 539
+format.name$ -- 245
+if$ -- 9455
+int.to.chr$ -- 5
+int.to.str$ -- 0
+missing$ -- 16
+newline$ -- 60
+num.names$ -- 171
+pop$ -- 95
+preamble$ -- 1
+purify$ -- 255
+quote$ -- 0
+skip$ -- 204
+stack$ -- 0
+substring$ -- 11849
+swap$ -- 38
+text.length$ -- 238
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 62
+warning$ -- 0
+while$ -- 375
+width$ -- 0
+write$ -- 212
