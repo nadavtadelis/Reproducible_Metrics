@@ -5,7 +5,8 @@ dependencies:
   - numpy = 1.14.2
   - matplotlib = 2.2.2
   - seaborn = 0.8.1
-  - pickle = 4.0
+  #- pickle = 4.0
+  #- cPickle = 4.0
   - jupyter
   - jupyterlab
   - ipykernel
