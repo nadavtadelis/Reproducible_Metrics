@@ -181,7 +181,7 @@ We can think of a student's utility maximization problem as being some function 
 
 Establishing this utility function gives motivation for including variables that might introduce multicollinearity. For example, weekly amount of free time might not improve our estimate of the marginal effect of studying, and would be collinear with the amount of weekly studying. However, when we think of our observations as realizations of a decision making process that involves utility maximization over unobserved ability, there is an argument for including free time in the model estimation as a proxy for ability. \textcolor{RedOrange}{[Need to clarify this]}
 
-\textcolor{RedOrange}{[The proxy model should be nonlinear somewhere, there has to be some concavity otherwise the optimality solution is a corner solution and students will spend either no time are all their time studying. need to have a diminishing returns assumption here. NEED TO THINK ABOUT THIS MORE]}
+\textcolor{RedOrange}{[The proxy model should be nonlinear somewhere, there has to be some concavity otherwise the optimality solution is a corner solution and students will spend either no time are all their time studying. need to have a diminishing returns assumption here. We don't actually want to include nonlinearity in the estimation (because we aren't estimating the decision function) but we should still point this out.]}
 
 
 %~~~~~~~~~~~~~~~~~~
@@ -460,7 +460,7 @@ The procedure that Wooldridge suggests is as follows (\cite{wooldridge}):
 \subsubsection{Properties of Q2SLS} \label{q2sls_properties}
 Due to the unusual nested regressor set up of the Q2SLS procedure it can be difficult to obtain intuition for the asymptotic behavior of the model. In order to explore some of those asymptotic properties we use a Monte Carlo simulation with a toy model. We run the simulation in the function testing notebook, where we simultaneously test that the custom function \inlinecode{Quadratic2SLS()} from \href{https://github.com/nadavtadelis/Reproducible_Metrics/blob/master/quadratic2SLS.py}{\textcolor{cyan}{\inlinecode{quadratic2SLS.py}}} - \href{https://nbviewer.jupyter.org/github/nadavtadelis/Reproducible_Metrics/blob/master/function_testing.ipynb}{\textcolor{cyan}{nbviewer}}, \href{https://github.com/nadavtadelis/Reproducible_Metrics/blob/master/function_testing.ipynb}{\textcolor{cyan}{git}}. For a more detailed discussion of the simulation set up and results see section \ref{appendix_function_testing}.
 
-The Monte Carlo simulation involved repeatedly drawing from a toy DGP with artificially introduced endogeneity. We drew from two separate DGP's, one with strong instruments, and one with weak instruments. Note that in the Q2SLS setting, the strength of instruments is a bit tricky to think about; in part (1.a) of the Q2SLS procedure instrument strength is determined as usual by looking at how strongly the instruments are correlated with the endogenous variable, in part (1.b) of the procedure we have an additional generated instrument, the strength of which is determined by how well the first instruments identify the endogenous variable. In essence this means that if our instruments are strong in part (1.a) then we will also have a strong instrument in part (1.b). The main results from the simulation are reported in \hyperref[fig:MC_dists]{Figure:~\ref*{fig:MC_dists}}.
+The Monte Carlo simulation involved repeatedly drawing from a toy DGP with artificially introduced endogeneity. We drew from two separate DGP's, one with strong instruments, and one with weak instruments. Note that in the Q2SLS setting, the strength of instruments is a bit tricky to think about; in part (1.a) of the Q2SLS procedure instrument strength is determined as usual by looking at how strongly the instruments are correlated with the endogenous variable, in part (1.b) of the procedure we have an additional generated instrument, the strength of which is determined by how well the first instruments identify the endogenous variable. In essence this means that if our instruments are strong in part (1.a) then we will also have a strong instrument in part (1.b). The main results from the simulation are reported in \hyperref[fig:MC_dists]{Figure~\ref*{fig:MC_dists}}.
 
 \begin{figure}[H]
 \centering
@@ -480,6 +480,8 @@ One direction of further development is adding different bootstrapping schemes. 
 \subsubsection{Implementation}
 \textcolor{Green}{[OUTLINE ONLY]}
 
+In order to implement the Q2SLS procedure, the first step is to find valid instruments for the endogenous variable. One instrument that I am very confident in is an artificial binary instrument which is a plausible exogenous shifter of studying time. The artificial instrument combines two categorical variables such that $artificial_i \equiv \mathbb[\text{student $i$ chose school based on distance \textit{and} student $i$'s commute is longer than 15 minutes}]$. Intuitively, this instrument is indicating whether a student has chosen their school based on its proximity to their home (as opposed to its reputation, the courses it offers, or ``other"), and this student has a commute time that is long enough to plausibly detract from the time available for studying\footnote{The reason I do not simply use commute time as an instrument is that it is possible that students choose further schools because of their reputation or course offerings. This would invalidate commute time as an instrument because the longer commute would also indicate higher motivation/ability, causing commute time to be endogenous.}. I believe that this instrument is fairly well justified. The other instruments I use are less convincing; I include different levels of ``going out" measuring how often a student spends time with friends. These instruments are less convincing because it is plausible that students who spend more time with their friends could be labelled as more ``social" and might put more weight on their social life and less weight on their grades in their time allocation decisions. The other issue with using going out as an instrument is that if students that go out also drink more and get less sleep then their testing score might be lower regardless of how much they study. Fortunately I can control for students daily and weekly alcohol consumption, so the detrimental effects of alcohol on grades can be ignored. I can also assume that students are getting enough sleep because at their ages it is plausible that their parents are setting and enforcing their bed times. Once these assumptions are made, the only further assumption for including going out as an instrument is sociability does not affect grades independently of studying time or alcohol consumption. This is a strong assumption, but one that I feel reasonably comfortable making. One note to keep in mind is that these instruments are binary and weak. In the Monte Carlo simulation (see section \ref{q2sls_properties}) there was some evidence suggesting that weak instruments yield unbiased estimates of $\bm{\beta}$ but that they have very high variance, which means that any result should be taken with skepticism.
+
 \textcolor{BrickRed}{[Discuss chosen instruments and give motivation for why they might be okay to use, give strong disclaimer that even if they are valid, they are probably weak instruments]} Justification for using 'going out' as instrument is stronger if we explain that we have controls for weekly and daily alcohol consumption (which is one thing that could affect grades through going out independently of studying time) so its not insane to claim that going out is exogenous variation in available studying time once the detrimental effects of going out (namely drinking) are controlled for. not a strong argument at all, but at least a little justification. Also include motivation for creating the artificial instrument instead of just using travel time as an instrument; if we just use travel time then there is still an endogeneity problem because people with higher motivation/ability might be choosing schools further away because of their reputation or course options and they might score higher independently to how much they study (because of their higher ability). Point out that in the Monte Carlo simulation, weak instruments resulted in (seemingly) unbiased consistent estimates for the true coeff, but that the variance was massive - which suggests that we should expect a massive variance on our coeff.s because we have weak instruments (and we do find this in practice, which is nice that bootstrapping scheme is correctly getting the big variance).
 
 \textcolor{BrickRed}{[Report results]} Include plots like the naive ols plots, one for 2SLS and one for Q2SLS. Maybe also include fitted values plot with studytime on x axis and predicted grade on y axis. Actually maybe dont include the fitted values plot? because it seems like what we are interested in is the effect of studytime on grades, \textit{all else held equal}, which would just be the coefficients on studytime. The fitted values would be more about predictions than causal effect of studytime.
@@ -489,36 +491,36 @@ One direction of further development is adding different bootstrapping schemes. 
 \begin{table}[H] \centering
   \caption{Addressing Endogeneity}  
 \resizebox{\columnwidth}{!}{%
-\begin{tabular}{@{\extracolsep{0pt}}lD{.}{.}{-3} D{.}{.}{-3} D{.}{.}{-3}D{.}{.}{-3} D{.}{.}{-3} D{.}{.}{-3} } 
+\begin{tabular}{@{\extracolsep{4pt}}lD{.}{.}{4} D{.}{.}{6} D{.}{.}{6} D{.}{.}{4} D{.}{.}{4} D{.}{.}{4} }
 \\[-4ex]\hline 
 \hline \\[-1.8ex] 
  & \multicolumn{6}{c}{\textit{Dependent variable:} G3 Grade (Percent)} \\
  & \multicolumn{3}{c}{\textit{Model:} 2SLS} & \multicolumn{3}{c}{\textit{Model:} Q2SLS} \\ 
-\cline{2-3} \cline{5-7}
-\\[-1.8ex] & \multicolumn{1}{c}{\textit{Both}} & \multicolumn{1}{c}{\textit{Portuguese}} & \multicolumn{1}{c}{\textit{Mathematics}} & \multicolumn{1}{c}{\textit{Both}} & \multicolumn{1}{c}{\textit{Portuguese}} & \multicolumn{1}{c}{\textit{Mathematics}} \\ \ 
+\cline{2-4} \cline{5-7}
+\\[-1.8ex] & \multicolumn{1}{c}{\textit{Both}} & \multicolumn{1}{c}{\textit{Portuguese}} & \multicolumn{1}{c}{\textit{Mathematics}} & \multicolumn{1}{c}{\textit{Both}} & \multicolumn{1}{c}{\textit{Port.}} & \multicolumn{1}{c}{\textit{Math}} \\ \ 
 \\[-1.8ex] & \multicolumn{1}{c}{(1)} & \multicolumn{1}{c}{(2)} & \multicolumn{1}{c}{(3)} & \multicolumn{1}{c}{(4)} & \multicolumn{1}{c}{(5)} & \multicolumn{1}{c}{(6)} \\ 
 \hline \\[-1.8ex] 
-  Constant          & 0.6097^{***}   & 0.5062^{**}   & 0.6186		    & 0.4984^{***}       & 0.3490^{***}       	& 0.9174^{***}         \\
-                          & (0.2122)         & (0.2448)    	 & (0.5787)     	   & (0.1304)      	& (0.1227)       		& (0.3161)         \\[1ex]
-  Studytime        & 0.2578^{**}    & 0.2285^{*}      & 0.3462       	   & 0.0419^{*}     	& 0.0332		       	& 0.0216          \\
-                          & (0.1130)         & (0.1346)    	 & (0.2366)     	   & (0.0235)      	& (0.0220)       		& (0.0340)         \\[1ex]
-  Studytime$^2$ & -0.0169^{**}  & -0.0148		  & -0.0248      	   & -0.0005	     	& -0.0006        		& 0.0002          \\
-                          & (0.0085)         & (0.0096)    	 & (0.0182)     	   & (0.0006)      	& (0.0006)       		& (0.0008)         \\[1ex]
-  School\_GP      & 0.0096  	 & 0.0214           & 0.0479       	   & 0.0132	      	& 0.0462^{*}      	& -0.0487         \\
-                          & (0.0332)   	 & (0.0368)    	 & (0.1124)     	   & (0.0265)      	& (0.0241)      		 & (0.0601)         \\[1ex]
-  Course\_math  & -0.1046^{***} &             		&              	   	   & -0.0976^{***}    	&                		&                  \\
-                          & (0.0233)   	&             		&              		    & (0.0172)      	&                		&                  \\[1ex]
-%\hline \\[-1.8ex] 
-% Model & \textit{2SLS} & \textit{2SLS} & \textit{2SLS} & \textit{Q2SLS} & \textit{Q2SLS} & \textit{Q2SLS} \\[0.2ex]  
+  Constant          & 0.6097^{***} & 0.5062^{**} & 0.6186 & 0.4984^{***} & 0.3490^{***} & 0.9174^{***} \\
+                          & (0.2122) & (0.2448) & (0.5787) & (0.1304) & (0.1227) & (0.3161) \\[1ex]
+  Studytime        & 0.2578^{**} & 0.2285^{*} & 0.3462 & 0.0419^{*} & 0.0332 & 0.0216 \\
+                          & (0.1130) & (0.1346) & (0.2366) & (0.0235) & (0.0220) & (0.0340) \\[1ex]
+  Studytime$^2$ & -0.0169^{**} & -0.0148	& -0.0248 & -0.0005 & -0.0006 & 0.0002 \\
+                          & (0.0085) & (0.0096) & (0.0182) & (0.0006) & (0.0006) & (0.0008) \\[1ex]
+  School\_GP      & 0.0096 & 0.0214 & 0.0479 & 0.0132 & 0.0462^{*} & -0.0487 \\
+                          & (0.0332) & (0.0368) & (0.1124) & (0.0265) & (0.0241) & (0.0601) \\[1ex]
+  Course\_math  & -0.1046^{***} & & & -0.0976^{***} & & \\
+                          & (0.0233) & & & (0.0172) & & \\[1ex] 
 \hline \\[-1.8ex] 
 Observations 		& \multicolumn{1}{c}{1,044} & \multicolumn{1}{c}{649} & \multicolumn{1}{c}{395} & \multicolumn{1}{c}{1,044} & \multicolumn{1}{c}{649} & \multicolumn{1}{c}{395} \\
 Df 				& \multicolumn{1}{c}{56} & \multicolumn{1}{c}{55} & \multicolumn{1}{c}{55} & \multicolumn{1}{c}{56} & \multicolumn{1}{c}{55} & \multicolumn{1}{c}{55} \\ 
-R$^{2}$ 			& -1.27       	& -1.39        	& -2.35         & 		          & 		           &              \\ 
-Adjusted R$^{2}$ 	& -1.4        	& -1.6        	& -2.88         &		          & 		           &              \\ 
+R$^{2}$ 			& -1.27       	&  \multicolumn{1}{c}{-1.39}        	&-2.35         & 		          & 		           &              \\ 
+Adjusted R$^{2}$ 	& -1.4        	&  \multicolumn{1}{c}{-1.6}        	& -2.88         &		          & 		           &              \\ 
 F Statistic 			& \multicolumn{1}{c}{177$^{***}$}     & \multicolumn{1}{c}{130$^{***}$}         & \multicolumn{1}{c}{58}              & 		       	  & 			   &  \\ 
 \hline 
 \hline \\[-1.8ex] 
-\textit{Note: SE's for Q2SLS are bootstrapped.}  & & & & \multicolumn{3}{r}{$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\ 
+%\multicolumn{4}{l}{\textit{Note: SE's for Q2SLS are bootstrapped. R$^2$ and F stats have not been computed for Q2SLS.}} & & \multicolumn{2}{r}{$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\ 
+%\multicolumn{7}{l}{\textit{Note: SE's for Q2SLS are bootstrapped. R$^2$ and F stats have not been computed for Q2SLS.} \hfill $^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\
+%\textit{Note:}  & & & & \multicolumn{3}{r}{$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\
 \end{tabular} 
 }
 \label{tab:Q2SLS}
@@ -592,6 +594,10 @@ Maybe include a subsection conclusion in Models after Q2SLS results section, but
 \centering
 \includegraphics[width=\textwidth,height=0.7\textheight,keepaspectratio]{figures/distrbyschool.eps}
 \end{figure}
+
+
+
+
 
 %\begin{center}
 %\includegraphics[width=1\linewidth]{figures/distrbyschool.eps}
