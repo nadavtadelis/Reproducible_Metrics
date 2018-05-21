@@ -127,7 +127,6 @@ In this paper I establish a framework for reproducible empirical research. I use
 \pagenumbering{arabic} 
 
 %*******************************************************************************************************************
-%*******************************************************************************************************************
 \section{Introduction}
 \label{sec_intro}
 In recent years there has been a strong push to increase the reproducibility and replicability of scientific research. Unfortunately this movement seems to have been centered on the hard sciences and has not yet become standard practice in the social sciences. It is possible that this is partly due to a lack of reproducibly researched papers in these fields. This paper explores what responsible and reproducible research practices look like in applied econometrics. An instrumental variables approach is presented to estimating the causal effect of studying on grades and develop custom python scripts to implement an unusual 2SLS set up that is specialized for nonlinearity in the endogenous predictor. The latter part of this work discusses the current state of reproducibility in econometric research, and explains in detail the techniques implemented in the analysis.
@@ -507,8 +506,6 @@ Adjusted R$^{2}$ 	& -1.4        	&  \multicolumn{1}{c}{-1.61}        	& -2.88   
 F Statistic 			& \multicolumn{1}{c}{177$^{***}$}     & \multicolumn{1}{c}{130$^{***}$}         & \multicolumn{1}{c}{58}              & 		       	  & 			   &  \\ 
 \hline 
 \hline \\[-1.8ex] 
-%\multicolumn{4}{l}{\textit{Note: SE's for Q2SLS are bootstrapped. R$^2$ and F stats have not been computed for Q2SLS.}} & & \multicolumn{2}{r}{$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\ 
-%\multicolumn{7}{l}{\textit{Note: SE's for Q2SLS are bootstrapped. R$^2$ and F stats have not been computed for Q2SLS.} \hfill $^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\
 \textit{Note:}  & & & & \multicolumn{3}{r}{$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\
 \multicolumn{7}{l}{\textit{Studytime and Studytime$^2$ are instrumented for in both models. }} \\
 \multicolumn{7}{l}{\textit{SE's for Q2SLS are bootstrapped. R$^2$ and F stats have not been computed for Q2SLS.}} \\
@@ -535,15 +532,13 @@ F Statistic 			& \multicolumn{1}{c}{177$^{***}$}     & \multicolumn{1}{c}{130$^{
 
 % Functions - 2SLS
 \draw[smooth, samples=1000, color=black, domain=0:6] plot ({\x},{6*(0.2578*2*(\x) - 0.0169*2*(\x)*2*(\x))}) 
-        node[above right] {Both}; %{$f(x) = t$};
+        node[above right] {Both};
 \draw[smooth, solid, samples=1000, color=blue, domain=0:6] plot ({\x},{6*(0.2285*2*(\x) - 0.0148*2*(\x)*2*(\x))}) 
         node[below] {Port.};
 \draw[smooth, solid, samples=1000, color=red, domain=0:6] plot ({\x},{6*(0.3462*2*(\x) - 0.0248*2*(\x)*2*(\x))}) 
         node[above right] {Math};                  
 % Title
 \node[anchor=center] at (3, 7.5) {\textit{Model:} 2SLS};
-% Caption
-%\node[anchor=center] at (3, -1) {Sub caption I};
 
 \begin{scope}[xshift=8cm]
 	% Axis
@@ -567,9 +562,7 @@ F Statistic 			& \multicolumn{1}{c}{177$^{***}$}     & \multicolumn{1}{c}{130$^{
         node[right] {Math};
 % Titles
 \node[above,font=\large\bfseries] at (current bounding box.north) {Contribution of studytime};
-\node[anchor=center] at (3, 7.5) {\textit{Model:} Q2SLS};
-% Caption
-%\node[anchor=center] at (3, -1) {Sub caption II};        
+\node[anchor=center] at (3, 7.5) {\textit{Model:} Q2SLS};       
 \end{scope}
 \end{tikzpicture}
 \end{scaletikzpicturetowidth}
@@ -631,7 +624,7 @@ The econometric analysis in this paper demonstrates an unusual two stage approac
 
 \begin{singlespace}
 \bibliographystyle{agsm}
-\nocite{*} % makes sure that all items in .bib are included in bibliography, even if they aren't cited
+\nocite{*} 
 \bibliography{tex_stuff/RM_bibliography}
 \end{singlespace}
 
