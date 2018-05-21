@@ -136,7 +136,7 @@ In this paper I establish a framework for reproducible empirical research. We us
 \label{sec_intro}
 In recent years there has been a strong push to increase the reproducibility and replicability of scientific research. Unfortunately this movement seems to have been centered on the hard sciences and has not yet become standard practice in the social sciences. It is possible that this is partly due to a lack of reproducibly researched papers in these fields. This paper explores what responsible and reproducible research practices look like in applied econometrics. We present an instrumental variables approach to estimating the causal effect of studying on grades and develop custom python scripts to implement an unusual 2SLS set up that is specialized for nonlinearity in the endogenous predictor. The latter part of this work discusses the current state of reproducibility in econometric research, and explains in detail the techniques implemented in the analysis.
 
-This paper was written as my honors thesis for undergraduate studies in statistics at UC Berkeley. I will point out some of the weak points in my models and assumptions that can be improved upon with more time and effort. Any comments or suggestions would be greatly appreciated and can be directed to <ntadelis [at] berkeley [dot] edu>. 
+This paper was written as my honors thesis for undergraduate studies in statistics at UC Berkeley. I will point out some of the weak points in my models and assumptions that can be improved upon with more time and effort. Any comments or suggestions would be greatly appreciated and can be directed to 'ntadelis [at] berkeley [dot] edu'. 
 
 The basic idea for the econometric analysis in the paper is adapted from an independent project I completed in Spring 2017. In a subsequent class the project was modified and rebuilt in a reproducible fashion. Sarah Johnson created the original intermediate functions in \href{https://github.com/nadavtadelis/Reproducible_Metrics/blob/master/p3functions.py}{\textcolor{cyan}{\inlinecode{p3functions.py}}}, and the associated tests and Travis CI. Chitwan Kaudan created the original Makefile for running the individual Jupyter Notebooks. All aspects of those original analyses have been altered significantly, and the history of the changes is fully documented in the commit history of the git repo.
 
@@ -169,13 +169,13 @@ Lastly, the data are cross-sectional rather than longitudinal, and the specific 
 \section{Models} \label{models}
 We need to first set up our structural equation defining the relationship between grades and studying (\cite{CardKrueger}). Let an individual's grade be $g_i$ and weekly hours of studying be $s_i$ and their ``ability" be $a_i$. Then our model is:
 $$
-g_i = \beta_0 + \beta_1 s_i + \beta_2 s_i^2  + \bm{x}_{i,3:k-1}\bm{\beta}_{3:k-1} + \beta_k a_i + \varepsilon_i
+g_i = \beta_0 + \beta_1 s_i + \beta_2 s_i^2  + \bm{x}_{i,3:k-1}\cdot\bm{\beta}_{3:k-1} + \beta_k a_i + \varepsilon_i
 $$
 Where $\bm{x}_{i,3:k-1}$ is a vector of school and course level characteristics and $\varepsilon_i$ captures some unobserved heterogeneity and disturbances. I assume that grades are nonlinear in weekly study time. While this nonlinearity complicates our model, it seems necessary because marginal returns to studying must vary depending on the initial level of studying.
 
 Clearly, there are issues with this model. How are we defining grades? The ideal set up would have a course specific set of simultaneous equations, where the number of equations is equal to the number of classes. The next best set up would involve estimating one equation for each type of class (quantitative, literary, historical, etc.) within each course. Another alternative would be to define grades as cumulative GPA. In this analysis, due to the limitations of the data, we define $g_i$ as the student's score on the final test for their course of study (G3 in the data).
 
-Another issue with this model is: how are we defining ability? By its very nature, ability is unobserved. We can proxy for ability using other individual level characteristics (IQ scores, age, parents' education, etc.) but we cannot fully capture ability because it does not have a clear measurable meaning. Hence, we must keep in mind that the model is never going to be fully specified.
+Another issue with this model is: how are we defining ability? By its very nature, ability is unobserved. I will partially proxy for ability using other individual level characteristics (IQ scores, age, parents' education, etc.) but I cannot fully capture ability because it includes many skills and traits, some of which are difficult to quantify in a meaningful way. Hence, we must keep in mind that the model is never going to be fully specified.
 
 We can think of a student's utility maximization problem as being some function of grades, free time (let's consider everything that is not studying, sleeping, or class as ``free time"), and studying time. We would expect that the impact of grades and free time on utility would be positive, and the impact of study time would be negative, with magnitudes of coefficients being determined by an individual's preferences. For example, a student who cares very little about grades, enjoys constantly partying, and hates studying, would have a small positive coefficient on grades, a large positive coefficient on free time, and a large negative coefficient on studying time\footnote{Of course, for some people and some subject matters of study, the coefficient on studying time may be positive with a decreasing marginal utility. We simplify the specification here dramatically.}. This student would maximize their utility and choose how to allocate their time, and would probably end up spending very little time studying. Notice that before maximizing their utility, an individual would replace grades with the previously defined model for grades (dependent on studying and ability); so someone who heavily values grades could end up having a positive coefficient on studying after including the model for grades into their utility function, even if they do not intrinsically value studying.
 
@@ -379,13 +379,13 @@ We find that in all twelve models the estimated coefficients on weekly study tim
 \end{scaletikzpicturetowidth}
 \end{center}
 
-These plots allow clearer visual representation of the estimated relationship between studying time and final grade in our naive OLS models. As expected the behavior of the continuous and discrete estimates are similar. The decrease in size of the estimated relationship between studying and grades for the Portuguese Language students suggests that students with higher ability are studying more, and getting better grades, and that once ability is controlled for the predicted returns to studying are smaller. We would like to emphasize that this discussion does not describe any causal relationships. These models are purely predictive. Interestingly the estimated relationship between studying and grades in the Mathematics students is flipped; this seems to suggests that in mathematics, students with higher ability study less to achieve the same grade (i.e. that studying is less important than ability). \textcolor{BlueGreen}{However, these intuitive conclusions may be invalid for two reasons. First, studying time is endogenous in this set up, and second, we do not know the direction of the bias term on our endogenous variables (see section \ref{endogeneity} for more detail).}
+These plots allow clearer visual representation of the estimated relationship between studying time and final grade in our naive OLS models. As expected the behavior of the continuous and discrete estimates are similar. The decrease in size of the estimated relationship between studying and grades for the Portuguese Language students suggests that students with higher ability are studying more, and getting better grades, and that once ability is controlled for the predicted returns to studying are smaller. We would like to emphasize that this discussion does not describe any causal relationships. These models are purely predictive. Interestingly the estimated relationship between studying and grades in the Mathematics students is flipped; this seems to suggests that in mathematics, students with higher ability study less to achieve the same grade (i.e. that studying is less important than ability). However, these intuitive conclusions may be invalid for two reasons. First, studying time is endogenous in this set up, and second, we do not know the direction of the bias term on our endogenous variables (see section \ref{endogeneity} for more detail).
 
 In the next section we describe the results from some additional analyses we ran related to these naive regressions.
 
 %~~~~~~~~~~~~~~~~~~
 \subsubsection{Additional Analysis}
-In the model fitting 1 notebook we also include some additional explorations of the estimated models. Specifically these analyses use the sample including both courses of study. We compute the variance inflation factor to check for multicollinearity (\cite{VIF, detecting}). We find slight collinearity between studying time and its square, but we are not worried about this collinearity because it is on our variable of interest, and the VIF is low enough to ignore. \textcolor{BlueGreen}{The two variables have VIF's of 13 and 12, which are right on the threshold of what could be considered an issue for multicollinearity. But there is an expectation for some correlation between the two variables (they are directly dependent on one another) and as they are our variables of interest we cannot simply run PCA or another dimension reduction method because we are need to interpret the coefficients on these variables.} The rest of the collinearity that the VIF detects is so low that we don't need to consider it.
+In the model fitting 1 notebook we also include some additional explorations of the estimated models. Specifically these analyses use the sample including both courses of study. We compute the variance inflation factor to check for multicollinearity (\cite{VIF, detecting}). We find slight collinearity between studying time and its square, but we are not worried about this collinearity because it is on our variable of interest, and the VIF is low enough to ignore. The two variables have VIF's of 13 and 12, which are right on the threshold of what could be considered an issue for multicollinearity. But there is an expectation for some correlation between the two variables (they are directly dependent on one another) and as they are our variables of interest we cannot simply run PCA or another dimension reduction method because we need to interpret the coefficients on these variables. The rest of the collinearity that the VIF detects is so low that we don't need to consider it.
 
 We also include a brief exploration of a LASSO-flavored penalization for variable selection (\cite{MLmetrics}) . We find that if we select a penalization parameter that shrinks all but seven of the coefficients to zero, the remaining coefficients are on studying time, school, course of study, number of failures, interest in higher education, mother's education, and whether the student is in the lowest bin of alcohol consumption. It is reassuring to see that the coefficient on studying time is not shrunk to zero. It is also nice to see that lasso shrinkage retains mother's education, as mother's education is often used as a proxy for ability, and this result seems to support it's importance. We discuss the implications of the other non-zero coefficients in more detail in the model fitting 1 notebook - \href{https://nbviewer.jupyter.org/github/nadavtadelis/Reproducible_Metrics/blob/master/model_fitting_1.ipynb}{\textcolor{cyan}{nbviewer}}, \href{https://github.com/nadavtadelis/Reproducible_Metrics/blob/master/model_fitting_1.ipynb}{\textcolor{cyan}{git}}.
 
@@ -486,6 +486,43 @@ One direction of further development is adding different bootstrapping schemes. 
 
 \textcolor{Red}{Make sure to highlight that these results are not something that I am confident are actually identifying a causal effect, the instruments are too funky and I still am not sure that I fully understand Q2SLS's asymptotic behavior. Mention that this is more meant to be an exploration of a novel analysis using reproducible/responsible research practices.}
 
+\begin{table}[H] \centering
+  \caption{Addressing Endogeneity}  
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{@{\extracolsep{0pt}}lD{.}{.}{-3} D{.}{.}{-3} D{.}{.}{-3}D{.}{.}{-3} D{.}{.}{-3} D{.}{.}{-3} } 
+\\[-4ex]\hline 
+\hline \\[-1.8ex] 
+ & \multicolumn{6}{c}{\textit{Dependent variable:} G3 Grade (Percent)} \\
+ & \multicolumn{3}{c}{\textit{Model:} 2SLS} & \multicolumn{3}{c}{\textit{Model:} Q2SLS} \\ 
+\cline{2-3} \cline{5-7}
+\\[-1.8ex] & \multicolumn{1}{c}{\textit{Both}} & \multicolumn{1}{c}{\textit{Portuguese}} & \multicolumn{1}{c}{\textit{Mathematics}} & \multicolumn{1}{c}{\textit{Both}} & \multicolumn{1}{c}{\textit{Portuguese}} & \multicolumn{1}{c}{\textit{Mathematics}} \\ \ 
+\\[-1.8ex] & \multicolumn{1}{c}{(1)} & \multicolumn{1}{c}{(2)} & \multicolumn{1}{c}{(3)} & \multicolumn{1}{c}{(4)} & \multicolumn{1}{c}{(5)} & \multicolumn{1}{c}{(6)} \\ 
+\hline \\[-1.8ex] 
+  Constant          & 0.6097^{***}   & 0.5062^{**}   & 0.6186		    & 0.4984^{***}       & 0.3490^{***}       	& 0.9174^{***}         \\
+                          & (0.2122)         & (0.2448)    	 & (0.5787)     	   & (0.1304)      	& (0.1227)       		& (0.3161)         \\[1ex]
+  Studytime        & 0.2578^{**}    & 0.2285^{*}      & 0.3462       	   & 0.0419^{*}     	& 0.0332		       	& 0.0216          \\
+                          & (0.1130)         & (0.1346)    	 & (0.2366)     	   & (0.0235)      	& (0.0220)       		& (0.0340)         \\[1ex]
+  Studytime$^2$ & -0.0169^{**}  & -0.0148		  & -0.0248      	   & -0.0005	     	& -0.0006        		& 0.0002          \\
+                          & (0.0085)         & (0.0096)    	 & (0.0182)     	   & (0.0006)      	& (0.0006)       		& (0.0008)         \\[1ex]
+  School\_GP      & 0.0096  	 & 0.0214           & 0.0479       	   & 0.0132	      	& 0.0462^{*}      	& -0.0487         \\
+                          & (0.0332)   	 & (0.0368)    	 & (0.1124)     	   & (0.0265)      	& (0.0241)      		 & (0.0601)         \\[1ex]
+  Course\_math  & -0.1046^{***} &             		&              	   	   & -0.0976^{***}    	&                		&                  \\
+                          & (0.0233)   	&             		&              		    & (0.0172)      	&                		&                  \\[1ex]
+%\hline \\[-1.8ex] 
+% Model & \textit{2SLS} & \textit{2SLS} & \textit{2SLS} & \textit{Q2SLS} & \textit{Q2SLS} & \textit{Q2SLS} \\[0.2ex]  
+\hline \\[-1.8ex] 
+Observations 		& \multicolumn{1}{c}{1,044} & \multicolumn{1}{c}{649} & \multicolumn{1}{c}{395} & \multicolumn{1}{c}{1,044} & \multicolumn{1}{c}{649} & \multicolumn{1}{c}{395} \\
+Df 				& \multicolumn{1}{c}{56} & \multicolumn{1}{c}{55} & \multicolumn{1}{c}{55} & \multicolumn{1}{c}{56} & \multicolumn{1}{c}{55} & \multicolumn{1}{c}{55} \\ 
+R$^{2}$ 			& -1.27       	& -1.39        	& -2.35         & 		          & 		           &              \\ 
+Adjusted R$^{2}$ 	& -1.4        	& -1.6        	& -2.88         &		          & 		           &              \\ 
+F Statistic 			& \multicolumn{1}{c}{177$^{***}$}     & \multicolumn{1}{c}{130$^{***}$}         & \multicolumn{1}{c}{58}              & 		       	  & 			   &  \\ 
+\hline 
+\hline \\[-1.8ex] 
+\textit{Note: SE's for Q2SLS are bootstrapped.}  & & & & \multicolumn{3}{r}{$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\ 
+\end{tabular} 
+}
+\label{tab:Q2SLS}
+\end{table}
 
 %*******************************************************************************************************************
 \newpage
@@ -639,45 +676,9 @@ The results from the simulation reassured us that the function was written corre
 
 
 %~~~~~~~~~~~~~~~~~~
-\subsection{Q2SLS Extra Models} \label{appendix_q2sls}
+\subsection{Q2SLS Extra} \label{appendix_q2sls}
 
-\textcolor{BrickRed}{[PUTTING ALL TABLE HERE FOR NOW BECAUSE HAVING TROUBLE PUTTING THEM IN SPECIFIC SECTION]} Note: this Q2SLS table does not have the correct coefficient values, it is just here as a placeholder and to set up the formatting.
-
-\begin{table}[H] \centering
-  \caption{Addressing Endogeneity - WRONG VALUES (JUST PLACEHOLDER FOR NOW)}  
-\resizebox{\columnwidth}{!}{%
-\begin{tabular}{@{\extracolsep{0pt}}lD{.}{.}{-3} D{.}{.}{-3} D{.}{.}{-3}D{.}{.}{-3} D{.}{.}{-3} D{.}{.}{-3} } 
-\\[-4ex]\hline 
-\hline \\[-1.8ex] 
- & \multicolumn{6}{c}{\textit{Dependent variable:} G3 Grade (Percent)} \\%& \multicolumn{3}{c}{\textit{Dependent variable:} Screening2} \\ 
-\cline{2-4} \cline{5-7}
-\\[-1.8ex] & \multicolumn{1}{c}{\textit{Both}} & \multicolumn{1}{c}{\textit{Portuguese}} & \multicolumn{1}{c}{\textit{Mathematics}} & \multicolumn{1}{c}{\textit{Both}} & \multicolumn{1}{c}{\textit{Portuguese}} & \multicolumn{1}{c}{\textit{Mathematics}} \\ \ 
-\\[-1.8ex] & \multicolumn{1}{c}{(1)} & \multicolumn{1}{c}{(2)} & \multicolumn{1}{c}{(3)} & \multicolumn{1}{c}{(4)} & \multicolumn{1}{c}{(5)} & \multicolumn{1}{c}{(6)} \\ 
-\hline \\[-1.8ex] 
-  Constant          & 0.4879^{***}  & 0.4686^{***}   & 0.4572^{***}    & 0.4378^{***}    & 0.3049^{***}       & 0.7802^{***}         \\
-                          & (0.0161)   & (0.0165)    & (0.0402)     & (0.1103)      & (0.1091)       & (0.2819)         \\[1ex]
-  Studytime\_continuous     & 0.0220^{***}  & 0.0268^{***}   & 0.0128       & 0.0155^{***}     & 0.0107^{*}       & 0.0232^{*}          \\
-                          & (0.0053)   & (0.0052)    & (0.0113)     & (0.0055)      & (0.0055)       & (0.0126)         \\[1ex]
-  Studytime\_continuous\_sq & -0.0010^{***} & -0.0013^{***}  & -0.0005      & -0.0008^{**}     & -0.0004        & -0.0012          \\
-                          & (0.0004)   & (0.0004)    & (0.0007)     & (0.0004)      & (0.0003)       & (0.0008)         \\[1ex]
-  School\_GP                & 0.0737^{***}  & 0.0856^{***}   & 0.0262       & 0.0371^{**}      & 0.0603^{***}      & -0.0270         \\
-                          & (0.0133)   & (0.0142)    & (0.0335)     & (0.0150)      & (0.0160)       & (0.0445)         \\[1ex]
-  Course\_math              & -0.0956^{***} &             &              & -0.0959^{***}    &                &                  \\
-                          & (0.0128)   &             &              & (0.0150)      &                &                  \\[1ex]
-\hline \\[-1.8ex] 
- Model & \textit{2SLS} & \textit{2SLS} & \textit{2SLS} & \textit{Q2SLS} & \textit{Q2SLS} & \textit{Q2SLS} \\[0.2ex]  
-\hline \\[-1.8ex] 
-Observations & \multicolumn{1}{c}{1,044} & \multicolumn{1}{c}{649} & \multicolumn{1}{c}{395} & \multicolumn{1}{c}{1,044} & \multicolumn{1}{c}{649} & \multicolumn{1}{c}{395} \\
-Df & \multicolumn{1}{c}{5} & \multicolumn{1}{c}{4} & \multicolumn{1}{c}{4} & \multicolumn{1}{c}{68} & \multicolumn{1}{c}{67} & \multicolumn{1}{c}{67} \\ 
-R$^{2}$ & 0.09       & 0.13        & 0.01         & 0.33          & 0.41           & 0.34             \\ 
-Adjusted R$^{2}$ & 0.09       & 0.13        & 0.00         & 0.28          & 0.34           & 0.22             \\ 
-F Statistic & 30.11^{***}      & 30.61^{***}       & 1.41         & 7.29^{***}          & 6.03^{***}           & 2.97^{***} \\ 
-\hline 
-\hline \\[-1.8ex] 
-\textit{Note: SE's for Q2SLS are bootstrapped.}  & & & & \multicolumn{3}{r}{$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\ 
-\end{tabular} 
-}
-\end{table}
+put bootstrap coefficient distributions here
 
 
 %~~~~~~~~~~~~~~~~~~
