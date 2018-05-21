@@ -35,7 +35,7 @@
 	urlcolor=cyan,
 	pdfauthor = {Nadav Tadelis}, 
  	pdftitle = {Reproducible Econometrics}, 
- 	pdfsubject = {A reproducible approach to analyzing the effect of studying on grades},
+ 	pdfsubject = {},
 	pdfborder =0 0 0, bookmarksopen=false, colorlinks=false,
 %	pdfkeywords = {Keyword1, Keyword2, ...}, pdfcreator = {LaTeX with hyperref package}, pdfproducer = {dvips + ps2pdf}}
 }
@@ -75,12 +75,8 @@
 %\usepackage{subfig}
 \graphicspath{ {/Reproducible_Metrics/figures/} }
 
-% ~~~~~ TEMPORARY: Watermark ~~~~~~~
-\usepackage{draftwatermark}
-\SetWatermarkText{DRAFT}
-\SetWatermarkScale{5}
+% Color names
 \usepackage[dvipsnames]{xcolor}
-% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 % For plotting functions
 \usepackage{tikz}
@@ -463,7 +459,7 @@ Due to the unusual nested regressor set up of the Q2SLS procedure it can be diff
 
 The Monte Carlo simulation involved repeatedly drawing from a toy DGP with artificially introduced endogeneity. I drew from two separate DGP's, one with strong instruments, and one with weak instruments\footnote{In standard 2SLS the ``strength" of instruments measures how much of the variation in the endogenous variable the instruments capture. This can be measured by looking at the correlation of the instruments and the endogenous variable, or by constructing a first stage F statistic (\cite{harmless})}. Note that in the Q2SLS setting, the strength of instruments is a bit tricky to think about; in part (1.a) of the Q2SLS procedure instrument strength is determined as usual by looking at how strongly the instruments are correlated with the endogenous variable, in part (1.b) of the procedure there is an additional generated instrument, the strength of which is determined by how well the first instruments identify the endogenous variable. In essence this means that if the instruments are strong in part (1.a) then the added generated instrument will also be a strong in part (1.b). The main results from the simulation are reported in \hyperref[fig:MC_dists]{Figure~\ref*{fig:MC_dists}}.
 
-\begin{figure}[h]
+\begin{figure}[H]
 \centering
 \captionsetup{width=1\linewidth}
 \includegraphics[width=1\linewidth]{figures/MC_strong_and_weak.eps}
@@ -514,7 +510,8 @@ F Statistic 			& \multicolumn{1}{c}{177$^{***}$}     & \multicolumn{1}{c}{130$^{
 %\multicolumn{4}{l}{\textit{Note: SE's for Q2SLS are bootstrapped. R$^2$ and F stats have not been computed for Q2SLS.}} & & \multicolumn{2}{r}{$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\ 
 %\multicolumn{7}{l}{\textit{Note: SE's for Q2SLS are bootstrapped. R$^2$ and F stats have not been computed for Q2SLS.} \hfill $^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\
 \textit{Note:}  & & & & \multicolumn{3}{r}{$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\
-\multicolumn{7}{l}{\textit{Studytime and Studytime$^2$ are instrumented. SE's for Q2SLS are bootstrapped. }} \\%R$^2$ and F stats have not been computed for Q2SLS.}} \\
+\multicolumn{7}{l}{\textit{Studytime and Studytime$^2$ are instrumented for in both models. }} \\
+\multicolumn{7}{l}{\textit{SE's for Q2SLS are bootstrapped. R$^2$ and F stats have not been computed for Q2SLS.}} \\
 \end{tabular} 
 %}
 \label{tab:Q2SLS}
